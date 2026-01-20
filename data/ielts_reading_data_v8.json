@@ -1,0 +1,934 @@
+[
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-2-passage-3-invasion-of-the-robot-umpires",
+    "title": "Câu hỏi và đáp án bài Reading Invasion of the Robot Umpires - IELTS Cambridge 20 - Test 2 passage 3",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-invasion-of-the-robot-umpires\">Reading Invasion of the Robot Umpires<a aria-label=\"Direct link to Reading Invasion of the Robot Umpires\" class=\"hash-link\" href=\"#reading-invasion-of-the-robot-umpires\" title=\"Direct link to Reading Invasion of the Robot Umpires\" translate=\"no\">​</a></h3>",
+      "<p>A few years ago, Fred DeJesus from Brooklyn, New York became the first umpire in a minor league baseball game to use something called the Automated Ball-Strike System (ABS), often referred to as the 'robo-umpire'. Instead of making any judgments himself about a strike*, DeJesus had decisions fed to him through an earpiece, connected to a modified missile-tracking system. The contraption looked like a large black pizza box with one glowing green eye; it was mounted above the press stand.</p>",
+      "<p>Major League Baseball (MLB), who had commissioned the system, wanted human umpires to announce the calls, just as they would have done in the past. When the first pitch came in, a recorded voice told DeJesus it was a strike. Previously, calling a strike was a judgment call on the part of the umpire. Even if the batter does not hit the ball, a pitch that passes through the 'strike zone' (an imaginary zone about seventeen inches wide, stretching from the batter's knees to the middle of his chest) is considered a strike. During that first game, when DeJesus announced calls, there was no heckling and no shouted disagreement. Nobody said a word.</p>",
+      "<p>For a hundred and fifty years or so, the strike zone has been the game's animating force—countless arguments between a team's manager and the umpire have taken place over its boundaries and whether a ball had crossed through it. The rules of play have evolved in various stages. Today, everyone knows that you may scream your disagreement in an umpire's face, but you must never shout personal abuse at them or touch them. That's a no-no. When the robo-umpires came, however, the arguments stopped.</p>",
+      "<p>During the first robo-umpire season, players complained about some strange calls. In response, MLB decided to tweak the dimensions of the zone, and the following year the consensus was that ABS is profoundly consistent. MLB says the device is near-perfect, precise to within fractions of an inch. \"It'll reduce controversy in the game, and be good for the game,\" says Rob Manfred, who is Commissioner for MLB. But the question is whether controversy is worth reducing, or whether it is the sign of a human hand. A human, at least, yells back. When I spoke with Frank Viola, a coach for Carolina team, he said that ABS works as designed, but that it was also unforgiving and pedantic, almost legalistic. \"Manfred is a lawyer,\" Viola noted. Some pitchers have complained that, compared with a human's, the robot's strike zone seems too precise. Viola was once a major-league player himself. When he was pitching, he explained, umpires rewarded skill. \"Throw it where you aimed, and it would be a strike, even if it was an inch or two outside. There was a dialogue between pitcher and umpire.\"</p>",
+      "<p>The executive tasked with running the experiment for MLB is Morgan Sword, who's in charge of baseball operations. According to Sword, ABS was part of a larger project to make baseball more exciting since executives are terrified of losing younger fans, as has been the case with horse racing and boxing. He explains how they began the process by asking fans what version of baseball they found most exciting. The results showed that everyone wanted more action: more hits, more defense, more baserunning. This type of baseball essentially hasn't existed since the 1960s, when the hundred-mile-an-hour fastball, which is difficult to hit and control, entered the game. It flattened the game into strikeouts, walks, and home runs-a type of play lacking much action.</p>",
+      "<p>Sword's team brainstormed potential fixes. Any rule that existed, they talked about changing-from changing the bats to changing the geometry of the field. But while all of these were ruled out as potential fixes, ABS was seen as a perfect vehicle for change. According to Sword, once you get the technology right, you can load any strike zone you want into the system. \"It might be a triangle, or a blob, or something shaped like Texas. Over time, as baseball evolves, ABS can allow the zone to change with it.\"</p>",
+      "<p>\"In the past twenty years, sports have moved away from judgment calls. Soccer has Video Assistant Referees (for offside decisions, for example). Tennis has Hawk-Eye (for line calls, for example). For almost a decade, baseball has used instant replay on the base paths. This is widely liked, even if the precision can sometimes cause problems. But these applications deal with something physical: bases, lines, goals. The boundaries of action are precise, delineated like the keys of a piano. This is not the case with ABS and the strike zone. Historically, a certain discretion has been appreciated.\"</p>",
+      "<p>I decided to email Alva Noë, a professor at Berkeley University and a baseball fan, for his opinion. \"Hardly a day goes by that I don't wake up and run through the reasons that this [robo-umpires] is such a terrible idea,\" he replied. He later told me, \"This is part of a movement to use algorithms to take the hard choices of living out of life.\" Perhaps he's right. We watch baseball to kill time, not to maximize it. Some players I have met take a dissenting stance toward the robots too, believing that accuracy is not the answer. According to Joe Russo, who plays for a New Jersey team, \"With technology, people just want everything to be perfect. That's not reality. I think perfect would be weird. Your teams are always winning, work is always just great, there's always money in your pocket, your car never breaks down. What is there to talk about?\"</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 27-32​",
+        "logic_group": "SELECTOR_FIXED",
+        "range": {
+          "start": 27,
+          "end": 32
+        },
+        "instruction_html": "<p>Do the following statements agree with the claims of the writer in Reading Passage 3?</p><p><strong>YES</strong>                       if the statement agrees with the claims of the writer.<br/>\n<strong>NO</strong>                         if the statement contradicts the claims of the writer.<br/>\n<strong>NOT GIVEN</strong>           if it is impossible to say what the writer thinks about this.</p>",
+        "questions": [
+          {
+            "q_number": 27,
+            "q_html": "<p><strong>27.</strong> When DeJesus first used ABS, he shared decision-making about strikes with it.</p>",
+            "options": []
+          },
+          {
+            "q_number": 28,
+            "q_html": "<p><strong>28.</strong> MLB considered it necessary to amend the size of the strike zone when criticisms were received from players.</p>",
+            "options": []
+          },
+          {
+            "q_number": 29,
+            "q_html": "<p><strong>29.</strong> MLB is keen to justify the money spent on improving the accuracy of ABS's calculations.</p>",
+            "options": []
+          },
+          {
+            "q_number": 30,
+            "q_html": "<p><strong>30.</strong> The hundred-mile-an-hour fastball led to a more exciting style of play.</p>",
+            "options": []
+          },
+          {
+            "q_number": 31,
+            "q_html": "<p><strong>31.</strong> The differing proposals for alterations to the baseball bat led to fierce debate on Sword's team.</p>",
+            "options": []
+          },
+          {
+            "q_number": 32,
+            "q_html": "<p><strong>32.</strong> ABS makes changes to the shape of the strike zone feasible.</p>",
+            "options": []
+          }
+        ]
+      },
+      {
+        "title": "Questions 33-37​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 33,
+          "end": 37
+        },
+        "instruction_html": "<p>Complete the summary using the list of phrases, <strong>A-H</strong>, below.</p><h3>Calls by the umpire</h3><p>Even after ABS was developed, MLB still wanted human umpires to shout out\ndecisions as they had in their <strong>33 ……………….</strong> The umpire's job had, at one\ntime, required a <strong>34 ……………….</strong> about whether a ball was a strike. A ball is\nconsidered a strike when the batter does not hit it and it crosses through a <strong>35……………….</strong>  extending approximately from the batter's knee to his chest.</p><p>In the past, <strong>36 ……………….</strong> over strike calls were not uncommon, but today\neveryone accepts the complete ban on pushing or shoving the umpire. One\ndifference, however, is that during the first game DeJesus used ABS, strike calls\nwere met with <strong>37 ………………</strong></p><p>A. pitch boundary<br/>\n<!-- -->B. numerous disputes<br/>\n<!-- -->C. team tactics<br/>\n<!-- -->D. subjective assessment<br/>\n<!-- -->E. widespread approval<br/>\n<!-- -->F. former roles<br/>\n<!-- -->G. total silence<br/>\n<!-- -->H. perceived area</p>",
+        "questions": []
+      },
+      {
+        "title": "Questions 38-40​",
+        "logic_group": "SELECTOR_MCQ",
+        "range": {
+          "start": 38,
+          "end": 40
+        },
+        "instruction_html": "<p>Choose the correct letter, <strong>A, B, C or D</strong>.</p>",
+        "questions": [
+          {
+            "q_number": 38,
+            "q_html": "<p><strong>38.</strong>     What does the writer suggest about ABS in the fifth paragraph?</p><p>A.  lt is bound to make key decisions that are wrong.<br/>\n<!-- -->B.  It may reduce some of the appeal of the game.<br/>\n<!-- -->C.  It will lead to the disappearance of human umpires.<br/>\n<!-- -->D.  It may increase calls for the rules of baseball to be changed.</p>",
+            "options": []
+          },
+          {
+            "q_number": 39,
+            "q_html": "<p><strong>39.</strong>      Morgan Sword says that the introduction of ABS</p><p>A.  was regarded as an experiment without a guaranteed outcome.<br/>\n<!-- -->B.  was intended to keep up with developments in other sports.<br/>\n<!-- -->C.  was a response to changing attitudes about the role of sport.<br/>\n<!-- -->D.  was an attempt to ensure baseball retained a young audience.</p>",
+            "options": []
+          },
+          {
+            "q_number": 40,
+            "q_html": "<p><strong>40.</strong>     Why does the writer include the views of Noë and Russo?</p><p>A.  to show that attitudes to technology vary widely.<br/>\n<!-- -->B.  to argue that people have unrealistic expectations of sport.<br/>\n<!-- -->C.  to indicate that accuracy is not the same thing as enjoyment.<br/>\n<!-- -->D.  to suggest that the number of baseball fans needs to increase.</p>",
+            "options": []
+          }
+        ]
+      }
+    ],
+    "all_answers": [
+      "NO",
+      "YES",
+      "NOT GIVEN",
+      "NO",
+      "NOT GIVEN",
+      "YES",
+      "F",
+      "D",
+      "H",
+      "B",
+      "G",
+      "B",
+      "D",
+      "C"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-1-passage-3-how-stress-affects-our-judgement",
+    "title": "Câu hỏi và đáp án bài Reading How stress affects our judgement - IELTS Cambridge 20 - Test 1 passage 3",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-how-stress-affects-our-judgement\">Reading How stress affects our judgement<a aria-label=\"Direct link to Reading How stress affects our judgement\" class=\"hash-link\" href=\"#reading-how-stress-affects-our-judgement\" title=\"Direct link to Reading How stress affects our judgement\" translate=\"no\">​</a></h3>",
+      "<p>Some of the most important decisions of our lives occur while we're feeling stressed and anxious. From medical decisions to financial and professional ones, we are all sometimes required to weigh up information under stressful conditions. But do we become better or worse at processing and using information under such circumstances?</p>",
+      "<p>My colleague and I, both neuroscientists, wanted to investigate how the mind operates under stress, so we visited some local fire stations. Firefighters' workdays vary quite a bit. Some are pretty relaxed; they'll spend their time washing the truck, cleaning equipment, cooking meals and reading. Other days can be hectic, with numerous life-threatening incidents to attend to; they'll enter burning homes to rescue trapped residents, and assist with medical emergencies. These ups and downs presented the perfect setting for an experiment on how people's ability to use information changes when they feel under pressure.</p>",
+      "<p>We found that perceived threat acted as a trigger for a stress reaction that made the task of processing information easier for the firefighters - but only as long as it conveyed bad news.</p>",
+      "<p>This is how we arrived at these results. We asked the firefighters to estimate their likelihood of experiencing 40 different adverse events in their life, such as being involved in an accident or becoming a victim of card fraud. We then gave them either good news (that their likelihood of experiencing these events was lower than they'd thought) or bad news (that it was higher) and asked them to provide new estimates.</p>",
+      "<p>People are normally quite optimistic - they will ignore bad news and embrace the good. This is what happened when the firefighters were relaxed; but when they were under stress, a different pattern emerged. Under these conditions, they became hyper-vigilant to bad news, even when it had nothing to do with their job (such as learning that the likelihood of card fraud was higher than they'd thought), and altered their beliefs in response. In contrast, stress didn't change how they responded to good news (such as learning that the likelihood of card fraud was lower than they'd thought).</p>",
+      "<p>Back in our lab, we observed the same pattern in students who were told they had to give a surprise public speech, which would be judged by a panel, recorded and posted online. Sure enough, their cortisol levels spiked, their heart rates went up and they suddenly became better at processing unrelated, yet alarming, information about rates of disease and violence.</p>",
+      "<p>When we experience stressful events, a physiological change is triggered that causes us to take in warnings and focus on what might go wrong. Brain imaging reveals that this 'switch' is related to a sudden boost in a neural signal important for learning, specifically in response to unexpected warning signs, such as faces expressing fear.</p>",
+      "<p>Such neural engineering could have helped prehistoric humans to survive. When our ancestors found themselves surrounded by hungry animals, they would have benefited from an increased ability to learn about hazards. In a safe environment, however, it would have been wasteful to be on high alert constantly. So, a neural switch that automatically increases or decreases our ability to process warnings in response to changes in our environment could have been useful. In fact, people with clinical depression and anxiety seem unable to switch away from a state in which they absorb all the negative messages around them.</p>",
+      "<p>It is also important to realise that stress travels rapidly from one person to the next. If a co-worker is stressed, we are more likely to tense up and feel stressed ourselves. We don't even need to be in the same room with someone for their emotions to influence our behaviour. Studies show that if we observe positive feeds on social media, such as images of a pink sunset, we are more likely to post uplifting messages ourselves. If we observe negative posts, such as complaints about a long queue at the coffee shop, we will in turn create more negative posts.</p>",
+      "<p>In some ways, many of us now live as if we are in danger, constantly ready to tackle demanding emails and text messages, and respond to news alerts and comments on social media. Repeatedly checking your phone, according to a survey conducted by the American Psychological Association, is related to stress. In other words, a pre-programmed physiological reaction, which evolution has equipped us with to help us avoid famished predators, is now being triggered by an online post. Social media posting, according to one study, raises your pulse, makes you sweat, and enlarges your pupils more than most daily activities.</p>",
+      "<p>The fact that stress increases the likelihood that we will focus more on alarming messages, together with the fact that it spreads extremely rapidly, can create collective fear that is not always justified. After a stressful public event, such as a natural disaster or major financial crash, there is often a wave of alarming information in traditional and social media, which individuals become very aware of. But that has the effect of exaggerating existing danger. And so, a reliable pattern emerges – stress is triggered, spreading from one person to the next, which temporarily enhances the likelihood that people will take in negative reports, which increases stress further. As a result, trips are cancelled, even if the disaster took place across the globe; stocks are sold, even when holding on is the best thing to do.</p>",
+      "<p>The good news, however, is that positive emotions, such as hope, are contagious too, and are powerful in inducing people to act to find solutions. Being aware of the information can help us frame our messages more effectively and become conscientious agents of change.</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 27-30​",
+        "logic_group": "SELECTOR_MCQ",
+        "range": {
+          "start": 27,
+          "end": 30
+        },
+        "instruction_html": "<p>Choose the correct letter, <strong>A, B, C or D.</strong></p>",
+        "questions": [
+          {
+            "q_number": 27,
+            "q_html": "<p><strong>27.</strong> In the first paragraph, the writer introduces the topic of the text by</p><p>A. defining some commonly used terms.<br/>\n<!-- -->B.  questioning a widely held assumption.<br/>\n<!-- -->C. mentioning a challenge faced by everyone.<br/>\n<!-- -->D. specifying a situation which makes us most anxious.</p>",
+            "options": []
+          },
+          {
+            "q_number": 28,
+            "q_html": "<p><strong>28.</strong>  What point does the writer make about firefighters in the second paragraph?</p><p>A. The regular changes of stress levels in their working lives make them ideal study subjects.<br/>\n<!-- -->B.  The strategies they use to handle stress are of particular interest to researchers.<br/>\n<!-- -->C. The stressful nature of their job is typical of many public service professions.<br/>\n<!-- -->D. Their personalities make them especially well-suited to working under stress.</p>",
+            "options": []
+          },
+          {
+            "q_number": 29,
+            "q_html": "<p><strong>29.</strong>  What is the writer doing in the fourth paragraph?</p><p>A. explaining their findings.<br/>\n<!-- -->B.  justifying their approach.<br/>\n<!-- -->C. setting out their objectives.<br/>\n<!-- -->D. describing their methodology.</p>",
+            "options": []
+          },
+          {
+            "q_number": 30,
+            "q_html": "<p><strong>30.</strong>  In the seventh paragraph, the writer describes a mechanism in the brain which</p><p>A. enables people to respond more quickly to stressful situations.<br/>\n<!-- -->B. results in increased ability to control our levels of anxiety.<br/>\n<!-- -->C. produces heightened sensitivity to indications of external threats.<br/>\n<!-- -->D. is activated when there is a need to communicate a sense of danger.</p>",
+            "options": []
+          }
+        ]
+      },
+      {
+        "title": "Questions 31-35​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 31,
+          "end": 35
+        },
+        "instruction_html": "<p>Complete each sentence with the correct ending, <strong>A-G</strong>, below.</p><p>A. made them feel optimistic.<br/>\n<!-- -->B. took relatively little notice of bad news.<br/>\n<!-- -->C. responded to negative and positive information in the same way.<br/>\n<!-- -->D. were feeling under stress.<br/>\n<!-- -->E. put them in a stressful situation.<br/>\n<!-- -->F. behaved in a similar manner, regardless of the circumstances.<br/>\n<!-- -->G. thought it more likely that they would experience something bad.</p><ol start=\"31\">\n<li class=\"\">At times when they were relaxed, the firefighters usually …………….</li>\n<li class=\"\">The researchers noted that when the firefighters were stressed, they …………….</li>\n<li class=\"\">When the firefighters were told good news, they always …………….</li>\n<li class=\"\">The students' cortisol levels and heart rates were affected when the researchers …………….</li>\n<li class=\"\">In both experiments, negative information was processed better when the subjects …………….</li>\n</ol>",
+        "questions": []
+      },
+      {
+        "title": "Questions 36-40​",
+        "logic_group": "SELECTOR_FIXED",
+        "range": {
+          "start": 36,
+          "end": 40
+        },
+        "instruction_html": "<p>Do the following statements agree with the information given in Reading Passage 3?</p><p>   <strong>YES</strong>     if the statement agrees with the claims of the writer.<br/>\n<!-- -->   <strong>NO</strong>     if the statement contradicts the claims of the writer.<br/>\n<!-- -->   <strong>NOT GIVEN</strong>     if it is impossible to say what the writer thinks about this.</p>",
+        "questions": [
+          {
+            "q_number": 36,
+            "q_html": "<p><strong>36.</strong> The tone of the content we post on social media tends to reflect the nature of the posts in our feeds.</p>",
+            "options": []
+          },
+          {
+            "q_number": 37,
+            "q_html": "<p><strong>37.</strong> Phones have a greater impact on our stress levels than other electronic media devices.</p>",
+            "options": []
+          },
+          {
+            "q_number": 38,
+            "q_html": "<p><strong>38.</strong> The more we read about a stressful public event on social media, the less able we are to take the information.</p>",
+            "options": []
+          },
+          {
+            "q_number": 39,
+            "q_html": "<p><strong>39.</strong> Stress created by social media posts can lead us to take unnecessary precautions.</p>",
+            "options": []
+          },
+          {
+            "q_number": 40,
+            "q_html": "<p><strong>40.</strong> Our tendency to be affected by other people's moods can be used in a positive way.</p>",
+            "options": []
+          }
+        ]
+      }
+    ],
+    "all_answers": [
+      "C",
+      "A",
+      "D",
+      "C",
+      "B",
+      "G",
+      "F",
+      "E",
+      "D",
+      "Y",
+      "NG",
+      "N",
+      "Y",
+      "Y"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-1-passage-2-bring-elms-to-britain",
+    "title": "Câu hỏi và đáp án bài Reading Bring elms to Britain - IELTS Cambridge 20 - Test 1 passage 2",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-bring-elms-to-britain\">Reading Bring elms to Britain<a aria-label=\"Direct link to Reading Bring elms to Britain\" class=\"hash-link\" href=\"#reading-bring-elms-to-britain\" title=\"Direct link to Reading Bring elms to Britain\" translate=\"no\">​</a></h3>",
+      "<p><em>Mark Rowe investigates attempts to reintroduce elms to Britain</em></p>",
+      "<p><strong>A.</strong> Around 25 million elms, accounting for 90% of all elm trees in the UK, died during the 1960s and '70s of Dutch elm disease. In the aftermath, the elm, once so dominant in the British landscape, was largely forgotten. However, there's now hope the elm may be reintroduced to the countryside of central and southern England. Any reintroduction will start from a very low base. 'The impact of the disease is difficult to picture if you hadn't seen what was there before,' says Matt Elliot of the Woodland Trust. 'You look at old photographs from the 1960s and it's only then that you realise the impact [elms had] ... They were significant, large trees ... then they were gone.'</p>",
+      "<p><strong>B.</strong> The disease is caused by a fungus that blocks the elms' vascular (water, nutrient and food transport) system, causing branches to wilt and die. A first epidemic, which occurred in the 1920s, gradually died down, but in the '70s a second epidemic was triggered by shipments of elm from Canada. The wood came in the form of logs destined for boat building and its intact bark was perfect for the elm bark beetles that spread the deadly fungus. This time, the beetles carried a much more virulent strain that destroyed the vast majority of British elms.</p>",
+      "<p><strong>C.</strong> Today, elms still exist in the southern English countryside but mostly only in low hedgerows between fields. 'We have millions of small elms in hedgerows but they get targeted by the beetle as soon as they reach a certain size,' says Karen Russell, co-author of the report 'Where we are with elm'. Once the trunk of the elm reaches 10-15 centimetres or so in diameter, it becomes a perfect size for beetles to lay eggs and for the fungus to take hold. Yet mature specimens have been identified, in counties such as Cambridgeshire, that are hundreds of years old, and have mysteriously escaped the epidemic.</p>",
+      "<p>The key, Russell says, is to identify and study those trees that have survived and work out why they stood tall when millions of others succumbed. Nevertheless, opportunities are limited as the number of these mature survivors is relatively small. 'What are the reasons for their survival?' asks Russell. 'Avoidance, tolerance, resistance? We don't know where the balance lies between the three. I don't see how it can be entirely down to luck.'</p>",
+      "<p><strong>D.</strong> For centuries, elm ran a close second to oak as the hardwood tree of choice in Britain and was in many instances the most prominent tree in the landscape. Not only was elm common in European forests, it became a key component of birch, ash and hazel woodlands. The use of elm is thought to go back to the Bronze Age, when it was widely used for tools. Elm was also the preferred material for shields and early swords. In the 18th century, it was planted more widely and its wood was used for items such as storage crates and flooring. It was also suitable for items that experienced high levels of impact and was used to build the keel of the 19th-century sailing ship Cutty Sark as well as mining equipment.</p>",
+      "<p><strong>E.</strong> Given how ingrained elm is in British culture, it's unsurprising the tree has many advocates. Amongst them is Peter Bourne of the National Elm Collection in Brighton. 'I saw Dutch elm disease unfold as a small boy,' he says. 'The elm seemed to be part of rural England, but I remember watching trees just lose their leaves and that really stayed with me.' Today, the city of Brighton's elms total about 17,000. Local factors appear to have contributed to their survival. Strong winds from the sea make it difficult for the determined elm bark beetle to attack this coastal city's elm population. However, the situation is precarious. 'The beetles can just march in if we're not careful, as the threat is right on our doorstep,' says Bourne.</p>",
+      "<p><strong>F.</strong> Any prospect of the elm returning relies heavily on trees being either resistant to, or tolerant of, the disease. This means a widespread reintroduction would involve existing or new hybrid strains derived from resistant, generally non-native elm species. A new generation of seedlings have been bred and tested to see if they can withstand the fungus by cutting a small slit on the bark and injecting a tiny amount of the pathogen. 'The effects are very quick,' says Russell. 'You return in four to six weeks and trees that are resistant show no symptoms, whereas those that are susceptible show leaf loss and may even have died completely.'</p>",
+      "<p><strong>G.</strong> All of this raises questions of social acceptance, acknowledges Russell. 'If we're putting elm back into the landscape, a small element of it is not native are we bothered about that?' For her, the environmental case for reintroducing elm is strong. 'They will host wildlife, which is a good thing.' Others are more wary. 'On the face of it, it seems like a good idea,' says Elliot. The problem, he suggests, is that, 'You're replacing a native species with a horticultural analogue*. You're effectively cloning.' There's also the risk of introducing new diseases. Rather than plant new elms, the Woodland Trust emphasises providing space to those elms that have survived independently. 'Sometimes the best thing you can do is just give nature time to recover over time, you might get resistance,' says Elliot.</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 14-18​",
+        "logic_group": "MATCHING",
+        "range": {
+          "start": 14,
+          "end": 18
+        },
+        "instruction_html": "<p>Reading Passage 2 has seven sections, A-G.\nWhich section contains the following information?</p><p><em>NB</em> You may use any letter more than once.</p>",
+        "questions": [
+          {
+            "q_number": 14,
+            "q_html": "<p><strong>14.</strong>    reference to the research problems that arise from there being only a few surviving large elms.</p>",
+            "options": []
+          },
+          {
+            "q_number": 15,
+            "q_html": "<p><strong>15.</strong>    details of a difference of opinion about the value of reintroducing elms to Britain.</p>",
+            "options": []
+          },
+          {
+            "q_number": 16,
+            "q_html": "<p><strong>16.</strong>    reference to how Dutch elm disease was brought into Britain.</p>",
+            "options": []
+          },
+          {
+            "q_number": 17,
+            "q_html": "<p><strong>17.</strong>    a description of the conditions that have enabled a location in Britain to escape Dutch elm disease.</p>",
+            "options": []
+          },
+          {
+            "q_number": 18,
+            "q_html": "<p><strong>18.</strong>    reference to the stage at which young elms become vulnerable to Dutch elm disease.</p>",
+            "options": []
+          }
+        ]
+      },
+      {
+        "title": "Questions 19-23​",
+        "logic_group": "MATCHING",
+        "range": {
+          "start": 19,
+          "end": 23
+        },
+        "instruction_html": "<p>Look at the following statements (Questions 19-23) and the list of people below.\nMatch each statement with the correct person, <strong>A, B, or C</strong>.</p><p><em>NB</em> You may use any letter more than once.</p><h3>List of people</h3><p>A. Matt Elliot.<br/>\n<!-- -->B. Karen Russell.<br/>\n<!-- -->C. Peter Bourne.</p>",
+        "questions": [
+          {
+            "q_number": 19,
+            "q_html": "<p><strong>19.</strong>    If a tree gets infected with Dutch elm disease, the damage rapidly becomes visible.</p>",
+            "options": []
+          },
+          {
+            "q_number": 20,
+            "q_html": "<p><strong>20.</strong>    It may be better to wait and see if the mature elms that have survived continue to flourish.</p>",
+            "options": []
+          },
+          {
+            "q_number": 21,
+            "q_html": "<p><strong>21.</strong>    There must be an explanation for the survival of some mature elms.</p>",
+            "options": []
+          },
+          {
+            "q_number": 22,
+            "q_html": "<p><strong>22.</strong>    We need to be aware that insects carrying Dutch elm disease are not very far away.</p>",
+            "options": []
+          },
+          {
+            "q_number": 23,
+            "q_html": "<p><strong>23.</strong>    You understand the effect Dutch elm disease has had when you see evidence of how prominent the tree once was.</p>",
+            "options": []
+          }
+        ]
+      },
+      {
+        "title": "Questions 24-26​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 24,
+          "end": 26
+        },
+        "instruction_html": "<p>Complete the summary below.</p><p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p><h3>Uses of a popular tree</h3><p>For hundreds of years, the only tree that was more popular in Britain than elm was <strong>24 ……………</strong> Starting in the Bronze Age, many tools were made from elm  and  people  also  used  it  to  make  weapons.<br/>\n<!-- -->In  the  18th  century,  it  was grown to provide wood for boxes and <strong>25 ……………</strong> Due to its strength, elm was  often  used  for  mining  equipment  and  the Cutty Sark's  <strong>26 ……………</strong> was also constructed from elm.</p>",
+        "questions": []
+      }
+    ],
+    "all_answers": [
+      "C",
+      "G",
+      "B",
+      "E",
+      "C",
+      "B",
+      "A",
+      "B",
+      "C",
+      "A",
+      "oak",
+      "flooring",
+      "keel"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-4-passage-2-adapting-to-the-effects-of-climate-change",
+    "title": "Câu hỏi và đáp án bài Reading Adapting to the effects of climate change - IELTS Cambridge 20 - Test 4 passage 2",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-adapting-to-the-effects-of-climate-change\">Reading Adapting to the effects of climate change<a aria-label=\"Direct link to Reading Adapting to the effects of climate change\" class=\"hash-link\" href=\"#reading-adapting-to-the-effects-of-climate-change\" title=\"Direct link to Reading Adapting to the effects of climate change\" translate=\"no\">​</a></h3>",
+      "<p><strong>A.</strong> All around the world, nations are already preparing for, and adapting to, climate change and its impacts. Even if we stopped all CO2 emissions tomorrow, we would continue to see the impact of the CO2 already released since industrial times, with scientists forecasting that global warming would continue for around 40 years. In the meantime, ice caps would continue to melt and sea levels rise. Some countries and regions will suffer more extreme impacts from these changes than others. It's in these places that innovation is thriving.</p>",
+      "<p><strong>B.</strong> In Miami Beach, Florida, USA, seawater isn't just breaching the island city's walls, it's seeping up through the ground, so the only way to save the city is to lift it up above sea level. Starting in the lowest and most vulnerable neighbourhoods, roads have been raised by as much as 61 centimetres. The elevation work was carried out as part of Miami Beach's ambitious but much-needed stormwater-management programme. In addition to the road adaptations, the city has set up new pumps that can remove up to 75,000 litres of water per minute. In the face of floods, climate-mitigation strategies have often been overlooked, says Yanira Pineda, a senior sustainability coordinator. She knows that they're essential and that the job is far from over. 'We know that in 20, 30, 40 years, we'll need to go back in there and adjust to the changing environment,' she says.</p>",
+      "<p><strong>C.</strong> Seawalls are a staple strategy for many coastal communities, but on the soft, muddy northern shores of Java, Indonesia, they frequently collapse, further exacerbating coastal erosion. There have been many attempts to restore the island's coastal mangroves: ecosystems of trees and shrubs that help defend coastal areas by trapping sediment in their net-like root systems, elevating the sea bed and dampening the energy of waves and tidal currents. But Susanna Tol of the not-for-profit organisation Wetlands International says that, while hugely popular, the majority of mangrove-planting projects fail. So, Wetlands International started out with a different approach, building semi-permeable dams, made from bamboo poles and brushwood, to mimic the role of mangrove roots and create favourable conditions for mangroves to grow back naturally. The programme has seen moderate success, mainly in areas with less subsidence. 'Unfortunately, traditional infrastructure is often single-solution focused,' says Tol. 'For long-term success, it's critical that we transition towards multifunctional approaches that embed natural</p>",
+      "<p><strong>D.</strong> As the floodwaters rose in the rice fields of the Mekong Delta in September 2018, four small houses rose with them. Homes in this part of Vietnam are traditionally built on stilts but these ones had been built to float. The modifications were made by the Buoyant Foundation Project, a not-for-profit organisation that has been researching and retrofitting amphibious houses since 2006. 'When I started this,' explains founder Elizabeth English, 'climate change was not on the tip of everybody's tongue, but this technology is becoming necessary in places that didn't previously need it.' It's much cheaper than permanently elevating houses, English explains – about a third of what it would cost to completely replace a building's foundations. It also avoids the problem of taller houses being at greater risk from wind damage. Another plus comes from the fact that amphibious structures can be sensitively adapted to meet cultural needs and match the kind of houses that are already common in a community.</p>",
+      "<p><strong>E.</strong> Bangladesh is especially vulnerable to climate change. Most of the country is less than a metre above sea level and 80 per cent of its land lies on floodplains. 'Almost 35 million people living on the coastal belt of Bangladesh are currently affected by soil and water salinity,' says Raisa Chowdhury of the international development organisation ICCO Cooperation. Rather than fighting against it, one project is helping communities adapt to salt-affected soils. ICCO Cooperation has been working with 10,000 farmers in Bangladesh to start cultivating naturally salt-tolerant crops in the region. Certain varieties of carrot, potato, kohlrabi, cabbage and beetroot have been found to be better suited to salty soil than the rice and wheat that is typically grown there. Chowdhury says that the results are very visible, comparing a barren plot of land to the 'beautiful, lush green vegetable garden' sitting beside it, in which he and his team have been working with the farmers. Since the project began, farmers trained in saline agriculture have reported increases of two to three more harvests per year.</p>",
+      "<p><strong>F.</strong> Greg Spotts from Los Angeles (LA) in the USA is chief sustainability officer of the city's street services department. He leads the Cool Streets LA programme, a series of pilot projects, which include the planting of trees and the installation or a 'cool pavement' system, designed to help reach the city's goal of bringing down its average temperature by 1.5°C. 'Urban cooling is literally a matter of life and death for our future in LA,' says Spotts. Using a Geographic Information System data mapping tool, the programme identified streets with low tree canopy cover in three of the city's neighbourhoods and covered them with a light-grey, light-reflecting coating, which had already been shown to lower road surface temperature in Los Angeles by 6°C. Spotts says one of these streets, in the Winnetka neighbourhood of San Fernando Valley, can now be seen as a pale crescent, the only cool spot on an otherwise red thermal image, from the International Space Station.</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 14-17​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 14,
+          "end": 17
+        },
+        "instruction_html": "<p>Reading Passage 2 has six paragraphs, A-F.</p><p>Which paragraph contains the following information?</p><ol start=\"14\">\n<li class=\"\">how a type of plant functions as a natural protection for coastlines.</li>\n<li class=\"\">a prediction about how long it could take to stop noticing the effects of climate change.</li>\n<li class=\"\">a reference to the fact that a solution is particularly cost-effective.</li>\n<li class=\"\">a mention of a technology used to locate areas most in need of intervention.</li>\n</ol>",
+        "questions": []
+      },
+      {
+        "title": "Questions 18-22​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 18,
+          "end": 22
+        },
+        "instruction_html": "<p>Complete the sentences below.</p><p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p><ol start=\"18\">\n<li class=\"\">The stormwater-management programme in Miami Beach has involved the installation of efficient <strong>18 …………….</strong>.</li>\n<li class=\"\">The construction of <strong>19 ……………….</strong> was the first stage of a project to ensure the success of mangroves in Indonesia.</li>\n<li class=\"\">As a response to rising floodwaters in the Mekong Delta, a not-for-profit organisation has been building houses that can <strong>20 ……………</strong>.</li>\n<li class=\"\">Rising sea levels in Bangladesh have made it necessary to introduce various <strong>21 ……………</strong> that are suitable for areas of high salt content.</li>\n<li class=\"\">A project in LA has increased the number of <strong>22 ………….</strong>. on the city's streets.</li>\n</ol>",
+        "questions": []
+      },
+      {
+        "title": "Questions 23-26​",
+        "logic_group": "MATCHING",
+        "range": {
+          "start": 23,
+          "end": 26
+        },
+        "instruction_html": "<p>Look at the following statements (Questions 23-26) and the list of people below.</p><p>Match each statement with the correct person, <strong>A-E</strong>.</p><ol start=\"23\">\n<li class=\"\">It is essential to adopt strategies which involve and help residents of the region.</li>\n<li class=\"\">Interventions which reduce heat are absolutely vital for our survival in this location.</li>\n<li class=\"\">More work will need to be done in future decades to deal with the impact of rising water levels.</li>\n<li class=\"\">The number of locations requiring action to adapt to flooding has grown in recent years.</li>\n</ol><h3>List of People</h3><p>A. Yanira Pineda.<br/>\n<!-- -->B. Susanna Tol.<br/>\n<!-- -->C. Elizabeth English.<br/>\n<!-- -->D. Raisa Chowdhury.<br/>\n<!-- -->E. Greg Spotts.</p>",
+        "questions": []
+      }
+    ],
+    "all_answers": [
+      "C",
+      "A",
+      "D",
+      "F",
+      "pumps",
+      "dams",
+      "float",
+      "crops",
+      "trees",
+      "B",
+      "E",
+      "A",
+      "C"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-3-passage-1-frozen-food",
+    "title": "Câu hỏi và đáp án bài Reading Frozen Food - IELTS Cambridge 20 - Test 3 passage 1",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-frozen-food\">Reading Frozen Food<a aria-label=\"Direct link to Reading Frozen Food\" class=\"hash-link\" href=\"#reading-frozen-food\" title=\"Direct link to Reading Frozen Food\" translate=\"no\">​</a></h3>",
+      "<p><em>A US perspective on the development of the frozen food industry</em></p>",
+      "<p>At some point in history, humans discovered that ice preserved food. There is evidence that winter ice was stored to preserve food in the summer as far back as 10,000 years ago. Two thousand years ago, the inhabitants of South America's Andean mountains had a unique means of conserving potatoes for later consumption. They froze them overnight, then trampled them to squeeze out the moisture, then dried them in the sun. This preserved their nutritional value—if not their aesthetic appeal.</p>",
+      "<p>Natural ice remained the main form of refrigeration until late in the 19th century. In the early 1800s, ship owners from Boston, USA, had enormous blocks of Arctic ice towed all over the Atlantic for the purpose of food preservation. In 1851, railroads first began putting blocks of ice in insulated rail cars to send butter from Ogdensburg, New York, to Boston.</p>",
+      "<p>Finally, in 1870, Australian inventors found a way to make 'mechanical ice'. They used a compressor to force a gas—ammonia at first and later Freon—through a condenser. The compressed gas gave up some of its heat as it moved through the condenser. Then the gas was released quickly into a low-pressure evaporator coil where it became liquid and cold. Air was blown over the evaporator coil and then this cooled air passed into an insulated compartment, lowering its temperature to freezing point.</p>",
+      "<p>Initially, this process was invented to keep Australian beer cool even in hot weather. But Australian cattlemen were quick to realize that, if they could put this new invention on a ship, they could export meat across the oceans. In 1880, a shipment of Australian beef and mutton was sent, frozen, to England. While the food frozen this way was still palatable, there was some deterioration. During the freezing process, crystals formed within the cells of the food, and when the ice expanded and the cells burst, this spoilt the flavor and texture of the food. The modern frozen food industry began with the indigenous Inuit people In 1912, a biology student in Massachusetts, USA, named Clarence Birdseye, ran out of money and went to Labrador in Canada to trap and trade furs. While he was there, he became fascinated with how the Inuit would quickly freeze fish in the Arctic air. The fish looked and tasted fresh even months later.</p>",
+      "<p>Birdseye returned to the USA in 1917 and began developing mechanical freezers capable of quick-freezing food. Birdseye methodically kept inventing better freezers and gradually built a business selling frozen fish from Gloucester, Massachusetts. In 1929, his business was sold and became General Foods, but he stayed with the company as director of research, and his division continued to innovate.</p>",
+      "<p>Birdseye was responsible for several key innovations that made the frozen food industry possible. He developed quick-freezing techniques that reduced the damage that crystals caused, as well as the technique of freezing the product in the package it was to be sold in. He also introduced the use of cellophane, the first transparent material for food packaging, which allowed consumers to see the quality of the product. Birdseye products also came in convenient size packages that could be prepared with a minimum of effort.</p>",
+      "<p>But there were still obstacles. In the 1930s, few grocery stores could afford to buy freezers for a market that wasn’t established yet. So, Birdseye leased inexpensive freezer cases to them. He also leased insulated railroad cars so that he could ship his products nationwide. However, few consumers had freezers large enough or efficient enough to take advantage of the products.</p>",
+      "<p>Sales increased in the early 1940s, when World War II gave a boost to the frozen food industry because tin was being used for munitions. Canned foods were rationed to save tin for the war effort, while frozen foods were abundant and cheap. Finally, by the 1950s, refrigerator technology had developed far enough to make these appliances affordable for the average family. By 1953, 33 million US families owned a refrigerator, and manufacturers were gradually increasing the size of the freezer compartments in them. 1950s families were also looking for convenience at mealtimes, so the mor right for the arrival of the \"TV Dinner\". Swanson Foods was a large, nationally recognized producer of canned and frozen poultry. In 1954, the company adapted some of Birdseye's freezing techniques, and with the help of a clever name and a huge advertising budget, it launched the first \"TV Dinner\". This consisted of frozen turkey, potatoes and vegetables served in the same segmented aluminum tray that was used by airlines. The product was an instant success. Within a year, Swanson had sold 13 million TV dinners. American consumers couldn’t resist the combination of a trusted brand name, a single-serving package and the convenience of a meal that could be ready after only 25 minutes in a hot oven. By 1959, Americans were spending $2.7 billion annually on frozen foods, and half a billion of that was spent on ready-prepared meals such as the TV Dinner.</p>",
+      "<p>Today, the US frozen food industry has a turnover of over $67 billion annually, with $26.6 billion of that sold to consumers for home consumption. The remaining $40 billion in frozen food sales come through restaurants, cafeterias, hospitals and schools, and that represents a third of the total food service sales.</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 1-7​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 1,
+          "end": 7
+        },
+        "instruction_html": "<p>Complete the notes below.</p><p>Choose ONE WORD ONLY from the passage for each answer.</p><h3>The history of frozen food</h3><p><strong>2,000 years ago, South America</strong></p><ul>\n<li class=\"\">People conserved the nutritional value of <strong>1 ………………….</strong> , using a method of freezing then drying.</li>\n</ul><p><strong>1851, USA</strong></p><ul>\n<li class=\"\"><strong>2 ………………….</strong> was kept cool by ice during transportation in specially adapted trains.</li>\n</ul><p><strong>1880, Australia</strong></p><ul>\n<li class=\"\">Two kinds of <strong>3 …………………</strong>. were the first frozen food shipped to England.</li>\n</ul><p><strong>1917 onwards, USA</strong></p><ul>\n<li class=\"\">Clarence Birdseye introduced innovations including:<!-- -->\n<ul>\n<li class=\"\">quick-freezing methods, so that <strong>4 …………………</strong>. did not spoil the food.</li>\n<li class=\"\">packaging products with <strong>5…………………</strong>., so the product was visible.</li>\n</ul>\n</li>\n</ul><ul>\n<li class=\"\">quick-freezing methods, so that <strong>4 …………………</strong>. did not spoil the food.</li>\n<li class=\"\">packaging products with <strong>5…………………</strong>., so the product was visible.</li>\n</ul><p><strong>Early 1940s, USA</strong></p><ul>\n<li class=\"\">Frozen food became popular because of a shortage of <strong>6 …………………</strong>.</li>\n</ul><p><strong>1950s, USA</strong></p><ul>\n<li class=\"\">A large number of homes now had a <strong>7 …………………</strong>.</li>\n</ul>",
+        "questions": []
+      },
+      {
+        "title": "Questions 8-13​",
+        "logic_group": "SELECTOR_FIXED",
+        "range": {
+          "start": 8,
+          "end": 13
+        },
+        "instruction_html": "<p>Do the following statements agree with the information given in Reading Passage 1?</p><p><strong>TRUE</strong>                  if the statement agrees with the information.<br/>\n<strong>FALSE</strong>                if the statement contradicts the information.<br/>\n<strong>NOT GIVEN</strong>         if there is no information on this.</p>",
+        "questions": [
+          {
+            "q_number": 8,
+            "q_html": "<p><strong>8.</strong> The ice transportation business made some Boston ship owners very wealthy in the early 1800s.</p>",
+            "options": []
+          },
+          {
+            "q_number": 9,
+            "q_html": "<p><strong>9.</strong> A disadvantage of the freezing process invented in Australia was that it affected the taste of food.</p>",
+            "options": []
+          },
+          {
+            "q_number": 10,
+            "q_html": "<p><strong>10.</strong> Clarence Birdseye travelled to Labrador in order to learn how the Inuit people froze fish.</p>",
+            "options": []
+          },
+          {
+            "q_number": 11,
+            "q_html": "<p><strong>11.</strong> Swanson Foods invested a great deal of money in the promotion of the TV Dinner.</p>",
+            "options": []
+          },
+          {
+            "q_number": 12,
+            "q_html": "<p><strong>12.</strong> Swanson Foods developed a new style of container for the launch of the TV Dinner.</p>",
+            "options": []
+          },
+          {
+            "q_number": 13,
+            "q_html": "<p><strong>13.</strong> The US frozen food industry is currently the largest in the world.</p>",
+            "options": []
+          }
+        ]
+      }
+    ],
+    "all_answers": [
+      "potatoes",
+      "butter",
+      "meat",
+      "crystals",
+      "cellophane",
+      "tin",
+      "refrigerator",
+      "NOT GIVEN",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "FALSE",
+      "NOT GIVEN"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-4-passage-3-a-new-role-for-livestock-guard-dogs",
+    "title": "Câu hỏi và đáp án bài Reading A new role for livestock guard dogs - IELTS Cambridge 20 - Test 4 passage 3",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-a-new-role-for-livestock-guard-dogs\">Reading A new role for livestock guard dogs<a aria-label=\"Direct link to Reading A new role for livestock guard dogs\" class=\"hash-link\" href=\"#reading-a-new-role-for-livestock-guard-dogs\" title=\"Direct link to Reading A new role for livestock guard dogs\" translate=\"no\">​</a></h3>",
+      "<p><em>Livestock guard dogs, traditionally used to protect farm animals from predators, are now being used to protect the predators themselves</em></p>",
+      "<p><strong>A.</strong> For thousands of years, livestock guard dogs worked alongside shepherds to protect their sheep, goats and cattle from predators such as wolves and bears. But in the 19th and 20th centuries, when such predators were largely exterminated, most guard dogs lost their jobs. In recent years, however, as increased efforts have been made to protect wild animals, predators have become more widespread again. As a result, farmers once more need to protect their livestock, and guard dogs are enjoying an unexpected revival.</p>",
+      "<p><strong>B.</strong> Today there are around 50 breeds of guard dogs on duty in various parts of the world. These dogs are raised from an early age with the animals they will be watching and eventually these animals become the dog's family. The dogs will place themselves between the livestock and any threat, barking loudly. If necessary, they will chase away predators, but often their mere presence is sufficient. 'Their initial training is to make them understand that livestock is going to be their life,' says Dan Macon, a shepherd with three guard dogs. 'A fluffy white puppy is fun to be around, but too much human affection makes it a great dog for guarding the front porch, rather than a great livestock guard dog.'</p>",
+      "<p><strong>C.</strong> The evidence indicates that guard dogs are highly effective. For example, in Portugal, biologist Silvia Ribeiro has found that more than 90 per cent of the farmers participating in a programme to train and use guard dogs to protect their herds against attack from wolves rate the performance of the dogs as very good or excellent. In a study carried out in Australia by Linda van Bommel and Chris Johnson at the University of Tasmania, more than 65 per cent of herders reported that predation stopped completely after they got the dogs, and almost all the rest saw a decrease in attacks. 'If they are managed and used properly, livestock guard dogs are the most efficient control method that we have in terms of the amount of livestock that they save from predation,' says van Bommel.</p>",
+      "<p><strong>D.</strong> But today's guard dogs also have a new role - to help preserve the predators. It is hoped that reductions in livestock losses can make farmers more tolerant of predators and less likely to kill them. In Namibia, more than 90 per cent of cheetahs live outside protected areas, close to humans raising livestock. As a result, the cheetahs are often held responsible for animal losses, and large numbers have been killed by farmers. When guard dogs were introduced, more than 90 per cent of farmers reported a dramatic reduction in livestock losses, and said that as a result they were less likely to kill predators. Julie Young, at Utah State University in the US, believes this result applies widely. 'There is common ground from the livestock perspective and from the conservation perspective,' she says. 'If ranchers don't have a dead cow, they will not make a call to apply for a permit to kill a wolf.'</p>",
+      "<p><strong>E.</strong> Looking at all the published evidence, Bethany Smith at Nottingham Trent University in the UK found that up to 88 per cent of farmers said they no longer killed predators after using dogs - but warned that such self-reported results must be taken with a pinch of salt. What's more, it is possible that livestock guard dogs merely displace predators to unprotected neighbouring properties, where their fate isn't recorded. 'In some regions, we work with almost every farmer, but in others only one or two have dogs,' says Ribeiro. 'If we are not working with everybody, we are transferring the wolf pressure to the neighbour's herd and he can use poison and kill an entire pack of wolves.'</p>",
+      "<p><strong>F.</strong> Another concern is whether there may be unintended ecological effects of using guard dogs. Studies suggest that reducing deaths of one type of predator may have a negative impact on other species. The extent of this problem isn't known, but the consequences are clear in Namibia. Cheetahs aren't the only species that cause sheep and goat losses there: other predators also attack livestock. In 2015, researchers reported that in spite of the impact farmers obtaining guard dogs had on cheetahs, the number of jackals killed by dogs and people actually increased. Guard dogs have other ecological impacts too. They have been found to spread diseases to wild animals, including endangered Ethiopian wolves. They may also compete with other carnivores for food. And by creating a 'landscape of fear', their mere presence can influence the behaviour of prey animals.</p>",
+      "<p><strong>G.</strong> The evidence so far, however, indicates that these consequences aren't always negative. Guard dogs can deliver unexpected benefits by protecting vulnerable wildlife from predators. For example, their presence has been found to protect birds which build their nests on the ground in fields, where foxes would normally raid them. Indeed, Australian researchers are now using dogs to enhance biodiversity and create refuges for species threatened by predation. So if we can get this right, there may be a bright future for guard dogs in promoting harmonious coexistence between humans and wildlife.</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 27-31​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 27,
+          "end": 31
+        },
+        "instruction_html": "<p>Reading Passage 3 has seven paragraphs, <strong>A-G</strong>.</p><p>Which paragraph contains the following information?</p><p><em>NB</em> You may use any letter more than once.</p><ol start=\"27\">\n<li class=\"\">an example of how one predator has been protected by the introduction of livestock guard dogs.</li>\n<li class=\"\">an optimistic suggestion about the possible positive developments in the use of livestock guard dogs.</li>\n<li class=\"\">a description of how the methods used by livestock guard dogs help to keep predators away</li>\n<li class=\"\">claims by different academics that the use of livestock guard dogs is a successful way of protecting farmers' herds.</li>\n<li class=\"\">a reference to how livestock guard dogs gain their skills.</li>\n</ol>",
+        "questions": []
+      },
+      {
+        "title": "Questions 32-36​",
+        "logic_group": "MATCHING",
+        "range": {
+          "start": 32,
+          "end": 36
+        },
+        "instruction_html": "<p>Look at the following statements (Questions 32-36) and the list of people below.</p><p>Match each statement with the correct person, <strong>A-E</strong>.</p><ol start=\"32\">\n<li class=\"\">The use of guard dogs may save the lives of both livestock and wild animals.</li>\n<li class=\"\">Claims of a change in behaviour from those using livestock guard dogs may not be totally accurate.</li>\n<li class=\"\">There may be negative results if the use of livestock guard dogs is not sufficiently widespread.</li>\n<li class=\"\">Livestock guard dogs are the best way of protecting farm animals, as long as the dogs are appropriately handled.</li>\n<li class=\"\">Teaching a livestock guard dog how to do its work needs a different focus from teaching a house guard dog.</li>\n</ol><h3>List of people</h3><p>A. Dan Macon.<br/>\n<!-- -->B. Silvia Ribeiro.<br/>\n<!-- -->C. Linda van Bommel.<br/>\n<!-- -->D. Julie Young.<br/>\n<!-- -->E. Bethany Smith.</p>",
+        "questions": []
+      },
+      {
+        "title": "Questions 37-40​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 37,
+          "end": 40
+        },
+        "instruction_html": "<p>Complete the summary below.</p><p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p><h3>Unintended ecological effects of using guard dogs</h3><p>In Namibia, livestock guard dogs have been used to protect domestic animals\nfrom attacks by cheetahs.</p><p>This has led to a rise in the deaths of other predators, particularly <strong>37 ……………</strong>\nIn addition, it has been suggested that the dogs could have <strong>38 ………….</strong>., which may affect other species, and that they may reduce the amount of <strong>39 ……………</strong> available to certain wild animals.</p><p>On the other hand, these dogs may help birds by protecting their nests. These might otherwise be threatened by predators such as <strong>40 ……………..</strong>.</p>",
+        "questions": []
+      }
+    ],
+    "all_answers": [
+      "D",
+      "G",
+      "B",
+      "C",
+      "B",
+      "D",
+      "E",
+      "B",
+      "C",
+      "A",
+      "jackals",
+      "diseases",
+      "food",
+      "foxes"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-1-passage-1-the-kakapo",
+    "title": "Câu hỏi và đáp án bài Reading The kākāpō - IELTS Cambridge 20 - Test 1 passage 1",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-the-kākāpō\">Reading The kākāpō<a aria-label=\"Direct link to Reading The kākāpō\" class=\"hash-link\" href=\"#reading-the-kākāpō\" title=\"Direct link to Reading The kākāpō\" translate=\"no\">​</a></h3>",
+      "<p><em>The kākāpō is a nocturnal, flightless parrot that is critically endangered and one of New Zealand's unique treasures.</em></p>",
+      "<p>The kākāpō, also known as the owl parrot, is a large, forest-dwelling bird, with a pale owl-like face. Up to 64 cm in length, it has predominantly yellow-green feathers, forward-facing eyes, a large grey beak, large blue feet, and relatively short wings and tail. It is the world's only flightless parrot, and is also possibly one of the world's longest-living birds, with a reported lifespan of up to 100 years.</p>",
+      "<p>Kākāpō are solitary birds and tend to occupy the same home range for many years. They forage on the ground and climb high into trees. They often leap from trees and flap their wings, but at best manage a controlled descent to the ground. They are entirely vegetarian, with their diet including the leaves, roots and bark of trees as well as bulbs, and fern fronds.</p>",
+      "<p>Kākāpō breed in summer and autumn, but only in years when food is plentiful. Males play no part in incubation or chick-rearing – females alone incubate eggs and feed the chicks. The 1–4 eggs are laid in soil, which is repeatedly turned over before and during incubation. The female kākāpō has to spend long periods away from the nest searching for food, which leaves the unattended eggs and chicks particularly vulnerable to predators.</p>",
+      "<p>Before humans arrived, kākāpō were common throughout New Zealand's forests. However, this all changed with the arrival of the first Polynesian settlers about 700 years ago. For the early settlers, the flightless kākāpō was easy prey. They ate its meat and used its feathers to make soft cloaks. With them came the Polynesian dog and rat, which also preyed on kākāpō. By the time European colonisers arrived in the early 1800s, kākāpō had become confined to the central North Island and forested parts of the South Island. The fall in kākāpō numbers was accelerated by European colonisation. A great deal of habitat was lost through forest clearance, and introduced species such as deer depleted the remaining forests of food. Other predators such as cats, stoats and two more species of rat were also introduced. The kākāpō were in serious trouble.</p>",
+      "<p>In 1894, the New Zealand government launched its first attempt to save the kākāpō. Conservationist Richard Henry led an effort to relocate several hundred of the birds to predator-free Resolution Island in Fiordland. Unfortunately, the island didn't remain predator-free – stoats arrived within six years, eventually destroying the kākāpō population. By the mid-1900s, the kākāpō was practically a lost species. Only a few clung to life in the most isolated parts of New Zealand.</p>",
+      "<p>From 1949 to 1973, the newly formed New Zealand Wildlife Service made over 60 expeditions to find kākāpō, focusing mainly on Fiordland. Six were caught, but there were no females amongst them and all but one died within a few months of captivity. In 1974, a new initiative was launched, and by 1977, 18 more kākāpō were found in Fiordland. However, there were still no females. In 1977, a large population of males was spotted in Rakiura – a large island free from stoats, ferrets and weasels. There were about 200 individuals, and in 1980 it was confirmed females were also present. These birds have been the foundation of all subsequent work in managing the species.</p>",
+      "<p>Unfortunately, predation by feral cats on Rakiura Island led to a rapid decline in kākāpō numbers. As a result, during 1980–97, the surviving population was evacuated to three island sanctuaries: Codfish Island, Maud Island and Little Barrier Island. However, breeding success was hard to achieve. Rats were found to be a major predator of kākāpō chicks and an insufficient number of chicks survived to offset adult mortality. By 1995, although at least 12 chicks had been produced on the islands, only three had survived. The kākāpō population had dropped to 51 birds. The critical situation prompted an urgent review of kākāpō management in New Zealand.</p>",
+      "<p>In 1996, a new Recovery Plan was launched, together with a specialist advisory group called the Kākāpō Scientific and Technical Advisory Committee and a higher amount of funding. Renewed steps were taken to control predators on the three islands. Cats were eradicated from Little Barrier Island in 1980, and possums were eradicated from Codfish Island by 1986. However, the population did not start to increase until rats were removed from all three islands, and the birds were more intensively managed. This involved moving the birds between islands, supplementary feeding of adults and rescuing and hand-raising any failing chicks.</p>",
+      "<p>After the first five years of the Recovery Plan, the population was on target. By 2000, five new females had been produced, and the total population had grown to 62 birds. For the first time, there was cautious optimism for the future of kākāpō and by June 2020, a total of 210 birds was recorded.</p>",
+      "<p>Today, kākāpō management continues to be guided by the kākāpō Recovery Plan. Its key goals are: minimise the loss of genetic diversity in the kākāpō population, restore or maintain sufficient habitat to accommodate the expected increase in the kākāpō population, and ensure stakeholders continue to be fully engaged in the preservation of the species.</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 1-6​",
+        "logic_group": "SELECTOR_FIXED",
+        "range": {
+          "start": 1,
+          "end": 6
+        },
+        "instruction_html": "<p>Do the following statements agree with the information given in Reading\nPassage 1?</p><p>In boxes 1-6 on your answer sheet, write</p><p>     <strong>TRUE</strong>               if the statement agrees with the information.<br/>\n<!-- -->     <strong>FALSE</strong>              if the statement contradicts the information.<br/>\n<!-- -->     <strong>NOT GIVEN</strong>     if there is no information on this.</p><p><strong>1</strong>    There are other parrots that share the kakapo's inability to fly.<br/>\n<strong>2</strong>    Adult kakapo produce chicks every year.<br/>\n<strong>3</strong>    Adult male kakapo bring food back to nesting females.<br/>\n<strong>4</strong>   The Polynesian rat was a greater threat to the kakapo than Polynesian settlers.<br/>\n<strong>5</strong>    Kakapo were transferred from Rakiura Island to other locations because they were at risk from feral cats.<br/>\n<strong>6</strong>   One Recovery Plan initiative that helped increase the kakapo population size was caring for struggling young birds.</p>",
+        "questions": []
+      },
+      {
+        "title": "Questions 7-13​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 7,
+          "end": 13
+        },
+        "instruction_html": "<p>Complete the notes below.</p><p>Choose <strong>ONE WORD AND/OR A NUMBER</strong> from the passage for each answer.</p><h3>New Zealand's kākāpō</h3><p><strong>A type of parrot:</strong></p><ul>\n<li class=\"\">diet consists of fern fronds, various parts of a tree and <strong>7 …………….</strong></li>\n<li class=\"\">nests are created <strong>8 …………….</strong> in where eggs are laid.</li>\n</ul><p><strong>Arrival of Polynesian settlers</strong></p><ul>\n<li class=\"\">the <strong>9 …………….</strong> of the käkäpö were used to make clothes.</li>\n</ul><p><strong>Arrival of European colonisers</strong></p><ul>\n<li class=\"\"><strong>10 …………….</strong> were an animal which they introduced that ate the käkäpö's food sources.</li>\n</ul><p><strong>Protecting kākāpō</strong></p><ul>\n<li class=\"\">\n<p>Richard Henry, a conservationist, tried to protect the kākāpō.</p>\n</li>\n<li class=\"\">\n<p>a definite sighting of female käkāpō on Rakiura Island was reported in the year <strong>11 …………….</strong></p>\n</li>\n<li class=\"\">\n<p>the Recovery Plan included an increase in <strong>12 …………….</strong></p>\n</li>\n<li class=\"\">\n<p>a current goal of the Recovery Plan is to maintain the involvement of <strong>13 …………….</strong> in kākāpō protection.</p>\n</li>\n</ul><p>Richard Henry, a conservationist, tried to protect the kākāpō.</p><p>a definite sighting of female käkāpō on Rakiura Island was reported in the year <strong>11 …………….</strong></p><p>the Recovery Plan included an increase in <strong>12 …………….</strong></p><p>a current goal of the Recovery Plan is to maintain the involvement of <strong>13 …………….</strong> in kākāpō protection.</p>",
+        "questions": []
+      }
+    ],
+    "all_answers": [
+      "F",
+      "F",
+      "F",
+      "NG",
+      "T",
+      "T",
+      "bulbs",
+      "soil",
+      "feathers",
+      "deer",
+      "1980",
+      "funding",
+      "stakeholders"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-2-passage-1-manatees",
+    "title": "Câu hỏi và đáp án bài Reading Manatees - IELTS Cambridge 20 - Test 2 passage 1",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-manatees\">Reading Manatees<a aria-label=\"Direct link to Reading Manatees\" class=\"hash-link\" href=\"#reading-manatees\" title=\"Direct link to Reading Manatees\" translate=\"no\">​</a></h3>",
+      "<p>Manatees, also known as sea cows, are aquatic mammals that belong to a group of animals called Sirenia. This group also contains dugongs. Dugongs and manatees look quite alike – they are similar in size, colour and shape, and both have flexible flippers for forelimbs. However, the manatee has a broad, rounded tail, whereas the dugong’s is fluked, like that of a whale. There are three species of manatees: the West Indian manatee (Trichechus manatus), the African manatee (Trichechus senegalensis) and the Amazonian manatee (Trichechus inunguis).</p>",
+      "<p>Unlike most mammals, manatees have only six bones in their neck – most others, including humans and giraffes, have seven. This short neck allows a manatee to move its head up and down, but not side to side. To see something on its left or its right, a manatee must turn its entire body, steering with its flippers. Manatees have pectoral flippers but no back limbs, only a tail for propulsion. They do have pelvic bones, however – a leftover from their evolution from a four-legged to a fully aquatic animal. Manatees share some visual similarities to elephants. Like elephants, manatees have thick, wrinkled skin. They also have some hairs covering their bodies which help them sense vibrations in the water around them.</p>",
+      "<p>Seagrasses and other marine plants make up most of a manatee’s diet. Manatees spend about eight hours each day grazing and uprooting plants. They eat up to 15% of their weight in food each day. African manatees are omnivorous – studies have shown that molluscs and fish make up a small part of their diets. West Indian and Amazonian manatees are both herbivores.</p>",
+      "<p>Manatees’ teeth are all molars – flat, rounded teeth for grinding food. Due to manatees’ abrasive aquatic plant diet, these teeth get worn down and they eventually fall out, so they continually grow new teeth that get pushed forward to replace the ones they lose. Instead of having incisors to grasp their food, manatees have lips which function like a pair of hands to help tear food away from the seafloor. Manatees are fully aquatic, but as mammals, they need to come up to the surface to 44/130 breathe. When awake, they typically surface every two to four minutes, but they can hold their breath for much longer. Adult manatees sleep underwater for 10-12 hours a day, but they come up for air every 15-20 minutes. Active manatees need to breathe more frequently. It's thought that manatees use their muscular diaphragm and breathing to adjust their buoyancy. They may use diaphragm contractions to compress and store gas in folds in their large intestine to help them float.</p>",
+      "<p>The West Indian manatee reaches about 3.5 metres long and weighs on average around 500 kilogrammes. It moves between fresh water and salt water, taking advantage of coastal mangroves and coral reefs, rivers, lakes and inland lagoons. There are two subspecies of West Indian manatee: the Antillean manatee is found in waters from the Bahamas to Brazil, whereas the Florida manatee is found in US waters, although some individuals have been recorded in the Bahamas. In winter, the Florida manatee is typically restricted to Florida. When the ambient water temperature drops below 20°C, it takes refuge in naturally and artificially warmed water, such as at the warm-water outfalls from powerplants.</p>",
+      "<p>The African manatee is also about 3.5 metres long and found in the sea along the west coast of Africa, from Mauritania down to Angola. The species also makes use of rivers, with the mammals seen in landlocked countries such as Mali and Niger.</p>",
+      "<p>The Amazonian manatee is the smallest species, though it is still a big animal. It grows to about 2.5 metres long and 350 kilogrammes. Amazonian manatees favour calm, shallow waters that are above 23°C. This species is found in fresh water in the Amazon Basin in Brazil, as well as in Colombia, Ecuador and Peru.</p>",
+      "<p>All three manatee species are endangered or at a heightened risk of extinction. The African manatee and Amazonian manatee are both listed as Vulnerable by the International Union for Conservation of Nature (IUCN). It is estimated that 140,000 Amazonian manatees were killed between 1935 and 1954 for their meat, fat and skin, with the latter used to make leather. In more recent years, African manatee decline has been tied to incidental capture in fishing nets and hunting. Manatee hunting is now illegal in every country the African species is found in.</p>",
+      "<p>The two subspecies of West Indian manatee are listed as Endangered by the IUCN. Both are also expected to undergo a decline of 20% over the next 40 years. A review of almost 1,800 cases of entanglement in fishing nets and of plastic consumption among marine mammals in US waters from 2009 to 2020 found that at least 700 cases involved manatees. The chief cause of death in Florida manatees is boat strikes. However, laws in certain parts of Florida now limit boat speeds during winter, allowing slow-moving manatees more time to respond.</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 1-6​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 1,
+          "end": 6
+        },
+        "instruction_html": "<p>Complete the notes below.</p><p>Choose <strong>ONE WORD AND/OR A NUMBER</strong> from the passage for each answer.</p><h3>Manatees</h3><p><strong>Appearance</strong></p><ul>\n<li class=\"\">look similar to dugongs, but with a differently shaped <strong>1 ……….…….</strong>.</li>\n</ul><p><strong>Movement</strong></p><ul>\n<li class=\"\">have fewer neck bones than most mammals</li>\n<li class=\"\">need to use their <strong>2 ……….……..</strong> to help to turn their bodies around in order to look sideways</li>\n<li class=\"\">sense vibrations in the water by means of <strong>3 ……….……..</strong> on their skin</li>\n</ul><p><strong>Feeding</strong></p><ul>\n<li class=\"\">eat mainly aquatic vegetation, such as <strong>4 ……….……..</strong></li>\n<li class=\"\">grasp and pull up plants with their <strong>5 ……….……..</strong></li>\n</ul><p><strong>Breathing</strong></p><ul>\n<li class=\"\">come to the surface for air every 2-4 minutes when awake and every 15-20 while sleeping</li>\n<li class=\"\">may regulate the <strong>6 ……….……..</strong> of their bodies by using muscles of diaphragm to store air internally</li>\n</ul>",
+        "questions": []
+      },
+      {
+        "title": "Questions 7-13​",
+        "logic_group": "SELECTOR_FIXED",
+        "range": {
+          "start": 7,
+          "end": 13
+        },
+        "instruction_html": "<p>Do the following statements agree with the information given in Reading Passage 1?</p><p><strong>TRUE</strong>                if the statement agrees with the information.<br/>\n<strong>FALSE</strong>               if the statement contradicts the information.<br/>\n<strong>NOT GIVEN</strong>      if there is no information on this.</p><ol start=\"7\">\n<li class=\"\">West Indian manatees can be found in a variety of different aquatic habitats.</li>\n<li class=\"\">The Florida manatee lives in warmer waters than the Antillean manatee.</li>\n<li class=\"\">The African manatee's range is limited to coastal waters between the West African countries of Mauritania and Angola.</li>\n<li class=\"\">The extent of the loss of Amazonian manatees in the mid-twentieth century was only revealed many years later.</li>\n<li class=\"\">It is predicted that West Indian manatee populations will fall in the coming decades.</li>\n<li class=\"\">The risk to manatees from entanglement and plastic consumption increased significantly in the period 2009-2020.</li>\n<li class=\"\">There is some legislation in place which aims to reduce the likelihood of boat strikes on manatees in Florida.</li>\n</ol>",
+        "questions": []
+      }
+    ],
+    "all_answers": [
+      "tail",
+      "flippers",
+      "hair",
+      "seagrasses",
+      "lips",
+      "buoyancy",
+      "T",
+      "NG",
+      "F",
+      "NG",
+      "T",
+      "NG",
+      "T"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-3-passage-3-robots-and-us",
+    "title": "Câu hỏi và đáp án bài Reading Robots and us - IELTS Cambridge 20 - Test 3 passage 3",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-robots-and-us\">Reading Robots and us<a aria-label=\"Direct link to Reading Robots and us\" class=\"hash-link\" href=\"#reading-robots-and-us\" title=\"Direct link to Reading Robots and us\" translate=\"no\">​</a></h3>",
+      "<p><em>Three leaders in their fields answer questions about our relationships with robot</em></p>",
+      "<p>When asked 'Should robots be used to colonise other planets?', cosmology and astrophysics Professor Martin Rees said he believed the solar system would be mapped by robotic craft by the end of the century. 'The next step would be mining of asteroids, enabling fabrication of large structures in space without having to bring all the raw materials from Earth. ... I think this is more realistic and benign than the ... \"terraforming\"* of planets.' He maintains that colonised planets 'should be preserved with a status that is analogous to Antarctica here on Earth.'</p>",
+      "<p>On the question of using robots to colonise other planets and exploit mineral resources, engineering Professor Daniel Wolpert replied, 'I don't see a pressing need to colonise other planets unless we can bring [these] resources back to Earth. The vast majority of Earth is currently inaccessible to us. Using robots to gather resources nearer to home would seem to be a better use of our robotic tools.'</p>",
+      "<p>Meanwhile, for anthropology Professor Kathleen Richardson, the idea of 'colonisation' of other planets seemed morally dubious: 'I think whether we do something on Earth or on Mars we should always do it in the spirit of a genuine interest in \"the Other\", not to impose a particular model, but to meet \"the Other\".'</p>",
+      "<p>In response to the second question, 'How soon will machine intelligence outstrip human intelligence?', Rees mentions robots that are advanced enough to beat humans at chess, but then goes on to say, 'Robots are still limited in their ability to sense their environment: they can't yet recognise and move the pieces on a real chessboard as cleverly as a child can. Later this century, however, their more advanced successors may relate to their surroundings, and to people, as adeptly as we do. Moral questions then arise. ... Should we feel guilty about exploiting [sophisticated robots]? Should we fret if they are underemployed, frustrated, or bored?'</p>",
+      "<p>Wolpert's response to the question about machine intelligence outstripping human intelligence was this: 'In a limited sense it already has. Machines can already navigate, remember and search for items with an ability that far outstrips humans. However, there is no machine that can identify visual objects or speech with the reliability and flexibility of humans.... Expecting a machine close to the creative intelligence of a human within the next 50 years would be highly ambitious. Richardson believes that our fear of machines becoming too advanced has more to do with human nature than anything intrinsic to the machines themselves. In her view, it stems from humans’ tendency to personify inanimate objects: we create machines based on representations of ourselves, imagine that machines think and behave as we do, and therefore see them as an autonomous threat. 'One of the consequences of thinking that the problem lies with machines is that we tend to imagine they are greater and more powerful than they really are and subsequently they become so.'</p>",
+      "<p>This led on to the third question, 'Should we be scared by advances in artificial intelligence?' To this question, Rees replied, 'Those who should be worried are the futurologists who believe in the so-called \"singularity\".* And another worry is that we are increasingly dependent on computer networks, and that these could behave like a single \"brain\" with a mind of its own, and with goals that may be contrary to human welfare. I think we should ensure that robots remain as no more than \"idiot savants\" lacking the capacity to outwit us, even though they may greatly surpass us in the ability to calculate and process information.'</p>",
+      "<p>Wolpert's response was to say that we have already seen the damaging effects of artificial intelligence in the form of computer viruses. 'But in this case,' he says, 'the real intelligence is the malicious designer. Critically, the benefits of computers outweigh the damage that computer viruses cause. Similarly, while there may be misuses of robotics in the near future, the benefits that they will bring are likely to outweigh these negative aspects.'</p>",
+      "<p>Richardson's response to this question was this: 'We need to ask why fears of artificial intelligence and robots persist; none have in fact risen up and challenged human supremacy.' She believes that as robots have never shown themselves to be a threat to humans, it seems unlikely that they ever will. In fact, she went on, 'Not all fear [robots]; many people welcome machine intelligence.'</p>",
+      "<p>In answer to the fourth question, '\"What can science fiction tell us about robotics?', Rees replied, 'I sometimes advise students that it’s better to read first-rate science fiction than second-rate science more stimulating, and perhaps no more likely to be wrong.' As his response, Wolpert commented, 'Science fiction has often been remarkable at predicting the future.... Science fiction has painted a vivid spectrum of possible futures, from cute and helpful robots to dystopian robotic societies. Interestingly, almost no science fiction envisages a future without robots.'</p>",
+      "<p>Finally, on the question of science fiction, Richardson pointed out that in modern society, people tend to think there is reality on the one hand, and fiction and fantasy on the other. She then explained that the division did not always exist, and that scientists and technologists made this separation because they wanted to carve out the sphere of their work. 'But the divide is not so clear cut, and that is why the worlds seem to collide at times,' she said. 'In some cases, we need to bring these different understandings together to get a whole perspective. Perhaps then, we won’t be so frightened that something we create as a copy of ourselves will be a [threat] to us.'</p>",
+      "<p>*terraforming: modifying a planet's atmosphere to suit human needs.<br/>\n<!-- -->** singularity: the point when robots will be able to start creating ever more sophisticated versions of themselves</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 27-33​",
+        "logic_group": "MATCHING",
+        "range": {
+          "start": 27,
+          "end": 33
+        },
+        "instruction_html": "<p>Look at the following statements (Questions 27-33) and the list of experts below.</p><p>Match each statement with the correct expert, <strong>A, B or C</strong>.</p><p><em>NB</em> You may use any letter more than once.</p><ol start=\"27\">\n<li class=\"\">For our own safety, humans will need to restrict the abilities of robots.</li>\n<li class=\"\">The risk of robots harming us is less serious than humans believe it to be.</li>\n<li class=\"\">It will take many decades for robot intelligence to be as imaginative as human intelligence.</li>\n<li class=\"\">We may have to start considering whether we are treating robots fairly.</li>\n<li class=\"\">Robots are probably of more help to us on Earth than in space.</li>\n<li class=\"\">The ideas in high-quality science fiction may prove to be just as accurate as those found in the work of mediocre scientists.</li>\n<li class=\"\">There are those who look forward to robots developing greater intelligence.</li>\n</ol><h3>List of Experts</h3><p>A. Martin Rees.<br/>\n<!-- -->B. Daniel Wolpert.<br/>\n<!-- -->C. Kathleen Richardson.</p>",
+        "questions": []
+      },
+      {
+        "title": "Questions 34-36​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 34,
+          "end": 36
+        },
+        "instruction_html": "<p>Complete each sentence with the correct ending, <strong>A-D</strong>, below.</p><p>A. robots to explore outer space.<br/>\n<!-- -->B. advances made in machine intelligence so far.<br/>\n<!-- -->C. changes made to other planets for our own benefit.<br/>\n<!-- -->D. the harm already done by artificial intelligence.</p><ol start=\"34\">\n<li class=\"\">Richardson and Rees express similar views regarding the ethical aspect of <strong>………………</strong>.</li>\n<li class=\"\">Rees and Wolpert share an opinion about the extent of <strong>………………..</strong>.</li>\n<li class=\"\">Wolpert disagrees with Richardson on the question of <strong>……………….</strong>.</li>\n</ol>",
+        "questions": []
+      },
+      {
+        "title": "Questions 37-40​",
+        "logic_group": "SELECTOR_MCQ",
+        "range": {
+          "start": 37,
+          "end": 40
+        },
+        "instruction_html": "<p>Choose the correct letter, <strong>A, B, C, or D</strong></p>",
+        "questions": [
+          {
+            "q_number": 37,
+            "q_html": "<p><strong>37.</strong>  What point does Richardson make about fear of machines?</p><p>A.  lt has grown alongside the development of ever more advanced robots.<br/>\n<!-- -->B.  It is the result of our inclination to attribute human characteristics to non-human entities.<br/>\n<!-- -->C.  It has its origins in basic misunderstandings about how inanimate objects function.<br/>\n<!-- -->D.  It demonstrates a key difference between human intelligence and machine intelligence.</p>",
+            "options": []
+          },
+          {
+            "q_number": 38,
+            "q_html": "<p><strong>38.</strong>  What potential advance does Rees see as a cause for concern?</p><p>A.  robots outnumbering people.<br/>\n<!-- -->B.  robots having abilities which humans do not.<br/>\n<!-- -->C.  artificial intelligence developing independent thought.<br/>\n<!-- -->D.  artificial intelligence taking over every aspect of our lives.</p>",
+            "options": []
+          },
+          {
+            "q_number": 39,
+            "q_html": "<p><strong>39.</strong>  What does Wolpert emphasise in his response to the question about science fiction?</p><p>A.  how science fiction influences our attitudes to robots.<br/>\n<!-- -->B.  how fundamental robots are to the science fiction genre.<br/>\n<!-- -->C.  how the image of robots in science fiction has changed over time.<br/>\n<!-- -->D.  how reactions to similar portrayals of robots in science fiction may vary.</p>",
+            "options": []
+          },
+          {
+            "q_number": 40,
+            "q_html": "<p><strong>40.</strong>  What is Richardson doing in her comment about reality and fantasy?</p><p>A.  warning people not to confuse one with the other.<br/>\n<!-- -->B.  outlining ways in which one has impacted on the other.<br/>\n<!-- -->C.  recommending a change of approach in how people view them.<br/>\n<!-- -->D.  explaining why scientists have a different perspective on them from other people.</p>",
+            "options": []
+          }
+        ]
+      }
+    ],
+    "all_answers": [
+      "A",
+      "C",
+      "B",
+      "A",
+      "B",
+      "A",
+      "C",
+      "C",
+      "B",
+      "D",
+      "B",
+      "C",
+      "B",
+      "C"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-2-passage-2-procrastination",
+    "title": "Câu hỏi và đáp án bài Reading Procrastination - IELTS Cambridge 20 - Test 2 passage 2",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-procrastination\">Reading Procrastination<a aria-label=\"Direct link to Reading Procrastination\" class=\"hash-link\" href=\"#reading-procrastination\" title=\"Direct link to Reading Procrastination\" translate=\"no\">​</a></h3>",
+      "<p><em>A psychologist explains why we put off important tasks and how we can break this habit</em></p>",
+      "<p><strong>A.</strong> Procrastination is the habit of delaying a necessary task, usually by focusing on less urgent, more enjoyable, and easier activities instead. We all do it from time to time. We might be composing a message to a friend who we have to let down, or putting together an important report for college or work; we're doing our best to avoid doing the job at hand, but deep down we know that we should just be getting on with it. Unfortunately, berating ourselves won't stop us procrastinating again. In fact, it's one of the worst things we can do. This matters because, as my research shows, procrastination doesn't just waste time, but is actually linked to other problems, too.</p>",
+      "<p><strong>B.</strong> Contrary to popular belief, procrastination is not due to laziness or poor time management. Scientific studies suggest procrastination is, in fact, caused by poor mood management. This makes sense if we consider that people are more likely to put off starting or completing tasks that they are really not keen to do. If just thinking about the task threatens our sense of self-worth or makes us anxious, we will be more likely to put it off. Research involving brain imaging has found that areas of the brain linked to detection of threats and emotion regulation are actually different in people who chronically procrastinate compared to those who don't procrastinate frequently.</p>",
+      "<p><strong>C.</strong> Tasks that are emotionally loaded or difficult, such as preparing for exams, are prime candidates for procrastination. People with low self-esteem are more likely to procrastinate. Another group of people who tend to procrastinate are perfectionists, who worry their work will be judged harshly by others. We know that if we don't finish that report or complete those home repairs, then what we did can't be evaluated. When we avoid such tasks, we also avoid the negative emotions associated with them. This is rewarding, and it conditions us to use procrastination to repair our mood. If we engage in more enjoyable tasks instead, we get another mood boost. In the long run, however, procrastination isn't an effective way of managing emotions. The 'mood repair' we experience is temporary. Afterwards, people tend to be left with a sense of guilt that not only increases their negative mood, but also reinforces their tendency to procrastinate.</p>",
+      "<p><strong>D.</strong> So why is this such a problem? When most people think of the costs of procrastination, they think of the toll on productivity. For example, studies have shown that procrastination negatively impacts on student performance. But putting off reading textbooks and writing essays may affect other areas of students’ lives. In one study of over 3,000 German students over a six-month period, those who study-related misconduct, such as cheating and plagiarism. But the behaviour that procrastination was most closely linked with was using fraudulent excuses to get deadline extensions. Other research shows that employees on average spend almost a quarter of their workday procrastinating, and again this is linked with negative outcomes. In fact, in one US survey of over 22,000 employees, participants who said they regularly procrastinated had less annual income and less employment stability. For every one-point increase on a measure of chronic procrastination, annual income decreased by US$15,000.</p>",
+      "<p><strong>E.</strong> Procrastination also correlates with serious health and well-being problems. A tendency to procrastinate is linked to poor mental health, including higher levels of depression and anxiety. Across numerous studies, I’ve found people who regularly procrastinate report a greater number of health issues, such as headaches, flu and colds, and digestive issues. They also experience higher levels of stress and poor sleep quality. They are less likely to practise healthy behaviours, such as eating a healthy diet and regularly exercising, and use destructive coping strategies to manage their stress. In one study of over 700 people, I found people prone to procrastination had a 63% greater risk of poor heart health after accounting for other personality traits and demographics.</p>",
+      "<p><strong>F.</strong> Finding better ways of managing our emotions is one route out of the vicious cycle of procrastination. An important first step is to manage our environment and how we view the task. There are a number of evidence-based strategies that can help us fend off distractions that can occupy our minds when we should be focusing on the thing we should be getting on with. For example, reminding ourselves about why the task is important and valuable can increase positive feelings towards it. Forgiving ourselves and feeling compassion when we procrastinate can help break the procrastination cycle. We should admit that we feel bad, but not be overly critical of ourselves. We should remind ourselves that we’re not the first person to procrastinate, nor the last. Doing this can take the edge off the negative feelings we have about ourselves when we procrastinate. This can all make it easier to get back on track.</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 14-16​",
+        "logic_group": "SELECTOR_FIXED",
+        "range": {
+          "start": 14,
+          "end": 16
+        },
+        "instruction_html": "<p>Reading Passage 2 has six paragraphs, A-F.</p><p>Which paragraph contains the following information?</p><p><em>NB</em> You may use any letter more than once.</p><ol start=\"14\">\n<li class=\"\">mention of false assumptions about why people procrastinate.</li>\n<li class=\"\">reference to the realisation that others also procrastinate.</li>\n<li class=\"\">neurological evidence of a link between procrastination and emotion.</li>\n</ol>",
+        "questions": []
+      },
+      {
+        "title": "Questions 17-22​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 17,
+          "end": 22
+        },
+        "instruction_html": "<p>Complete the summary below.</p><p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p><h3>  What makes us procrastinate?</h3><p>Many people think that procrastination is the result of <strong>17 …………………</strong>\nOthers believe it to be the result of an inability to organise time efficiently.</p><p>But scientific studies suggest that procrastination is actually due to poor mood\nmanagement. The tasks we are most likely to put off are those that could\ndamage our self-esteem or cause us to feel <strong>18 …………………</strong> when we think\nabout them. Research comparing chronic procrastinators with other people\neven found differences in the brain regions associated with regulating emotions\nand identifying <strong>19 …………………</strong></p><p>Emotionally loaded and difficult tasks often cause us to procrastinate. Getting\nready to take <strong>20 …………………</strong> might be a typical example of one such task.</p><p>People who are likely to procrastinate tend to be either <strong>21 …………………</strong> or\nthose with low self-esteem.</p><p>Procrastination is only a short-term measure for managing emotions. It's often\nfollowed by a feeling <strong>22, …………………</strong> which worsens our mood and leads\nto procrastination.</p>",
+        "questions": []
+      },
+      {
+        "title": "Questions 23 and 24​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 23,
+          "end": 24
+        },
+        "instruction_html": "<p>Choose <strong>TWO</strong> letters, <strong>A-E</strong>.</p><p><strong>23-24.</strong> Which <strong>TWO</strong> comparisons between employees who often procrastinate and those who do not are mentioned in the text?</p><p>A. Their salaries are lower.<br/>\n<!-- -->B. The quality of their work is inferior.<br/>\n<!-- -->C. They don't keep their jobs for as long.<br/>\n<!-- -->D. They don't enjoy their working lives as much.<br/>\n<!-- -->E. They have poorer relationships with colleagues.</p>",
+        "questions": []
+      },
+      {
+        "title": "Questions 25 and 26​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 25,
+          "end": 26
+        },
+        "instruction_html": "<p>Choose <strong>TWO</strong> letters, <strong>A-E</strong>.</p><p><strong>25-26.</strong> Which <strong>TWO</strong> recommendations for getting out of a cycle of procrastination does the writer give?</p><p>A. not judging ourselves harshly.<br/>\n<!-- -->B. setting ourselves manageable aims.<br/>\n<!-- -->C. rewarding ourselves for tasks achieved.<br/>\n<!-- -->D. prioritising tasks according to their importance.<br/>\n<!-- -->E. avoiding things that stop us concentrating on our tasks.</p>",
+        "questions": []
+      }
+    ],
+    "all_answers": [
+      "B",
+      "F",
+      "B",
+      "laziness",
+      "anxious",
+      "threats",
+      "exams",
+      "perfectionists",
+      "guilt"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-3-passage-2-can-the-planets-coral-reefs-be-saved",
+    "title": "Câu hỏi và đáp án bài Reading Can the planet's coral reefs be saved? - IELTS Cambridge 20 - Test 3 passage 2",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-can-the-planets-coral-reefs-be-saved\">Reading Can the planet's coral reefs be saved?<a aria-label=\"Direct link to Reading Can the planet's coral reefs be saved?\" class=\"hash-link\" href=\"#reading-can-the-planets-coral-reefs-be-saved\" title=\"Direct link to Reading Can the planet's coral reefs be saved?\" translate=\"no\">​</a></h3>",
+      "<p><strong>A.</strong> Conservationists have put the final touches to a giant artificial reef they have been assembling at the world-renowned Zoological Society of London (London Zoo). Samples of the planet's most spectacular corals - vivid green branching coral, yellow scroll, blue ridge and many more species - have been added to the giant tank along with fish that thrive in their presence: blue tang, clownfish and many others. The reef is in the zoo's new gallery, Tiny Giants, which is dedicated to the minuscule invertebrate creatures that sustain life across the planet. The coral reef tank and its seven-metre-wide window form the core of the exhibition. 'Coral reefs are the most diverse ecosystems on Earth and we want to show people how wonderful they are,' said Paul Pearce-Kelly, senior curator of invertebrates and fish at the Zoological Society of London. 'However, we also want to highlight the research and conservation efforts that are now being carried out to try to save them from the threat of global warming.' They want people to see what is being done to try to save these wonders.</p>",
+      "<p><strong>B.</strong> Corals are composed of tiny animals, known as polyps, with tentacles for capturing small marine creatures in the sea water. These polyps are transparent but get their brilliant tones of pink, orange, blue, green, etc. from algae that live within them, which in turn get protection, while their photosynthesising of the sun's rays provides nutrients for the polyps. This comfortable symbiotic relationship has led to the growth of coral reefs that cover 0.1% of the planet's ocean bed while providing homes for more than 25% of marine species, including fish, molluscs, sponges and shellfish.</p>",
+      "<p><strong>C.</strong> As a result, coral reefs are often described as the 'rainforests of the sea', though the comparison is dismissed by some naturalists, including David Attenborough. 'People say you cannot beat the rainforest,' Attenborough has stated. 'But that is simply not true. You go there and the first thing you think is: where ... are the birds? Where are the animals? They are hiding in the trees, of course. No, if you want beauty and wildlife, you want a coral reef. Put on a mask and stick your head under the water. The sight is mind-blowing.'</p>",
+      "<p><strong>D.</strong> Unfortunately, these majestic sights are now under very serious threat, with the most immediate problem coming in the form of thermal stress. Rising ocean temperatures are triggering bleaching events that strip reefs of their colour and eventually kill them. And that is just the start. Other menaces include ocean acidification, sea level increase, pollution by humans, deoxygenation and ocean current changes, while the climate crisis is also increasing habitat destruction. As a result, vast areas - including massive chunks of Australia's Great Barrier Reef - have already been destroyed, and scientists advise that more than 90% of reefs could be lost by 2050 unless urgent action is taken to tackle global heating and greenhouse gas emissions.</p>",
+      "<p>Pearce-Kelly says that coral reefs have to survive really harsh conditions wave erosion and other factors. And 'when things start to go wrong in the oceans, then corals will be the first to react. And that is exactly what we are seeing now. Coral reefs are dying and they are telling us that all is not well with our planet.'</p>",
+      "<p><strong>E.</strong> However, scientists are trying to pinpoint hardy types of coral that could survive our overheated oceans, and some of this research will be carried out at London Zoo. 'Behind our coral reef tank we have built laboratories where scientists will be studying coral species,' said Pearce-Kelly. One aim will be to carry out research on species to find those that can survive best in warm, acidic waters. Another will be to try to increase coral breeding rates. 'Coral spawn just once a year,' he added. 'However, aquarium-based research has enabled some corals to spawn artificially, which can assist coral reef restoration efforts. And if this can be extended for all species, we could consider the launching of coral-spawning programmes several times a year. That would be a big help in restoring blighted reefs.'</p>",
+      "<p><strong>F.</strong> Research in these fields is being conducted in laboratories around the world, with the London Zoo centre linked to this global network. Studies carried out in one centre can then be tested in others. The resulting young coral can then be displayed in the tank in Tiny Giants. 'The crucial point is that the progress we make in making coral better able to survive in a warming world can be shown to the public and encourage them to believe that we can do something to save the planet's reefs,' said Pearce-Kelly. 'Saving our coral reefs is now a critically important ecological goal.'</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 14-19​",
+        "logic_group": "MATCHING",
+        "range": {
+          "start": 14,
+          "end": 19
+        },
+        "instruction_html": "<p>Reading 2 has six sections, <strong>A-F</strong>.<br/>\n<!-- -->Choose the correct heading for each section from the list of headings below.<br/>\n<!-- -->Write the correct letter, <strong>i-vii</strong>, in boxes <strong>14-19</strong> on your answer sheet.</p><h3>List of headings</h3><p><strong>i.</strong> Tried and tested solutions.<br/>\n<strong>ii.</strong> Cooperation beneath the waves.<br/>\n<strong>iii.</strong> Working to lessen the problems.<br/>\n<strong>iv.</strong> Disagreement about the accuracy of a certain phrase.<br/>\n<strong>v.</strong> Two clear educational goals.<br/>\n<strong>vi.</strong> Promoting hope.<br/>\n<strong>vii.</strong> A warning of further trouble ahead.</p><p>14 paragraph <strong>A   ……………….</strong><br/>\n<!-- -->15 paragraph <strong>B   ……………….</strong><br/>\n<!-- -->16 Paragraph <strong>C   ……………….</strong><br/>\n<!-- -->17 Paragraph <strong>D   ……………….</strong><br/>\n<!-- -->18 Paragraph <strong>E   ……………….</strong><br/>\n<!-- -->19 Paragraph <strong>F   ……………….</strong></p>",
+        "questions": []
+      },
+      {
+        "title": "Questions 20 and 21​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 20,
+          "end": 21
+        },
+        "instruction_html": "<p>Choose <strong>TWO</strong> letters, <strong>A-E</strong>.</p><p>20-21. Which <strong>TWO</strong> of these causes of damage to coral reefs are mentioned by the writer of\nthe text?</p><p>A. a rising number of extreme storms.<br/>\n<!-- -->B. the removal of too many fish from the sea.<br/>\n<!-- -->C. the contamination of the sea from waste.<br/>\n<!-- -->D. increased disease among marine species.<br/>\n<!-- -->E. alterations in the usual flow of water in the seas.</p>",
+        "questions": []
+      },
+      {
+        "title": "Questions 22 and 23​",
+        "logic_group": "SELECTOR_FIXED",
+        "range": {
+          "start": 22,
+          "end": 23
+        },
+        "instruction_html": "<p>Choose <strong>TWO</strong> letters, <strong>A-E</strong>.</p><p>22-23. Which <strong>TWO</strong> of the following statements are true of the researchers at London Zoo?</p><p>A. They are hoping to expand the numbers of different corals being bred in laboratories.<br/>\n<!-- -->B. They want to identify corals that can cope well with the changed sea conditions.<br/>\n<!-- -->C. They are looking at ways of creating artificial reefs that corals could grow on.<br/>\n<!-- -->D. They are trying out methods that would speed up reproduction in some corals.<br/>\n<!-- -->E. They are investigating materials that might protect reefs from higher temperatures.</p>",
+        "questions": []
+      },
+      {
+        "title": "Questions 24-26​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 24,
+          "end": 26
+        },
+        "instruction_html": "<p>Complete the sentences below.</p><p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p><ol start=\"24\">\n<li class=\"\">Corals have a number of <strong>24 ……………….</strong> which they use to collect their food.</li>\n<li class=\"\">Algae gain <strong>25 ……………….</strong> from being inside the coral.</li>\n<li class=\"\">Increases in the warmth of the sea water can remove the <strong>26 ……………….</strong> from coral.</li>\n</ol>",
+        "questions": []
+      }
+    ],
+    "all_answers": [
+      "v",
+      "ii",
+      "iv",
+      "vii",
+      "iii",
+      "vi",
+      "tentacles",
+      "protection",
+      "colour"
+    ]
+  },
+  {
+    "url": "https://ieltssongngu.com/ielts/de-thi-ielts/ielts-cambridge-20/cau-hoi-va-dap-an-cam-20-test-4-passage-1-georgia-okeeffe",
+    "title": "Câu hỏi và đáp án bài Reading Georgia O'Keeffe - IELTS Cambridge 20 - Test 4 passage 1",
+    "passage": [
+      "<h3 class=\"anchor anchorTargetStickyNavbar_Vzrq\" id=\"reading-georgia-okeeffe\">Reading Georgia O'Keeffe<a aria-label=\"Direct link to Reading Georgia O'Keeffe\" class=\"hash-link\" href=\"#reading-georgia-okeeffe\" title=\"Direct link to Reading Georgia O'Keeffe\" translate=\"no\">​</a></h3>",
+      "<p>For seven decades, Georgia O'Keeffe (1887–1986) was a major figure in American art. Remarkably, she remained independent from shifting art trends and her work stayed true to her own vision, which was based on finding the essential, abstract forms in nature. With exceptionally keen powers of observation and great finesse with a paintbrush, she recorded subtle nuances of colour, shape, and light that enlivened her paintings and attracted a wide audience.</p>",
+      "<p>Born in 1887 near Sun Prairie, Wisconsin to cattle breeders Francis and Ida O’Keeffe, Georgia was raised on their farm along with her six siblings. By the time she graduated from high school in 1905, she had determined to make her way as an artist. She studied the techniques of traditional painting at the Art Institute of Chicago school (1905) and the Art Students League of New York (1907–8). After attending university and then training college, she became an art teacher and taught in elementary schools, high schools, and colleges in Virginia, Texas, and South Carolina from 1911 to 1918.</p>",
+      "<p>During this period, O’Keeffe began to experiment with creating abstract compositions in charcoal, and produced a series of innovative drawings that led her art in a new direction. She sent some of these drawings to a friend in New York, who showed them to art collector and photographer Alfred Stieglitz in January 1916. Stieglitz was impressed, and exhibited the drawings later that year at his gallery on Fifth Avenue, New York City, where the works of many avant-garde artists and photographers were introduced to the American public.</p>",
+      "<p>With Stieglitz’s encouragement and promise of financial support, O’Keeffe arrived in New York in June 1918 to begin a career as an artist. For the next three decades, Stieglitz vigorously promoted her work in twenty-two solo exhibitions and numerous group installations. The two were married in 1924. The ups and downs of their personal and professional relationship were recorded in Stieglitz’s celebrated black-and-white portraits of O’Keeffe, taken over the course of twenty years (1917–37).</p>",
+      "<p>By the mid-1920s, O'Keeffe was recognized as one of America's most important and successful artists, widely known for the architectural pictures that dramatically depict the soaring skyscrapers of New York. But most often, she painted botanical subjects, inspired by annual trips to the Stieglitz family summer home. In her magnified images depicting flowers, begun in 1924, O'Keeffe brings the viewer right into the picture.</p>",
+      "<p>Enlarging the tiniest details to fill an entire metre-wide canvas emphasized their shapes and lines and made them appear abstract. Such daring compositions helped establish O'Keeffe's reputation as an innovative modernist.</p>",
+      "<p>In 1929, O'Keeffe made her first extended trip to the state of New Mexico. It was a visit that had a lasting impact on her life, and an immediate effect on her work. Over the next two decades she made almost annual trips to New Mexico, staying up to six months there, painting in relative solitude, then returning to New York each winter to exhibit the new work at Stieglitz's gallery. This pattern continued until she moved permanently to New Mexico in 1949.</p>",
+      "<p>There, O'Keeffe found new inspiration: at first, it was the numerous sun-bleached bones she came across in the state's rugged terrain that sparked her imagination. Two of her earliest and most celebrated Southwestern paintings exquisitely reproduce a cow skull's weathered surfaces, jagged edges, and irregular openings. Later, she also explored another variation on this theme in her large series of Pelvis pictures, which focused on the contrasts between convex and concave surfaces, and solid and open spaces.</p>",
+      "<p>However, it was the region's spectacular landscape, with its unusual geological formations, vivid colours, clarity of light, and exotic vegetation, that held the artist's imagination for more than four decades. Often, she painted the rocks, cliffs, and mountains in striking close-up, just as she had done with her botanical subjects. O'Keeffe eventually owned two homes in New Mexico - the first, her sun...vai at Ghost Ranch, was nestled beneath 200-metre cliffs, while the second, used as her winter residence, was in the small town of Abiquiú. While both locales provided a wealth of imagery for her paintings, one feature of the Abiquiú house - the large walled patio with its black door - was particularly inspirational. In more than thirty pictures between 1946 and 1960, she reinvented the patio into an abstract arrangement of geometric shapes.</p>",
+      "<p>From the 1950s into the 1970s, O'Keeffe traveled widely, making trips to Asia, the Middle East, and Europe. Flying in planes inspired her last two major series - aerial views of rivers and expansive paintings of the sky viewed from just above clouds. In both series, O'Keeffe increased the size of her canvases, sometimes to mural proportions, reflecting perhaps her newly expanded view of the world. When in 1965 she successfully translated one of her cloud motifs to a monumental canvas measuring 6 metres in length (with the help of assistants), it was an enormous challenge and a special feat for an artist nearing eighty years of age.</p>",
+      "<p>The last two decades of the artist's life were relatively unproductive as ill health and blindness hindered her ability to work. O'Keeffe died in 1986 at the age of ninety-eight, but her rich legacy of some 900 paintings has continued to attract subsequent generations of artists and art lovers who derive inspiration from these very American images.</p>"
+    ],
+    "question_sections": [
+      {
+        "title": "Questions 1-7​",
+        "logic_group": "GAP_FILL",
+        "range": {
+          "start": 1,
+          "end": 7
+        },
+        "instruction_html": "<p>Complete the notes below.</p><p>Choose ONE WORD ONLY from the passage for each answer.</p><h3>The life and work of Georgia O'Keeffe</h3><ul>\n<li class=\"\">studied art, then worked as a <strong>1 ………………</strong> in various places in the USA.</li>\n<li class=\"\">created drawings using <strong>2 ………………</strong> which were exhibited in New York City.</li>\n<li class=\"\">moved to New York and became famous for her paintings of the city's <strong>3………………</strong>.</li>\n<li class=\"\">produced a series of innovative close-up paintings of <strong>4 ………………</strong>.</li>\n<li class=\"\">went to New Mexico and was initially inspired to paint the many.</li>\n<li class=\"\"><strong>5 ………………</strong> that could be found there.</li>\n<li class=\"\">continued to paint various features that together formed the dramatic.</li>\n<li class=\"\"><strong>6 ………………</strong> of New Mexico for over forty years.</li>\n<li class=\"\">travelled widely by plane in later years, and painted pictures of clouds and <strong>7 ………………</strong> seen from above.</li>\n</ul>",
+        "questions": []
+      },
+      {
+        "title": "Questions 8-13​",
+        "logic_group": "SELECTOR_FIXED",
+        "range": {
+          "start": 8,
+          "end": 13
+        },
+        "instruction_html": "<p>Do the following statements agree with the information given in Reading Passage 1?</p><p>  <strong>TRUE</strong>                   if the statement agrees with the information.<br/>\n<!-- -->  <strong>FALSE</strong>                  if the statement contradicts the information.<br/>\n<!-- -->  <strong>NOT GIVEN</strong>          if there is no information on this.</p><ol start=\"8\">\n<li class=\"\">Georgia O'Keeffe's style was greatly influenced by the changing fashions in art over the seven decades of her career.</li>\n<li class=\"\">When O'Keeffe finished high school, she had already made her mind up about the career that she wanted.</li>\n<li class=\"\">Alfred Stieglitz first discovered O'Keeffe's work when she sent some abstract drawings to his gallery in New York City.</li>\n<li class=\"\">O'Keeffe was the subject of Stieglitz's photographic work for many years.</li>\n<li class=\"\">O'Keeffe's paintings of the patio of her house in Abiquiú were among the artist's favourite works.</li>\n<li class=\"\">O'Keeffe produced a greater quantity of work during the 1950s to 1970s than at any other time in her life.</li>\n</ol>",
+        "questions": []
+      }
+    ],
+    "all_answers": [
+      "teacher",
+      "charcoal",
+      "skyscrapers",
+      "flowers",
+      "bones",
+      "landscape",
+      "rivers",
+      "FALSE",
+      "TRUE",
+      "FALSE",
+      "TRUE",
+      "NOT GIVEN",
+      "NOT GIVEN"
+    ]
+  }
+]
