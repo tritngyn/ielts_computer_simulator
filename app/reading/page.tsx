@@ -8,7 +8,7 @@ export default function Reading() {
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-blue-800">
         {data.slice(0, 10).map((item, index) => (
-          <Link key={index} href={`/reading/${index}`}>
+          <Link key={index} href={`/reading/${item.test_id}`}>
             {" "}
             <h2> {item.test_id} </h2>
           </Link>

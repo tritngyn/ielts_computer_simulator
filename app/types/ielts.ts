@@ -1,29 +1,36 @@
-// types/ielts.ts
-
-export type LogicGroup =
-  | "SELECTOR_MCQ"
-  | "SELECTOR_FIXED"
-  | "MATCHING"
-  | "GAP_FILL";
-
-export interface IeltsQuestion {
+export interface Question {
   q_number: number;
   q_html: string;
-  options: string[]; // Chỉ dành cho SELECTOR_MCQ
+  options?: string[];
 }
 
-export interface IeltsSection {
+export interface QuestionRange {
+  start: number;
+  end: number;
+}
+
+export interface QuestionSection {
   title: string;
-  logic_group: LogicGroup;
-  range: { start: number; end: number };
+  logic_group: "GAP_FILL" | "SELECTOR_FIXED" | "SELECTOR_MCQ" | "MATCHING";
+  range: QuestionRange;
   instruction_html: string;
-  questions: IeltsQuestion[];
+  questions: Question[];
 }
 
-export interface IeltsPassageData {
-  url: string;
+export interface Passage {
+  url?: string;
   title: string;
-  passage_html: string[];
-  question_sections: IeltsSection[];
-  all_answers: string[]; // Mảng đáp án phẳng đồng bậc với section
+  passage: string[];
+  question_sections: QuestionSection[];
+  all_answers: string[];
+  passage_no: number;
+  book: string;
+  test_no: number;
+}
+
+export interface IELTSTestData {
+  test_id: string;
+  book: string;
+  test_number: number;
+  passages: Passage[];
 }

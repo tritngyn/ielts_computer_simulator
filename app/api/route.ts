@@ -1,4 +1,3 @@
-import fs from "fs";
 import path from "path";
 import fs from "fs/promises";
 import { NextResponse } from "next/server";
