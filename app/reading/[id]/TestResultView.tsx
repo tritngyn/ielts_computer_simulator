@@ -1,0 +1,372 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { CheckCircle2, XCircle, MinusCircle, Flag, ChevronRight, MessageSquare } from "lucide-react";
+import { IeltsReadingTest } from "@/types/ielts";
+import { useTestStore } from "@/store/useTestScore";
+
+interface Props {
+  testData: IeltsReadingTest;
+}
+
+export default function TestResultView({ testData }: Props) {
+  const { userAnswers, timeLeft } = useTestStore();
+  const [activeTab, setActiveTab] = useState<number | "all">("all");
+
+  const timeTakenSeconds = 3600 - timeLeft;
+  const timeTakenFormatted = `${Math.floor(timeTakenSeconds / 60)
+    .toString()
+    .padStart(2, "0")}:${(timeTakenSeconds % 60).toString().padStart(2, "0")}`;
+
+  let totalCorrect = 0;
+  let totalIncorrect = 0;
+  let totalSkipped = 0;
+  let totalQuestions = 0;
+
+  // Passage-level stats
+  const passageStats = testData.passages.map((p, pIndex) => {
+    let pCorrect = 0;
+    let pIncorrect = 0;
+    let pSkipped = 0;
+    
+    // Group-level stats inside passage
+    const groupStats = p.questionGroups.map(group => {
+      let gCorrect = 0;
+      let gIncorrect = 0;
+      let gSkipped = 0;
+      
+      const questionDetails = group.questions.map(q => {
+        const userAnswer = userAnswers[`passage_${pIndex}_q${q.number}`]?.trim();
+        let status: "correct" | "incorrect" | "skipped" = "skipped";
+        
+        if (!userAnswer) {
+          status = "skipped";
+          gSkipped++;
+        } else {
+          const isCorrect = q.acceptedAnswers.some(ans => ans.toLowerCase() === userAnswer.toLowerCase());
+          if (isCorrect) {
+            status = "correct";
+            gCorrect++;
+          } else {
+            status = "incorrect";
+            gIncorrect++;
+          }
+        }
+        
+        return {
+          number: q.number,
+          userAnswer: userAnswer || "chưa trả lời",
+          acceptedAnswers: q.acceptedAnswers,
+          status
+        };
+      });
+      
+      pCorrect += gCorrect;
+      pIncorrect += gIncorrect;
+      pSkipped += gSkipped;
+      
+      return {
+        type: group.type,
+        correct: gCorrect,
+        incorrect: gIncorrect,
+        skipped: gSkipped,
+        total: group.questions.length,
+        questions: questionDetails
+      };
+    });
+
+    totalCorrect += pCorrect;
+    totalIncorrect += pIncorrect;
+    totalSkipped += pSkipped;
+    totalQuestions += p.questionGroups.reduce((sum, g) => sum + g.questions.length, 0);
+
+    return {
+      passageNumber: p.passageNumber,
+      correct: pCorrect,
+      incorrect: pIncorrect,
+      skipped: pSkipped,
+      groups: groupStats
+    };
+  });
+
+  const accuracy = totalQuestions > 0 ? ((totalCorrect / totalQuestions) * 100).toFixed(1) : "0.0";
+  
+  // Calculate Band Score (Academic Reading approximation)
+  let bandScore = "0.0";
+  if (totalCorrect >= 39) bandScore = "9.0";
+  else if (totalCorrect >= 37) bandScore = "8.5";
+  else if (totalCorrect >= 35) bandScore = "8.0";
+  else if (totalCorrect >= 33) bandScore = "7.5";
+  else if (totalCorrect >= 30) bandScore = "7.0";
+  else if (totalCorrect >= 27) bandScore = "6.5";
+  else if (totalCorrect >= 23) bandScore = "6.0";
+  else if (totalCorrect >= 19) bandScore = "5.5";
+  else if (totalCorrect >= 15) bandScore = "5.0";
+  else if (totalCorrect >= 13) bandScore = "4.5";
+  else if (totalCorrect >= 10) bandScore = "4.0";
+  else if (totalCorrect >= 8) bandScore = "3.5";
+  else if (totalCorrect >= 6) bandScore = "3.0";
+  else if (totalCorrect >= 4) bandScore = "2.5";
+  else if (totalCorrect >= 2) bandScore = "2.0";
+  else if (totalCorrect >= 1) bandScore = "1.0";
+
+  return (
+    <div className="min-h-screen bg-paper-cream py-10 px-4 font-body">
+      <div className="max-w-7xl mx-auto space-y-10">
+        
+        {/* Header Strip */}
+        <div className="bg-paper-white p-6 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative torn-bottom" style={{ transform: "rotate(-0.5deg)" }}>
+          <div className="tape tape-blue absolute -top-2 left-6 rotate-[-5deg] w-16" />
+          <h1 className="text-3xl text-text-heading mb-4">Kết quả thi: {testData.title}</h1>
+          <div className="flex gap-4">
+            <button className="paper-btn bg-accent-blue text-white shadow-[2px_2px_0px_#1e40af] hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all">
+              Xem chi tiết đáp án
+            </button>
+            <Link href={`/reading/${testData.id}`} className="paper-btn bg-paper-kraft text-text-heading border border-gray-200 hover:-translate-y-0.5 transition-all">
+              Quay về trang đề thi
+            </Link>
+          </div>
+        </div>
+
+        {/* Summary Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="bg-paper-white p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative" style={{ transform: "rotate(0.5deg)" }}>
+            <div className="tape tape-yellow absolute -top-2 right-4 rotate-[8deg] w-12" />
+            <p className="text-sm text-text-secondary mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4"/> Kết quả</p>
+            <p className="text-2xl font-bold mb-4">{totalCorrect}/{totalQuestions}</p>
+            <p className="text-sm text-text-secondary mb-1">Độ chính xác: <strong className="text-gray-800">{accuracy}%</strong></p>
+            <p className="text-sm text-text-secondary">Thời gian: <strong className="text-gray-800">{timeTakenFormatted}</strong></p>
+          </div>
+          
+          <div className="bg-green-50 p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative flex flex-col items-center justify-center text-center" style={{ transform: "rotate(-1deg)" }}>
+            <CheckCircle2 className="w-10 h-10 text-green-500 mb-2" />
+            <p className="text-green-700 font-bold mb-1">Trả lời đúng</p>
+            <p className="text-2xl font-bold text-green-800">{totalCorrect}</p>
+            <p className="text-sm text-green-600">câu hỏi</p>
+          </div>
+
+          <div className="bg-red-50 p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative flex flex-col items-center justify-center text-center" style={{ transform: "rotate(0.5deg)" }}>
+            <XCircle className="w-10 h-10 text-red-500 mb-2" />
+            <p className="text-red-700 font-bold mb-1">Trả lời sai</p>
+            <p className="text-2xl font-bold text-red-800">{totalIncorrect}</p>
+            <p className="text-sm text-red-600">câu hỏi</p>
+          </div>
+
+          <div className="bg-gray-50 p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative flex flex-col items-center justify-center text-center" style={{ transform: "rotate(-0.5deg)" }}>
+            <MinusCircle className="w-10 h-10 text-gray-400 mb-2" />
+            <p className="text-gray-600 font-bold mb-1">Bỏ qua</p>
+            <p className="text-2xl font-bold text-gray-800">{totalSkipped}</p>
+            <p className="text-sm text-gray-500">câu hỏi</p>
+          </div>
+
+          <div className="bg-blue-50 p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative flex flex-col items-center justify-center text-center" style={{ transform: "rotate(1deg)" }}>
+            <div className="tape tape-pink absolute -top-2 left-4 rotate-[-10deg] w-12" />
+            <Flag className="w-10 h-10 text-blue-500 mb-2" />
+            <p className="text-blue-700 font-bold mb-1">Điểm</p>
+            <p className="text-4xl font-bold text-blue-800">{bandScore}</p>
+          </div>
+        </div>
+
+        {/* Detailed Analysis Section */}
+        <div className="bg-paper-white shadow-[6px_6px_16px_rgba(0,0,0,0.08)] p-6">
+          <h2 className="text-2xl text-text-heading mb-6 border-b border-gray-200 pb-2">Phân tích chi tiết</h2>
+          
+          {/* Tabs */}
+          <div className="flex gap-2 border-b border-gray-200 mb-6 overflow-x-auto">
+            {testData.passages.map((_, i) => (
+              <button 
+                key={i} 
+                onClick={() => setActiveTab(i)}
+                className={`px-6 py-3 rounded-t-lg font-bold text-sm transition-colors ${
+                  activeTab === i 
+                  ? "bg-blue-50 text-blue-700 border-t-2 border-blue-500" 
+                  : "bg-gray-50 text-gray-500 hover:bg-gray-100"
+                }`}
+              >
+                Passage {i + 1}
+              </button>
+            ))}
+            <button 
+                onClick={() => setActiveTab("all")}
+                className={`px-6 py-3 rounded-t-lg font-bold text-sm transition-colors ${
+                  activeTab === "all" 
+                  ? "bg-blue-50 text-blue-700 border-t-2 border-blue-500" 
+                  : "bg-gray-50 text-gray-500 hover:bg-gray-100"
+                }`}
+              >
+                Tổng quát
+            </button>
+          </div>
+
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-gray-200 text-gray-500">
+                  <th className="py-3 px-4 font-semibold">Phân loại câu hỏi</th>
+                  <th className="py-3 px-4 font-semibold">Số câu đúng</th>
+                  <th className="py-3 px-4 font-semibold">Số câu sai</th>
+                  <th className="py-3 px-4 font-semibold">Số câu bỏ qua</th>
+                  <th className="py-3 px-4 font-semibold">Độ chính xác</th>
+                  <th className="py-3 px-4 font-semibold">Danh sách câu hỏi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(activeTab === "all" ? passageStats.flatMap(p => p.groups) : passageStats[activeTab as number].groups).map((g, idx) => {
+                  const gAccuracy = g.total > 0 ? ((g.correct / g.total) * 100).toFixed(1) : "0.0";
+                  return (
+                    <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50/50">
+                      <td className="py-4 px-4 font-medium text-gray-700">{g.type.replace(/_/g, ' ')}</td>
+                      <td className="py-4 px-4 text-green-600">{g.correct}</td>
+                      <td className="py-4 px-4 text-red-600">{g.incorrect}</td>
+                      <td className="py-4 px-4 text-gray-500">{g.skipped}</td>
+                      <td className="py-4 px-4 font-semibold">{gAccuracy}%</td>
+                      <td className="py-4 px-4">
+                        <div className="flex flex-wrap gap-1.5">
+                          {g.questions.map(q => (
+                            <div 
+                              key={q.number} 
+                              className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold border ${
+                                q.status === "correct" ? "bg-green-100 border-green-300 text-green-700" :
+                                q.status === "incorrect" ? "bg-red-100 border-red-300 text-red-700" :
+                                "bg-gray-100 border-gray-300 text-gray-500"
+                              }`}
+                              title={`Câu ${q.number}: ${q.status}`}
+                            >
+                              {q.number}
+                            </div>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Answers List */}
+        <div className="bg-paper-white shadow-[6px_6px_16px_rgba(0,0,0,0.08)] p-6">
+          <h2 className="text-2xl text-text-heading mb-4">Đáp án chi tiết</h2>
+          <div className="bg-green-50 text-green-800 p-4 rounded-md mb-8 text-sm flex gap-3 items-start border border-green-200">
+            <span className="text-xl">💡</span>
+            <p><strong>Tips:</strong> Khi xem chi tiết đáp án, bạn có thể tạo và lưu highlight từ vựng, keywords và tạo note để học và tra cứu khi có nhu cầu ôn lại đề thi này trong tương lai.</p>
+          </div>
+
+          <div className="space-y-10">
+            {(activeTab === "all" ? passageStats : [passageStats[activeTab as number]]).map(p => (
+              <div key={p.passageNumber}>
+                <h3 className="font-bold text-lg mb-4 text-gray-800 border-b border-gray-200 pb-2">Passage {p.passageNumber}</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
+                  {p.groups.flatMap(g => g.questions).sort((a,b) => a.number - b.number).map(q => (
+                    <div key={q.number} className="flex items-start gap-4 py-2">
+                      <div className={`shrink-0 w-8 h-8 flex items-center justify-center rounded-full font-bold text-sm ${
+                        q.status === "correct" ? "bg-green-100 text-green-700" :
+                        q.status === "incorrect" ? "bg-red-100 text-red-700" :
+                        "bg-gray-100 text-gray-500"
+                      }`}>
+                        {q.number}
+                      </div>
+                      <div className="flex-1 pt-1 text-sm">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <span className={`font-semibold ${q.status === 'skipped' ? 'text-gray-400 italic' : 'text-gray-800'}`}>
+                            {q.userAnswer}
+                          </span>
+                          {q.status === "correct" && <CheckCircle2 className="w-4 h-4 text-green-500" />}
+                          {q.status === "incorrect" && <XCircle className="w-4 h-4 text-red-500" />}
+                          {q.status === "skipped" && <MinusCircle className="w-4 h-4 text-gray-400" />}
+                          
+                          <button className="text-blue-500 hover:underline ml-2 text-xs flex items-center">
+                            [Chi tiết]
+                          </button>
+                        </div>
+                        {q.status !== "correct" && (
+                          <div className="text-green-600 font-medium bg-green-50 px-2 py-1 inline-block rounded border border-green-100">
+                            Đáp án: {q.acceptedAnswers.join(" [OR] ")}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Comment Section (UI Only) */}
+        <div className="bg-paper-white shadow-[6px_6px_16px_rgba(0,0,0,0.08)] p-6 relative" style={{ transform: "rotate(0.2deg)" }}>
+          <div className="tape tape-yellow absolute -top-2 left-1/2 -translate-x-1/2 rotate-[-2deg] w-24" />
+          
+          <div className="flex items-center gap-2 mb-6 border-b border-gray-100 pb-4">
+            <MessageSquare className="w-6 h-6 text-accent-blue" />
+            <h2 className="text-2xl text-text-heading">Bình luận</h2>
+            <span className="bg-gray-100 text-gray-600 text-sm py-0.5 px-2 rounded-full font-bold">2</span>
+          </div>
+
+          <div className="mb-8 flex gap-4">
+            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold shrink-0 shadow-sm border border-blue-200">
+              U
+            </div>
+            <div className="flex-1">
+              <textarea 
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition-colors min-h-[100px] resize-y"
+                placeholder="Viết bình luận của bạn về đề thi này..."
+              ></textarea>
+              <div className="flex justify-end mt-2">
+                <button className="paper-btn bg-accent-blue text-white shadow-[2px_2px_0px_#1e40af] text-sm py-2 px-6">
+                  Gửi bình luận
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {/* Mock Comment 1 */}
+            <div className="flex gap-4">
+              <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-700 font-bold shrink-0">
+                A
+              </div>
+              <div className="flex-1">
+                <div className="bg-gray-50 p-4 rounded-lg rounded-tl-none border border-gray-100">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="font-bold text-sm text-gray-800">Anh Nguyễn</span>
+                    <span className="text-xs text-gray-400">2 giờ trước</span>
+                  </div>
+                  <p className="text-sm text-gray-600">Đề này Passage 3 phần True/False/Not Given khó quá, mình làm sai gần hết 😭 Mọi người có tips nào cho dạng này không ạ?</p>
+                </div>
+                <div className="flex gap-4 mt-2 ml-2 text-xs font-semibold text-gray-500">
+                  <button className="hover:text-blue-600">Thích</button>
+                  <button className="hover:text-blue-600">Phản hồi</button>
+                </div>
+              </div>
+            </div>
+
+            {/* Mock Comment 2 */}
+            <div className="flex gap-4">
+              <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold shrink-0">
+                M
+              </div>
+              <div className="flex-1">
+                <div className="bg-gray-50 p-4 rounded-lg rounded-tl-none border border-gray-100">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="font-bold text-sm text-gray-800">Minh Trần</span>
+                    <span className="text-xs text-gray-400">1 ngày trước</span>
+                  </div>
+                  <p className="text-sm text-gray-600">Đề sát với cấu trúc thi thật, cám ơn admin đã tổng hợp.</p>
+                </div>
+                <div className="flex gap-4 mt-2 ml-2 text-xs font-semibold text-gray-500">
+                  <button className="hover:text-blue-600">Thích</button>
+                  <button className="hover:text-blue-600">Phản hồi</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}

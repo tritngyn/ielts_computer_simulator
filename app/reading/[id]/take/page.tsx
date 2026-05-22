@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
-import TestLandingClient from "./TestLandingClient";
+import IELTSTest from "../IetlsTest";
 import { getReadingTestById } from "@/lib/data";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function TestPage({ params }: PageProps) {
+export default async function TakeTestPage({ params }: PageProps) {
   const { id } = await params;
   const decodedId = decodeURIComponent(id);
 
@@ -16,5 +16,5 @@ export default async function TestPage({ params }: PageProps) {
     notFound();
   }
 
-  return <TestLandingClient testData={testData} />;
+  return <IELTSTest testData={testData} />;
 }
