@@ -13,49 +13,48 @@
           "id": "qg1",
           "type": "TRUE_FALSE_NOT_GIVEN",
           "instructions": "Do the following statements agree with the information given in Reading Passage 1?",
-          "sharedOptions": null,
           "questions": [
             {
               "id": "q1",
               "number": 1,
-              "text": "Polar bears suffer from various health problems due to the build‑up of fat under their skin.",
-              "acceptedAnswers": ["TRUE", "FALSE", "NOT GIVEN"]
+              "text": "Polar bears suffer from various health problems due to the build-up of fat under their skin.",
+              "acceptedAnswers": ["FALSE"]
             },
             {
               "id": "q2",
               "number": 2,
               "text": "The study done by Liu and his colleagues compared different groups of polar bears.",
-              "acceptedAnswers": ["TRUE", "FALSE", "NOT GIVEN"]
+              "acceptedAnswers": ["FALSE"]
             },
             {
               "id": "q3",
               "number": 3,
               "text": "Liu and colleagues were the first researchers to compare polar bears and brown bears genetically.",
-              "acceptedAnswers": ["TRUE", "FALSE", "NOT GIVEN"]
+              "acceptedAnswers": ["NOT GIVEN"]
             },
             {
               "id": "q4",
               "number": 4,
               "text": "Polar bears are able to control their levels of ‘bad’ cholesterol by genetic means.",
-              "acceptedAnswers": ["TRUE", "FALSE", "NOT GIVEN"]
+              "acceptedAnswers": ["TRUE"]
             },
             {
               "id": "q5",
               "number": 5,
               "text": "Female polar bears are able to survive for about six months without food.",
-              "acceptedAnswers": ["TRUE", "FALSE", "NOT GIVEN"]
+              "acceptedAnswers": ["TRUE"]
             },
             {
               "id": "q6",
               "number": 6,
               "text": "It was found that the bones of female polar bears were very weak when they came out of their dens in spring.",
-              "acceptedAnswers": ["TRUE", "FALSE", "NOT GIVEN"]
+              "acceptedAnswers": ["FALSE"]
             },
             {
               "id": "q7",
               "number": 7,
               "text": "The polar bear’s mechanism for increasing bone density could also be used by people one day.",
-              "acceptedAnswers": ["TRUE", "FALSE", "NOT GIVEN"]
+              "acceptedAnswers": ["TRUE"]
             }
           ]
         },
@@ -63,48 +62,46 @@
           "id": "qg2",
           "type": "GAP_FILL",
           "instructions": "Complete the table below. Choose ONE WORD ONLY from the passage for each answer.",
-          "sharedOptions": null,
           "questions": [
             {
               "id": "q8",
               "number": 8,
-              "text": "People think of bears as unintelligent and __________.",
-              "acceptedAnswers": []
+              "text": "People think of bears as unintelligent and [GAP].",
+              "acceptedAnswers": ["violent"]
             },
             {
               "id": "q9",
               "number": 9,
-              "text": "In Tennoji Zoo, a bear has been seen using a branch as a __________.",
-              "acceptedAnswers": []
+              "text": "In Tennoji Zoo, a bear has been seen using a branch as a [GAP].",
+              "acceptedAnswers": ["tool"]
             },
             {
               "id": "q10",
               "number": 10,
-              "text": "This allowed him to knock down some __________.",
-              "acceptedAnswers": []
+              "text": "This allowed him to knock down some [GAP].",
+              "acceptedAnswers": ["meat"]
             },
             {
               "id": "q11",
               "number": 11,
-              "text": "A wild polar bear worked out a method of reaching a platform where a __________ was located.",
-              "acceptedAnswers": []
+              "text": "A wild polar bear worked out a method of reaching a platform where a [GAP] was located.",
+              "acceptedAnswers": ["photographer"]
             },
             {
               "id": "q12",
               "number": 12,
-              "text": "Polar bears have displayed behaviour such as conscious manipulation of objects and activity similar to a __________.",
-              "acceptedAnswers": []
+              "text": "Polar bears have displayed behaviour such as conscious manipulation of objects and activity similar to a [GAP].",
+              "acceptedAnswers": ["game"]
             },
             {
               "id": "q13",
               "number": 13,
-              "text": "They may make movements suggesting __________ if disappointed when hunting.",
-              "acceptedAnswers": []
+              "text": "They may make movements suggesting [GAP] if disappointed when hunting.",
+              "acceptedAnswers": ["frustration"]
             }
           ]
         }
-      ],
-      "error": false
+      ]
     },
     {
       "passageNumber": 2,
