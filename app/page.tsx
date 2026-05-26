@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+
+import { motion, Variants } from "framer-motion";
 import {
   BookOpen,
   Mic,
@@ -16,7 +17,6 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
-
 const skills = [
   {
     id: "reading",
@@ -115,7 +115,7 @@ const features = [
   },
 ];
 
-const paperIn = {
+const paperIn: Variants = {
   hidden: { opacity: 0, y: 20, rotate: -2 },
   visible: (i: number) => ({
     opacity: 1,

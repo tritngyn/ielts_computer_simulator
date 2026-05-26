@@ -2,13 +2,23 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { BookOpen, FileText, Clock, ChevronRight, ChevronLeft } from "lucide-react";
 import { IeltsReadingTest } from "@/types/ielts";
 
 const TESTS_PER_PAGE = 6;
 
-const cardIn = {
+const paperIn: Variants = {
+  hidden: { opacity: 0, y: 16, rotate: -1 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    rotate: 0,
+    transition: { delay: i * 0.06, duration: 0.4, ease: "easeOut" },
+  }),
+};
+
+const cardIn: Variants = {
   hidden: { opacity: 0, y: 16, rotate: -1 },
   visible: (i: number) => ({
     opacity: 1,
