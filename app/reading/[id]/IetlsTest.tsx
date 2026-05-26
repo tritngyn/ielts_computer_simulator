@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { Clock, HelpCircle, EyeOff, Edit3, ArrowRight } from "lucide-react";
+import { Clock, HelpCircle } from "lucide-react";
 import { useTestStore } from "@/store/useTestScore";
 import { useHistoryStore } from "@/store/useHistoryStore";
 import {
@@ -9,6 +9,18 @@ import {
   IeltsPassage,
 } from "@/types/ielts";
 import TestResultView from "./TestResultView";
+
+// Memoized component to prevent React from touching the DOM once rendered.
+// This is critical for raw HTML inputs so they don't lose focus or reset values
+// when the parent re-renders (e.g., due to the timer ticking down).
+const StaticHTMLRenderer = React.memo(({ html }: { html: string }) => {
+  return (
+    <div
+      className="mb-6 prose prose-sm max-w-none text-gray-800 bg-white p-4 rounded border border-gray-100"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+});
 
 interface IELTSTestProps {
   testData: IeltsReadingTest;
@@ -66,23 +78,65 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
     setAnswer(`passage_${currentPassage}_q${questionNum}`, value);
   };
 
+  const processGapFillHTML = (rawHtml: string) => {
+    if (!rawHtml) return "";
+    return rawHtml.replace(
+      /(?:<strong[^>]*>|\*\*|_|\s)*(\d+)(?:<\/strong>|\*\*|_|\s)*([._\u2026](?:[\s._\u2026]*[._\u2026]))/g,
+      '<strong class="ml-1 mr-2 text-blue-700">$1</strong> <input type="text" data-qnum="$1" class="gap-input border-b-2 border-gray-400 bg-transparent inline-block w-32 px-2 py-1 text-center font-semibold text-gray-800 focus:outline-none focus:border-blue-600 transition-colors" />',
+    );
+  };
+
+  // Sync state to DOM values on EVERY render to ensure inputs never desync
+  useEffect(() => {
+    const gapInputs = document.querySelectorAll('.gap-input');
+    gapInputs.forEach((el) => {
+      const input = el as HTMLInputElement;
+      const qNum = input.getAttribute('data-qnum');
+      if (qNum) {
+        const val = userAnswers[`passage_${currentPassage}_q${qNum}`] || '';
+        if (input.value !== val) {
+          input.value = val;
+        }
+      }
+    });
+  });
+
+  // Native event listener for gap-fill inputs
+  useEffect(() => {
+    const gapInputs = document.querySelectorAll('.gap-input');
+    
+    const handleNativeInput = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const qNum = target.getAttribute('data-qnum');
+      if (qNum) {
+        setAnswer(`passage_${currentPassage}_q${qNum}`, target.value);
+      }
+    };
+
+    gapInputs.forEach((el) => {
+      el.addEventListener('input', handleNativeInput);
+    });
+
+    return () => {
+      gapInputs.forEach((el) => {
+        el.removeEventListener('input', handleNativeInput);
+      });
+    };
+  }, [currentPassage, setAnswer]);
+
   if (isSubmitted) {
     return <TestResultView testData={testData} />;
   }
 
-  const renderInput = (
-    num: number,
-    acceptedAnswers: string[],
-    placeholder: string = "Your answer",
-  ) => {
+  const renderInput = (qNumber: number) => {
     return (
       <div className="flex items-center gap-3 w-full">
         <input
           type="text"
-          value={userAnswers[`passage_${currentPassage}_q${num}`] || ""}
-          onChange={(e) => handleAnswerChange(num, e.target.value)}
+          value={userAnswers[`passage_${currentPassage}_q${qNumber}`] || ""}
+          onChange={(e) => handleAnswerChange(qNumber, e.target.value)}
           className="flex-1 px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-          placeholder={placeholder}
+          placeholder="Your answer"
         />
       </div>
     );
@@ -95,9 +149,10 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
           <p className="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-2">
             {group.type.replace(/_/g, " ")}
           </p>
-          <div className="text-sm text-gray-600 italic border-l-4 border-blue-500 pl-3 py-1 bg-blue-50/50">
-            {group.instructions}
-          </div>
+          <div
+            className="text-sm text-gray-600 italic border-l-4 border-blue-500 pl-3 py-1 bg-blue-50/50"
+            dangerouslySetInnerHTML={{ __html: group.instructions }}
+          />
         </div>
 
         {group.sharedOptions && (
@@ -110,69 +165,175 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
           </div>
         )}
 
-        <div className="space-y-5">
-          {group.questions.map((q) => {
-            if (
-              group.type === "TRUE_FALSE_NOT_GIVEN" ||
-              group.type === "MULTIPLE_CHOICE"
-            ) {
-              const options =
-                group.type === "TRUE_FALSE_NOT_GIVEN"
-                  ? ["TRUE", "FALSE", "NOT GIVEN"]
-                  : ["A", "B", "C", "D"];
+        {group.groupContentHTML && (
+          <StaticHTMLRenderer
+            html={
+              group.type === "GAP_FILL"
+                ? processGapFillHTML(group.groupContentHTML)
+                : group.groupContentHTML
+            }
+          />
+        )}
 
+        {group.type !== "GAP_FILL" && (
+          <div className="space-y-5">
+            {group.questions.map((q) => {
+              if (
+                group.type === "TRUE_FALSE_NOT_GIVEN" ||
+                group.type === "YES_NO_NOT_GIVEN"
+              ) {
+                const options = group.sharedOptions || [
+                  "TRUE",
+                  "FALSE",
+                  "NOT GIVEN",
+                ];
+                return (
+                  <div key={q.number} className="flex flex-col gap-3">
+                    <div className="flex gap-3">
+                      <span className="font-bold text-gray-700 min-w-[24px]">
+                        {q.number}.
+                      </span>
+                      <span
+                        className="text-gray-800 text-sm leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: q.text }}
+                      />
+                    </div>
+                    <div className="flex flex-wrap gap-4 ml-9">
+                      {options.map((opt) => (
+                        <label
+                          key={opt}
+                          className="flex items-center gap-2 cursor-pointer"
+                        >
+                          <input
+                            type="radio"
+                            name={`passage_${currentPassage}_q${q.number}`}
+                            value={opt}
+                            checked={
+                              userAnswers[
+                                `passage_${currentPassage}_q${q.number}`
+                              ] === opt
+                            }
+                            onChange={(e) =>
+                              handleAnswerChange(q.number, e.target.value)
+                            }
+                            className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm text-gray-700">{opt}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
+              if (group.type === "MULTIPLE_CHOICE") {
+                if (q.options && q.options.length > 0) {
+                  return (
+                    <div key={q.number} className="flex flex-col gap-3">
+                      <div className="flex gap-3">
+                        <span className="font-bold text-gray-700 min-w-[24px]">
+                          {q.number}.
+                        </span>
+                        <span
+                          className="text-gray-800 text-sm leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: q.text }}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-3 ml-9 mt-1">
+                        {q.options.map((optHtml, i) => {
+                          const letter = String.fromCharCode(65 + i);
+                          return (
+                            <label
+                              key={letter}
+                              className="flex items-start gap-3 cursor-pointer"
+                            >
+                              <input
+                                type="radio"
+                                name={`passage_${currentPassage}_q${q.number}`}
+                                value={letter}
+                                checked={
+                                  userAnswers[
+                                    `passage_${currentPassage}_q${q.number}`
+                                  ] === letter
+                                }
+                                onChange={(e) =>
+                                  handleAnswerChange(q.number, e.target.value)
+                                }
+                                className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500"
+                              />
+                              <span
+                                className="text-sm text-gray-700 leading-relaxed"
+                                dangerouslySetInnerHTML={{ __html: optHtml }}
+                              />
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                } else {
+                  const options = group.sharedOptions
+                    ? group.sharedOptions.map((_, i) =>
+                        String.fromCharCode(65 + i),
+                      )
+                    : ["A", "B", "C", "D", "E"];
+                  return (
+                    <div key={q.number} className="flex items-center gap-3">
+                      <span className="font-bold text-gray-700 min-w-[24px]">
+                        {q.number}.
+                      </span>
+                      <span
+                        className="text-gray-800 text-sm flex-1"
+                        dangerouslySetInnerHTML={{ __html: q.text }}
+                      />
+                      <div className="flex flex-wrap gap-4">
+                        {options.map((opt) => (
+                          <label
+                            key={opt}
+                            className="flex items-center gap-2 cursor-pointer"
+                          >
+                            <input
+                              type="radio"
+                              name={`passage_${currentPassage}_q${q.number}`}
+                              value={opt}
+                              checked={
+                                userAnswers[
+                                  `passage_${currentPassage}_q${q.number}`
+                                ] === opt
+                              }
+                              onChange={(e) =>
+                                handleAnswerChange(q.number, e.target.value)
+                              }
+                              className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                            />
+                            <span className="text-sm font-semibold">{opt}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+              }
+
+              // Default for MATCHING_HEADINGS, MATCHING_INFORMATION
               return (
-                <div key={q.number} className="flex flex-col gap-3">
-                  <div className="flex gap-3">
-                    <span className="font-bold text-gray-700 min-w-[24px]">
-                      {q.number}.
-                    </span>
-                    <span className="text-gray-800 text-sm leading-relaxed">
+                <div key={q.number} className="flex items-center gap-3">
+                  <span className="font-bold text-gray-700 min-w-[24px]">
+                    {q.number}.
+                  </span>
+                  {q.text && (
+                    <span className="text-gray-800 text-sm flex-1">
                       {q.text}
                     </span>
-                  </div>
-                  <div className="flex flex-wrap gap-4 ml-9">
-                    {options.map((opt) => (
-                      <label
-                        key={opt}
-                        className="flex items-center gap-2 cursor-pointer"
-                      >
-                        <input
-                          type="radio"
-                          name={`passage_${currentPassage}_q${q.number}`}
-                          value={opt}
-                          checked={
-                            userAnswers[
-                              `passage_${currentPassage}_q${q.number}`
-                            ] === opt
-                          }
-                          onChange={(e) =>
-                            handleAnswerChange(q.number, e.target.value)
-                          }
-                          className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                        />
-                        <span className="text-sm text-gray-700">{opt}</span>
-                      </label>
-                    ))}
+                  )}
+                  <div className="flex-1 mt-2 mb-2 font-medium">
+                    {renderInput(q.number)}
                   </div>
                 </div>
               );
-            }
-
-            // Default for GAP_FILL, MATCHING_HEADINGS, MATCHING_INFORMATION
-            return (
-              <div key={q.number} className="flex items-center gap-3">
-                <span className="font-bold text-gray-700 min-w-[24px]">
-                  {q.number}.
-                </span>
-                <span className="text-gray-800 text-sm flex-1">{q.text}</span>
-                <div className="w-48">
-                  {renderInput(q.number, q.acceptedAnswers)}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+            })}
+          </div>
+        )}
       </div>
     );
   };
@@ -263,23 +424,34 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
                 let score = 0;
                 let totalQ = 0;
                 testData.passages.forEach((p, pIndex) => {
-                  p.questionGroups.forEach(group => {
-                    group.questions.forEach(q => {
+                  p.questionGroups.forEach((group) => {
+                    group.questions.forEach((q) => {
                       totalQ++;
-                      const userAnswer = userAnswers[`passage_${pIndex}_q${q.number}`]?.trim().toLowerCase();
-                      if (userAnswer && q.acceptedAnswers.some(ans => ans.toLowerCase() === userAnswer)) {
+                      const userAnswer = userAnswers[
+                        `passage_${pIndex}_q${q.number}`
+                      ]
+                        ?.trim()
+                        .toLowerCase();
+                      const correctAnswers =
+                        testData.answers[q.number.toString()] || [];
+                      if (
+                        userAnswer &&
+                        correctAnswers.some(
+                          (ans) => ans.toLowerCase() === userAnswer,
+                        )
+                      ) {
                         score++;
                       }
                     });
                   });
                 });
-                
+
                 useHistoryStore.getState().addAttempt({
                   testId: testData.id,
                   score,
                   totalQuestions: totalQ,
                   timeTakenSeconds: 3600 - timeLeft,
-                  mode: "Full test"
+                  mode: "Full test",
                 });
                 submit();
               }

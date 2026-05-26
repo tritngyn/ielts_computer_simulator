@@ -37,14 +37,16 @@ export default function TestResultView({ testData }: Props) {
       let gSkipped = 0;
       
       const questionDetails = group.questions.map(q => {
-        const userAnswer = userAnswers[`passage_${pIndex}_q${q.number}`]?.trim();
+        const userAnswer = userAnswers[`passage_${pIndex}_q${q.number}`]?.trim() || "";
+        const correctAnswers = testData.answers[q.number.toString()] || [];
+        
         let status: "correct" | "incorrect" | "skipped" = "skipped";
         
         if (!userAnswer) {
           status = "skipped";
           gSkipped++;
         } else {
-          const isCorrect = q.acceptedAnswers.some(ans => ans.toLowerCase() === userAnswer.toLowerCase());
+          const isCorrect = correctAnswers.some(ans => ans.toLowerCase() === userAnswer.toLowerCase());
           if (isCorrect) {
             status = "correct";
             gCorrect++;
@@ -57,7 +59,7 @@ export default function TestResultView({ testData }: Props) {
         return {
           number: q.number,
           userAnswer: userAnswer || "chưa trả lời",
-          acceptedAnswers: q.acceptedAnswers,
+          acceptedAnswers: correctAnswers,
           status
         };
       });

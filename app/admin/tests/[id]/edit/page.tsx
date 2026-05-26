@@ -10,7 +10,7 @@ export default async function EditTestPage({ params }: PageProps) {
   const { id } = await params;
   const decodedId = decodeURIComponent(id);
 
-  const testData = getReadingTestById(decodedId);
+  const testData = await getReadingTestById(decodedId);
 
   if (!testData) {
     notFound();

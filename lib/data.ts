@@ -1,32 +1,26 @@
-import fs from "fs";
-import path from "path";
+import prisma from "./prisma";
 import { IeltsReadingTest } from "../types/ielts";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-
-export function getAllReadingTests(): IeltsReadingTest[] {
+export async function getAllReadingTests(): Promise<IeltsReadingTest[]> {
   try {
-    const files = fs.readdirSync(DATA_DIR);
-    const tests: IeltsReadingTest[] = [];
-
-    for (const file of files) {
-      // Avoid reading the old aggregate file if it's still there
-      if (file.endsWith(".json") && file !== "ielts_reading_tests.json") {
-        const filePath = path.join(DATA_DIR, file);
-        const fileContents = fs.readFileSync(filePath, "utf8");
-        const data = JSON.parse(fileContents) as IeltsReadingTest;
-        tests.push(data);
-      }
-    }
-
-    return tests;
+    const tests = await prisma.test.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+    return tests.map(t => t.content as unknown as IeltsReadingTest);
   } catch (error) {
-    console.error("Error reading tests data:", error);
+    console.error("Error fetching tests from DB:", error);
     return [];
   }
 }
 
-export function getReadingTestById(id: string): IeltsReadingTest | null {
-  const tests = getAllReadingTests();
-  return tests.find((test) => test.id === id) || null;
+export async function getReadingTestById(id: string): Promise<IeltsReadingTest | null> {
+  try {
+    const test = await prisma.test.findUnique({
+      where: { id }
+    });
+    return test ? (test.content as unknown as IeltsReadingTest) : null;
+  } catch (error) {
+    console.error("Error fetching test by ID:", error);
+    return null;
+  }
 }
