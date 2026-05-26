@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Headphones, FileText, Clock, ChevronRight } from "lucide-react";
 
 const cambridgeTests = [
@@ -43,7 +42,7 @@ const statCards = [
   },
 ];
 
-const cardIn = {
+const cardIn: Variants = {
   hidden: { opacity: 0, y: 16, rotate: -1 },
   visible: (i: number) => ({
     opacity: 1,
@@ -121,8 +120,7 @@ export default function ListeningTests() {
               initial="hidden"
               animate="visible"
             >
-              <Link
-                href={`/listening/${test.id}`}
+              <div
                 className="block bg-paper-white p-6 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] group transition-all duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_16px_rgba(0,0,0,0.14)]"
                 style={{
                   transform: `rotate(${index % 2 === 0 ? "-0.3" : "0.3"}deg)`,
@@ -165,7 +163,7 @@ export default function ListeningTests() {
                   </div>
                   <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-accent-purple group-hover:translate-x-1 transition-all duration-150" />
                 </div>
-              </Link>
+              </div>
             </motion.div>
           ))}
         </div>
