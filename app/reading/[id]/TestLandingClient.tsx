@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -11,7 +11,7 @@ import {
   FileText,
 } from "lucide-react";
 import { IeltsReadingTest } from "@/types/ielts";
-import { useHistoryStore, TestAttempt } from "@/store/useHistoryStore";
+import { useHistoryStore } from "@/store/useHistoryStore";
 import { useTestStore } from "@/store/useTestScore";
 
 interface Props {
@@ -22,20 +22,23 @@ export default function TestLandingClient({ testData }: Props) {
   const router = useRouter();
   const resetTestStore = useTestStore((state) => state.reset);
 
-  // Need to use state to prevent hydration mismatch with Zustand persist
-  const [history, setHistory] = useState<TestAttempt[]>([]);
+  const allAttempts = useHistoryStore((state) => state.attempts);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const attempts = useHistoryStore
-      .getState()
-      .getAttemptsByTestId(testData.id);
-    // Sort by date descending (newest first)
-    setHistory(
-      attempts.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-      ),
-    );
-  }, [testData.id]);
+    const timer = setTimeout(() => setIsMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Calculate history during render to avoid cascading renders inside useEffect.
+  // We use isMounted to prevent hydration mismatches with Zustand persist.
+  const history = !isMounted
+    ? []
+    : [...allAttempts]
+        .filter((a) => a.testId === testData.id)
+        .sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
 
   const totalQuestions = testData.passages.reduce(
     (sum, p) =>

@@ -13,7 +13,7 @@ import TestResultView from "./TestResultView";
 // Memoized component to prevent React from touching the DOM once rendered.
 // This is critical for raw HTML inputs so they don't lose focus or reset values
 // when the parent re-renders (e.g., due to the timer ticking down).
-const StaticHTMLRenderer = React.memo(({ html }: { html: string }) => {
+const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({ html }: { html: string }) {
   return (
     <div
       className="mb-6 prose prose-sm max-w-none text-gray-800 bg-white p-4 rounded border border-gray-100"
@@ -88,12 +88,12 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
 
   // Sync state to DOM values on EVERY render to ensure inputs never desync
   useEffect(() => {
-    const gapInputs = document.querySelectorAll('.gap-input');
+    const gapInputs = document.querySelectorAll(".gap-input");
     gapInputs.forEach((el) => {
       const input = el as HTMLInputElement;
-      const qNum = input.getAttribute('data-qnum');
+      const qNum = input.getAttribute("data-qnum");
       if (qNum) {
-        const val = userAnswers[`passage_${currentPassage}_q${qNum}`] || '';
+        const val = userAnswers[`passage_${currentPassage}_q${qNum}`] || "";
         if (input.value !== val) {
           input.value = val;
         }
@@ -103,23 +103,23 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
 
   // Native event listener for gap-fill inputs
   useEffect(() => {
-    const gapInputs = document.querySelectorAll('.gap-input');
-    
+    const gapInputs = document.querySelectorAll(".gap-input");
+
     const handleNativeInput = (e: Event) => {
       const target = e.target as HTMLInputElement;
-      const qNum = target.getAttribute('data-qnum');
+      const qNum = target.getAttribute("data-qnum");
       if (qNum) {
         setAnswer(`passage_${currentPassage}_q${qNum}`, target.value);
       }
     };
 
     gapInputs.forEach((el) => {
-      el.addEventListener('input', handleNativeInput);
+      el.addEventListener("input", handleNativeInput);
     });
 
     return () => {
       gapInputs.forEach((el) => {
-        el.removeEventListener('input', handleNativeInput);
+        el.removeEventListener("input", handleNativeInput);
       });
     };
   }, [currentPassage, setAnswer]);
