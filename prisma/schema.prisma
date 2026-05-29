@@ -23,10 +23,26 @@ model Test {
   updatedAt DateTime @updatedAt
 }
 
+model User {
+  id        String   @id // Corresponds to Supabase auth.users.id
+  email     String   @unique
+  fullName  String?
+  avatarUrl String?
+
+  attempts  Attempt[]
+  comments  Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Attempt {
   id               String   @id @default(uuid())
   testId           String
   test             Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+  
+  userId           String?
+  user             User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   
   score            Int
   totalQuestions   Int
@@ -40,6 +56,9 @@ model Comment {
   id         String   @id @default(uuid())
   testId     String
   test       Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+  
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   
   authorName String
   content    String

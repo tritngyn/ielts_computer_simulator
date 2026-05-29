@@ -13,7 +13,11 @@ import TestResultView from "./TestResultView";
 // Memoized component to prevent React from touching the DOM once rendered.
 // This is critical for raw HTML inputs so they don't lose focus or reset values
 // when the parent re-renders (e.g., due to the timer ticking down).
-const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({ html }: { html: string }) {
+const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({
+  html,
+}: {
+  html: string;
+}) {
   return (
     <div
       className="mb-6 prose prose-sm max-w-none text-gray-800 bg-white p-4 rounded border border-gray-100"
@@ -26,7 +30,15 @@ interface IELTSTestProps {
   testData: IeltsReadingTest;
 }
 
+import { useState } from "react";
+
 const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const {
     userAnswers,
     timeLeft,
@@ -78,12 +90,39 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
     setAnswer(`passage_${currentPassage}_q${questionNum}`, value);
   };
 
-  const processGapFillHTML = (rawHtml: string) => {
-    if (!rawHtml) return "";
-    return rawHtml.replace(
-      /(?:<strong[^>]*>|\*\*|_|\s)*(\d+)(?:<\/strong>|\*\*|_|\s)*([._\u2026](?:[\s._\u2026]*[._\u2026]))/g,
-      '<strong class="ml-1 mr-2 text-blue-700">$1</strong> <input type="text" data-qnum="$1" class="gap-input border-b-2 border-gray-400 bg-transparent inline-block w-32 px-2 py-1 text-center font-semibold text-gray-800 focus:outline-none focus:border-blue-600 transition-colors" />',
+  const processGapFillHTML = (rawHtml: string, questions: IeltsQuestion[]) => {
+    if (!rawHtml || !questions || questions.length === 0) return rawHtml;
+    
+    // Only match the EXACT question numbers belonging to this group
+    const qNumbers = questions.map(q => q.number).join('|');
+
+    // Matches: 
+    // 1. Exact Question number (e.g., 24|25|26) with optional bold/spaces around it
+    // 2. Middle text (any characters except block boundaries like </p>)
+    // 3. Gap sequence (strictly pure dots, underscores, ellipses)
+    const gapRegex = new RegExp(
+      `(?:<strong[^>]*>|<b>|\\s|&nbsp;|\\xA0)*(?<![a-zA-Z0-9])(${qNumbers})(?![a-zA-Z0-9])(?:</strong>|</b>|\\s|&nbsp;|\\xA0)*((?:(?!</p>|<br\\s*/?>|</?div>|</?table>).)*?)(_{2,}|\\.{2,}|\\u2026+|(?:\\.\\s*){3,})`,
+      "gi"
     );
+
+    let html = rawHtml.replace(gapRegex, (match, qNum, middleText) => {
+      return `<strong class="ml-1 mr-2 text-blue-700">${qNum}</strong> ${middleText} <input type="text" data-qnum="${qNum}" class="gap-input border-b-2 border-gray-400 bg-transparent inline-block w-32 px-2 py-1 text-center font-semibold text-gray-800 focus:outline-none focus:border-blue-600 transition-colors" />`;
+    });
+
+    // Post-processing: Cleanup grammar anomalies introduced by OCR artifacts
+    // 1. Double dots (e.g. `<input /> . . It` -> `<input />. It`)
+    html = html.replace(/(<input[^>]*>)\s*\.\s*\.\s*/g, '$1. ');
+    
+    // 2. Rogue dot before a lowercase letter (e.g. `<input /> . are` -> `<input /> are`)
+    html = html.replace(/(<input[^>]*>)\s*\.\s+([a-z])/g, '$1 $2');
+    
+    // 3. Space before period (e.g. `<input /> . It` -> `<input />. It`)
+    html = html.replace(/(<input[^>]*>)\s+\.\s*/g, '$1. ');
+    
+    // 4. Rogue commas (e.g. `<input /> ,` -> `<input />, `)
+    html = html.replace(/(<input[^>]*>)\s+,\s*/g, '$1, ');
+
+    return html;
   };
 
   // Sync state to DOM values on EVERY render to ensure inputs never desync
@@ -101,28 +140,40 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
     });
   });
 
-  // Native event listener for gap-fill inputs
+  // Native event listener using EVENT DELEGATION
+  // This is bulletproof: it attaches ONE listener to the document.
+  // Even if React completely destroys and recreates the inputs, the listener still catches the typing!
   useEffect(() => {
-    const gapInputs = document.querySelectorAll(".gap-input");
-
-    const handleNativeInput = (e: Event) => {
+    const handleDelegatedInput = (e: Event) => {
       const target = e.target as HTMLInputElement;
-      const qNum = target.getAttribute("data-qnum");
-      if (qNum) {
-        setAnswer(`passage_${currentPassage}_q${qNum}`, target.value);
+
+      // Only process events from our specific gap inputs
+      if (
+        target &&
+        target.tagName === "INPUT" &&
+        target.classList.contains("gap-input")
+      ) {
+        const qNum = target.getAttribute("data-qnum");
+        if (qNum) {
+          setAnswer(`passage_${currentPassage}_q${qNum}`, target.value);
+        }
       }
     };
 
-    gapInputs.forEach((el) => {
-      el.addEventListener("input", handleNativeInput);
-    });
+    document.addEventListener("input", handleDelegatedInput);
 
     return () => {
-      gapInputs.forEach((el) => {
-        el.removeEventListener("input", handleNativeInput);
-      });
+      document.removeEventListener("input", handleDelegatedInput);
     };
   }, [currentPassage, setAnswer]);
+
+  if (!isMounted) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return <TestResultView testData={testData} />;
@@ -155,12 +206,36 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
           />
         </div>
 
-        {group.sharedOptions && (
+        {group.sharedOptions && group.type !== "MULTIPLE_CHOICE" && (
           <div className="mb-6 p-4 bg-gray-50 rounded-md border border-gray-200">
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700">
-              {group.sharedOptions.map((opt, i) => (
-                <li key={i}>{opt}</li>
-              ))}
+            <ul className="flex flex-col gap-3 text-sm text-gray-700">
+              {group.sharedOptions.map((opt, i) => {
+                const match = opt.trim().match(/^(TRUE|FALSE|NOT GIVEN|YES|NO)(?:\s+(.*))?/i);
+                if (match) {
+                  const keyword = match[1].toUpperCase();
+                  let desc = match[2];
+
+                  if (!desc || desc.trim() === "") {
+                    if (keyword === "TRUE") desc = "if the statement agrees with the information";
+                    else if (keyword === "FALSE") desc = "if the statement contradicts the information";
+                    else if (keyword === "YES") desc = "if the statement agrees with the claims of the writer";
+                    else if (keyword === "NO") desc = "if the statement contradicts the claims of the writer";
+                    else if (keyword === "NOT GIVEN") {
+                      desc = group.type === "YES_NO_NOT_GIVEN" 
+                        ? "if it is impossible to say what the writer thinks about this"
+                        : "if there is no information on this";
+                    }
+                  }
+
+                  return (
+                    <li key={i} className="flex gap-4">
+                      <span className="font-bold w-24 shrink-0">{keyword}</span>
+                      <span>{desc}</span>
+                    </li>
+                  );
+                }
+                return <li key={i}>{opt}</li>;
+              })}
             </ul>
           </div>
         )}
@@ -169,7 +244,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
           <StaticHTMLRenderer
             html={
               group.type === "GAP_FILL"
-                ? processGapFillHTML(group.groupContentHTML)
+                ? processGapFillHTML(group.groupContentHTML, group.questions)
                 : group.groupContentHTML
             }
           />
@@ -193,7 +268,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
                       <span className="font-bold text-gray-700 min-w-[24px]">
                         {q.number}.
                       </span>
-                      <span
+                      <div
                         className="text-gray-800 text-sm leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: q.text }}
                       />
@@ -234,7 +309,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
                         <span className="font-bold text-gray-700 min-w-[24px]">
                           {q.number}.
                         </span>
-                        <span
+                        <div
                           className="text-gray-800 text-sm leading-relaxed"
                           dangerouslySetInnerHTML={{ __html: q.text }}
                         />
@@ -261,7 +336,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
                                 }
                                 className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500"
                               />
-                              <span
+                              <div
                                 className="text-sm text-gray-700 leading-relaxed"
                                 dangerouslySetInnerHTML={{ __html: optHtml }}
                               />
@@ -282,7 +357,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
                       <span className="font-bold text-gray-700 min-w-[24px]">
                         {q.number}.
                       </span>
-                      <span
+                      <div
                         className="text-gray-800 text-sm flex-1"
                         dangerouslySetInnerHTML={{ __html: q.text }}
                       />
