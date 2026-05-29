@@ -7,6 +7,7 @@ import {
   IeltsReadingTest,
   IeltsQuestionGroup,
   IeltsPassage,
+  IeltsQuestion,
 } from "@/types/ielts";
 import TestResultView from "./TestResultView";
 
