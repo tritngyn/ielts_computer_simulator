@@ -5,6 +5,28 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import prisma from "@/lib/prisma";
 
+export async function syncUser() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    try {
+      await prisma.user.upsert({
+        where: { id: user.id },
+        update: { email: user.email! },
+        create: {
+          id: user.id,
+          email: user.email!,
+          avatarUrl: user.user_metadata?.avatar_url || null,
+          fullName: user.user_metadata?.full_name || null,
+        },
+      });
+    } catch (err) {
+      console.error("Prisma sync error:", err);
+    }
+  }
+}
+
 export async function login(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -15,6 +37,8 @@ export async function login(formData: FormData) {
     email,
     password,
   });
+  
+  console.log("Login action result:", { success: !error, error: error?.message, user: data?.user?.id });
 
   if (error) {
     return { error: error.message };
@@ -37,7 +61,8 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/");
+  return { success: true };
 }
 
 export async function signup(formData: FormData) {
@@ -71,7 +96,8 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/");
+  return { success: true };
 }
 
 export async function logout() {
@@ -83,7 +109,8 @@ export async function logout() {
   }
 
   revalidatePath("/", "layout");
-  redirect("/login");
+  revalidatePath("/");
+  return { success: true };
 }
 
 export async function signInWithOAuth(provider: "google" | "github") {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Patrick_Hand, Nunito } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
 const patrickHand = Patrick_Hand({
@@ -28,10 +29,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const allCookies = cookieStore.getAll();
+  console.log("[LAYOUT] Số lượng cookies hiện tại:", allCookies.length);
+  console.log("[LAYOUT] Tên và giá trị các cookies:", allCookies.map(c => `${c.name}=${c.value.substring(0, 15)}...`).join(" | "));
+
   const supabase = await createClient();
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+  
+  const user = session?.user || null;
+  console.log("[LAYOUT] RootLayout Auth Check:", { userId: user?.id, error: error?.message });
 
   return (
     <html lang="en">

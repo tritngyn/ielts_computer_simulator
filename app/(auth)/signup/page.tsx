@@ -4,15 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { UserPlus, Github, ArrowRight } from "lucide-react";
-import { signup, signInWithOAuth } from "../actions";
+import { signInWithOAuth, syncUser } from "../actions";
+import { createClient } from "@/utils/supabase/client";
 
 export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const supabase = createClient();
 
   async function handleSubmit(formData: FormData) {
     setIsLoading(true);
     setError(null);
+    const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmPassword") as string;
     
@@ -22,10 +25,17 @@ export default function SignupPage() {
       return;
     }
 
-    const result = await signup(formData);
-    if (result?.error) {
-      setError(result.error);
+    const { error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    
+    if (authError) {
+      setError(authError.message);
       setIsLoading(false);
+    } else {
+      await syncUser();
+      window.location.href = "/";
     }
   }
 

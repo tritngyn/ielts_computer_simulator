@@ -4,19 +4,49 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { LogIn, Github, ArrowRight } from "lucide-react";
-import { login, signInWithOAuth } from "../actions";
+import { signInWithOAuth, syncUser } from "../actions";
+import { createClient } from "@/utils/supabase/client";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const supabase = createClient();
 
   async function handleSubmit(formData: FormData) {
     setIsLoading(true);
     setError(null);
-    const result = await login(formData);
-    if (result?.error) {
-      setError(result.error);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    
+    console.log("[LOGIN] Bắt đầu đăng nhập với email:", email);
+    
+    const { data, error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    console.log("[LOGIN] Kết quả từ Supabase signInWithPassword:", { data, error: authError });
+    
+    if (authError) {
+      console.error("[LOGIN] Đăng nhập thất bại:", authError.message);
+      setError(authError.message);
       setIsLoading(false);
+    } else {
+      console.log("[LOGIN] Đăng nhập thành công, bắt đầu đồng bộ User với Prisma...");
+      const sessionData = await supabase.auth.getSession();
+      console.log("[LOGIN] Session hiện tại trên trình duyệt:", sessionData);
+      
+      try {
+        await syncUser();
+        console.log("[LOGIN] Đồng bộ Prisma thành công!");
+      } catch (err) {
+        console.error("[LOGIN] Lỗi đồng bộ Prisma:", err);
+      }
+      
+      console.log("[LOGIN] Đang chờ 5 giây trước khi chuyển hướng để bạn xem log...");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 5000);
     }
   }
 

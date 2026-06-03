@@ -1,8 +1,12 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 
+import { NextResponse } from "next/server";
+
 export async function proxy(request: NextRequest) {
-  return await updateSession(request);
+  // Tạm thời tắt middleware để kiểm tra xem có phải middleware làm lỗi cookie không
+  // return await updateSession(request);
+  return NextResponse.next();
 }
 
 export const config = {

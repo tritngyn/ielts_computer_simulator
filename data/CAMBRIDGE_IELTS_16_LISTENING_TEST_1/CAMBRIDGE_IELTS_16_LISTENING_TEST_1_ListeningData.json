@@ -1,0 +1,352 @@
+{
+  "id": "test_cambridge_ielts_16_listening_test_1",
+  "testCode": "CAMBRIDGE_IELTS_16_LISTENING_TEST_1",
+  "title": "Cambridge Ielts 16 Listening Test 1",
+  "parts": [
+    {
+      "partNumber": 1,
+      "title": "Part 1",
+      "contentHTML": "<div><h5>Part 1</h5><div><p>1   egg</p><p>2   tower</p><p>3   car</p><p>4   animals</p><p>5   bridge</p><p>6   movie / film</p><p>7   decorate</p><p>8   Wednesdays</p><p>9   Fradstone</p><p>10   parking</p></div></div>",
+      "questionGroups": [
+        {
+          "type": "COMPLETION",
+          "instructions": "Complete the sentences below. Write NO MORE THAN ONE WORD for each answer.",
+          "questions": [
+            {
+              "number": 1,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_1"
+            },
+            {
+              "number": 2,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_2"
+            },
+            {
+              "number": 3,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_3"
+            },
+            {
+              "number": 4,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_4"
+            },
+            {
+              "number": 5,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_5"
+            },
+            {
+              "number": 6,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_6"
+            },
+            {
+              "number": 7,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_7"
+            },
+            {
+              "number": 8,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_8"
+            },
+            {
+              "number": 9,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_9"
+            },
+            {
+              "number": 10,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_10"
+            }
+          ],
+          "groupContentHTML": "<div><h5>Part 1</h5><div><p>1   egg</p><p>2   tower</p><p>3   car</p><p>4   animals</p><p>5   bridge</p><p>6   movie / film</p><p>7   decorate</p><p>8   Wednesdays</p><p>9   Fradstone</p><p>10   parking</p></div></div>",
+          "id": "qg_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_p1_1"
+        }
+      ],
+      "audioPath": "media/audio_part1.mp3"
+    },
+    {
+      "partNumber": 2,
+      "title": "PART 2",
+      "contentHTML": "<div><h3><span><strong>PART 2</strong></span></h3><h4><span></span></h4><h4></h4><h4><span><strong>Questions 11 – 14</strong></span></h4><p><span>Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</span></p><p><span></span></p><p><span><strong>11</strong>   Stevenson’s was founded in</span></p><p><span><strong>A</strong>   1923.</span></p><p><span><strong>B</strong>   1924.</span></p><p><span><strong>C</strong>   1926.</span></p><p><span></span></p><p><span><strong>12</strong>   Originally, Stevenson’s manufactured goods for</span></p><p><span><strong>A</strong>   the healthcare industry.</span></p><p><span><strong>B</strong>   the automotive industry.</span></p><p><span><strong>C</strong>   the machine tools industry.</span></p><p><span></span></p><p><span><strong>13</strong>   What does the speaker say about the company premises?</span></p><p><span><strong>A</strong>   The company has recently moved.</span></p><p><span><strong>B</strong>   The company has no plans to move.</span></p><p><span><strong>C</strong>   The company is going to move shortly.</span></p><p><span></span></p><p><span><strong>14</strong>   The programme for the work experience group includes</span></p><p><span><strong>A</strong>   time to do research.</span></p><p><span><strong>B</strong>   meetings with a teacher.</span></p><p><span><strong>C</strong>   talks by staff.</span></p><p><span></span></p><p><span></span></p><h4><span><strong>Questions 15-20</strong></span></h4><p><span>Label the map below.</span></p><p><em><span>Write the correct letter, <strong>A-J</strong>, next to Questions 15-20.</span></em><div><span><svg></svg></span><span>Books &amp; Literature</span></div></p><h3><span><strong>Plan of Stevenson’s site</strong></span></h3><h3><span><img src=\"media/img_part2_1.jpg\"/></span></h3><p><span><strong>15</strong>   coffee room               …………….</span></p><p><span><strong>16</strong>   warehouse                 …………….</span></p><p><span><strong>17</strong>   staff canteen             …………….</span></p><p><span><strong>18</strong>   meeting room           …………….</span></p><p><span><strong>19</strong>   human resources     …………….</span></p><p><span><strong>20</strong>   boardroom                 …………….</span></p></div>",
+      "questionGroups": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "instructions": "Choose the correct letter, A, B or C.",
+          "questions": [
+            {
+              "number": 11,
+              "text": "Stevenson’s was founded in",
+              "options": ["A. 1923.", "B. 1924.", "C. 1926."],
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_11"
+            },
+            {
+              "number": 12,
+              "text": "Originally, Stevenson’s manufactured goods for",
+              "options": [
+                "A. the healthcare industry.",
+                "B. the automotive industry.",
+                "C. the machine tools industry."
+              ],
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_12"
+            },
+            {
+              "number": 13,
+              "text": "What does the speaker say about the company premises?",
+              "options": [
+                "A. The company has recently moved.",
+                "B. The company has no plans to move.",
+                "C. The company is going to move shortly."
+              ],
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_13"
+            },
+            {
+              "number": 14,
+              "text": "The programme for the work experience group includes",
+              "options": [
+                "A. time to do research.",
+                "B. meetings with a teacher.",
+                "C. talks by staff."
+              ],
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_14"
+            }
+          ],
+          "id": "qg_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_p2_1"
+        },
+        {
+          "type": "PLAN_MAP_DIAGRAM_LABELLING",
+          "instructions": "Label the map below. Write the correct letter, A-J, next to Questions 15-20.",
+          "groupContentHTML": "<h3><span><strong>Plan of Stevenson’s site</strong></span></h3><h3><span><img src=\"media/img_part2_1.jpg\"/></span></h3>",
+          "questions": [
+            {
+              "number": 15,
+              "text": "coffee room",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_15"
+            },
+            {
+              "number": 16,
+              "text": "warehouse",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_16"
+            },
+            {
+              "number": 17,
+              "text": "staff canteen",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_17"
+            },
+            {
+              "number": 18,
+              "text": "meeting room",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_18"
+            },
+            {
+              "number": 19,
+              "text": "human resources",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_19"
+            },
+            {
+              "number": 20,
+              "text": "boardroom",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_20"
+            }
+          ],
+          "id": "qg_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_p2_2"
+        }
+      ],
+      "audioPath": "media/audio_part2.mp3"
+    },
+    {
+      "partNumber": 3,
+      "title": "PART 3",
+      "contentHTML": "<h3><span><strong>PART 3</strong></span></h3><h4><span></span></h4><h4></h4><h4><span><strong>Questions 21 and 22</strong></span></h4><p><span>Choose <strong>TWO</strong> letters, <strong>A-E</strong>.</span></p><p><span>Which <strong>TWO</strong> parts of the introductory stage to their art projects do Jess and Tom agree were useful?</span></p><p><span><strong>A</strong>   the Bird Park visit</span></p><p><span><strong>B</strong>   the workshop sessions</span></p><p><span><strong>C</strong>   the Natural History Museum visit</span></p><p><span><strong>D</strong>   the projects done in previous years</span></p><p><span><strong>E</strong>   the handouts with research sources</span></p><h4><span><strong>Questions 23 and 24</strong></span></h4><p><span>Choose <strong>TWO</strong> letters, <strong>A-E</strong>.</span></p><p><span>In which <strong>TWO</strong> ways do both Jess and Tom decide to change their proposals?</span></p><p><span><strong>A</strong>   by giving a rationale for their action plans</span></p><p><span><strong>B</strong>   by being less specific about the outcome</span></p><p><span><strong>C</strong>   by adding a video diary presentation</span></p><p><span><strong>D</strong>   by providing a timeline and a mind map</span></p><p><span><strong>E</strong>   by making their notes more evaluative</span></p><h4><span><strong>Questions 25-30</strong></span></h4><p><span>Which personal meaning do the students decide to give to each of the following pictures?</span></p><p><span>Choose <strong>SIX</strong> answers from the box and write the correct letter, <strong>A-H</strong>, next to Questions 25-30.</span><div><span><svg></svg></span><span>Books &amp; Literature</span></div></p><h4><span><strong>Personal meanings</strong></span></h4><h4><span><strong>A</strong>   a childhood memory</span></h4><p><span><strong>B</strong>   hope for the future</span></p><p><span><strong>C </strong>  fast movement</span></p><p><span><strong>D</strong>   a potential threat</span></p><p><span><strong>E</strong>   the power of colour</span></p><p><span><strong>F</strong>   the continuity of life</span></p><p><span><strong>G</strong>   protection of nature</span></p><p><span><strong>H</strong>   a confused attitude to nature</span></p><p><span><strong>Pictures</strong></span></p><p><span><strong>25</strong>   Falcon (Landseer)                                   …………….</span></p><p><span><strong>26</strong>   Fish hawk (Audubon)                             …………….</span></p><p><span><strong>27</strong>   Kingfisher (van Gogh)                            …………….</span></p><p><span><strong>28</strong>   Portrait of William Wells                      …………….</span></p><div><div><div></div></div></div><p><span><strong>29</strong>   Vairumati (Gauguin)                              …………….</span></p><p><span><strong>30</strong>   Portrait of Giovanni de Medici            …………….</span></p>",
+      "questionGroups": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "instructions": "Choose TWO letters, A-E.",
+          "questions": [
+            {
+              "number": 21,
+              "text": "Which TWO parts of the introductory stage to their art projects do Jess and Tom agree were useful?",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_21"
+            },
+            {
+              "number": 22,
+              "text": "Which TWO parts of the introductory stage to their art projects do Jess and Tom agree were useful?",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_22"
+            }
+          ],
+          "sharedOptions": ["A", "B", "C", "D", "E"],
+          "id": "qg_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_p3_1"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "instructions": "Choose TWO letters, A-E.",
+          "questions": [
+            {
+              "number": 23,
+              "text": "In which TWO ways do both Jess and Tom decide to change their proposals?",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_23"
+            },
+            {
+              "number": 24,
+              "text": "In which TWO ways do both Jess and Tom decide to change their proposals?",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_24"
+            }
+          ],
+          "sharedOptions": ["A", "B", "C", "D", "E"],
+          "id": "qg_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_p3_2"
+        },
+        {
+          "type": "MATCHING",
+          "instructions": "Which personal meaning do the students decide to give to each of the following pictures? Choose SIX answers from the box and write the correct letter, A-H, next to Questions 25-30.",
+          "questions": [
+            {
+              "number": 25,
+              "text": "Falcon (Landseer)",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_25"
+            },
+            {
+              "number": 26,
+              "text": "Fish hawk (Audubon)",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_26"
+            },
+            {
+              "number": 27,
+              "text": "Kingfisher (van Gogh)",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_27"
+            },
+            {
+              "number": 28,
+              "text": "Portrait of William Wells",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_28"
+            },
+            {
+              "number": 29,
+              "text": "Vairumati (Gauguin)",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_29"
+            },
+            {
+              "number": 30,
+              "text": "Portrait of Giovanni de Medici",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_30"
+            }
+          ],
+          "groupContentHTML": "<h4><span><strong>Personal meanings</strong></span></h4><h4><span><strong>A</strong>   a childhood memory</span></h4><p><span><strong>B</strong>   hope for the future</span></p><p><span><strong>C </strong>  fast movement</span></p><p><span><strong>D</strong>   a potential threat</span></p><p><span><strong>E</strong>   the power of colour</span></p><p><span><strong>F</strong>   the continuity of life</span></p><p><span><strong>G</strong>   protection of nature</span></p><p><span><strong>H</strong>   a confused attitude to nature</span></p>",
+          "id": "qg_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_p3_3"
+        }
+      ],
+      "audioPath": "media/audio_part3.mp3"
+    },
+    {
+      "partNumber": 4,
+      "title": "Stoicism",
+      "contentHTML": "<h3><span><strong>Stoicism</strong></span></h3><p><span>Stoicism is still relevant today because of its <strong>31</strong> ………………… appeal.</span></p><p><span></span></p><p><span><strong>Ancient Stoics</strong></span></p><p><span>●   Stoicism was founded over 2,000 years ago in Greece.</span></p><p><span>●   The Stoics’ ideas are surprisingly well known, despite not being intended for <strong>32</strong> …………………</span></p><p><span></span></p><p><span><strong>Stoic principles</strong></span></p><p><span>●   Happiness could be achieved by leading a virtuous life.</span></p><p><span>●   Controlling emotions was essential.</span></p><p><span>●   Epictetus said that external events cannot be controlled but the <strong>33</strong> ………………… people make in response can be controlled.</span></p><p><span>●   A Stoic is someone who has a different view on experiences which others would consider as <strong>34</strong> ………………… .</span></p><p><span></span></p><p><span><strong>The influence of Stoicism</strong></span></p><p><span>●   George Washington organised a <strong>35</strong> ………………… about Cato to motivate his men.</span></p><p><span>●   The French artist Delacroix was a Stoic.</span></p><p><span>●   Adam Smith’s ideas on <strong>36</strong> ………………… were influenced by Stoicism.</span></p><p><span>●   Some of today’s political leaders are inspired by the Stoics.</span></p><p><span>●   Cognitive Behaviour Therapy (CBT)</span></p><p><span>     –  the treatment for <strong>37</strong> ………………… is based on ideas from Stoicism</span></p><p><span>     –  people learn to base their thinking on <strong>38</strong> ………………… .</span></p><div><ins></ins></div><p><span>●   In business, people benefit from Stoicism by identifying obstacles as <strong>39</strong> ………………… .</span></p><p><span></span></p><p><span><strong>Relevance of Stoicism</strong></span></p><p><span>●   It requires a lot of <strong>40</strong> ………………… but Stoicism can help people to lead a good life.</span></p><p><span>●   It teaches people that having a strong character is more important than anything else.</span><span> </span></p>",
+      "questionGroups": [
+        {
+          "type": "COMPLETION",
+          "instructions": "Complete the notes below. Write ONE WORD ONLY for each answer.",
+          "groupContentHTML": "<h3><span><strong>Stoicism</strong></span></h3><p><span>Stoicism is still relevant today because of its <strong>31</strong> ………………… appeal.</span></p><p><span></span></p><p><span><strong>Ancient Stoics</strong></span></p><p><span>●   Stoicism was founded over 2,000 years ago in Greece.</span></p><p><span>●   The Stoics’ ideas are surprisingly well known, despite not being intended for <strong>32</strong> …………………</span></p><p><span></span></p><p><span><strong>Stoic principles</strong></span></p><p><span>●   Happiness could be achieved by leading a virtuous life.</span></p><p><span>●   Controlling emotions was essential.</span></p><p><span>●   Epictetus said that external events cannot be controlled but the <strong>33</strong> ………………… people make in response can be controlled.</span></p><p><span>●   A Stoic is someone who has a different view on experiences which others would consider as <strong>34</strong> ………………… .</span></p><p><span></span></p><p><span><strong>The influence of Stoicism</strong></span></p><p><span>●   George Washington organised a <strong>35</strong> ………………… about Cato to motivate his men.</span></p><p><span>●   The French artist Delacroix was a Stoic.</span></p><p><span>●   Adam Smith’s ideas on <strong>36</strong> ………………… were influenced by Stoicism.</span></p><p><span>●   Some of today’s political leaders are inspired by the Stoics.</span></p><p><span>●   Cognitive Behaviour Therapy (CBT)</span></p><p><span>     –  the treatment for <strong>37</strong> ………………… is based on ideas from Stoicism</span></p><p><span>     –  people learn to base their thinking on <strong>38</strong> ………………… .</span></p><div><ins></ins></div><p><span>●   In business, people benefit from Stoicism by identifying obstacles as <strong>39</strong> ………………… .</span></p><p><span></span></p><p><span><strong>Relevance of Stoicism</strong></span></p><p><span>●   It requires a lot of <strong>40</strong> ………………… but Stoicism can help people to lead a good life.</span></p><p><span>●   It teaches people that having a strong character is more important than anything else.</span><span> </span></p>",
+          "questions": [
+            {
+              "number": 31,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_31"
+            },
+            {
+              "number": 32,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_32"
+            },
+            {
+              "number": 33,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_33"
+            },
+            {
+              "number": 34,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_34"
+            },
+            {
+              "number": 35,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_35"
+            },
+            {
+              "number": 36,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_36"
+            },
+            {
+              "number": 37,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_37"
+            },
+            {
+              "number": 38,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_38"
+            },
+            {
+              "number": 39,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_39"
+            },
+            {
+              "number": 40,
+              "text": "",
+              "id": "q_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_40"
+            }
+          ],
+          "id": "qg_CAMBRIDGE_IELTS_16_LISTENING_TEST_1_p4_1"
+        }
+      ],
+      "audioPath": "media/audio_part4.mp3"
+    }
+  ],
+  "answers": {
+    "1": ["egg"],
+    "2": ["tower"],
+    "3": ["car"],
+    "4": ["animals"],
+    "5": ["bridge"],
+    "6": ["movie", "film"],
+    "7": ["decorate"],
+    "8": ["Wednesdays"],
+    "9": ["Fradstone"],
+    "10": ["parking"],
+    "11": ["C"],
+    "12": ["A"],
+    "13": ["B"],
+    "14": ["C"],
+    "15": ["H"],
+    "16": ["C"],
+    "17": ["G"],
+    "18": ["B"],
+    "19": ["I"],
+    "20": ["A"],
+    "21": ["C", "E"],
+    "22": ["C", "E"],
+    "23": ["B", "E"],
+    "24": ["B", "E"],
+    "25": ["D"],
+    "26": ["C"],
+    "27": ["A"],
+    "28": ["H"],
+    "29": ["F"],
+    "30": ["G"],
+    "31": ["practical"],
+    "32": ["publication"],
+    "33": ["choices"],
+    "34": ["negative"],
+    "35": ["play"],
+    "36": ["capitalism"],
+    "37": ["depression"],
+    "38": ["logic"],
+    "39": ["opportunity"],
+    "40": ["practice", "practise"]
+  }
+}

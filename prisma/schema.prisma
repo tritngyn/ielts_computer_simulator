@@ -12,6 +12,7 @@ model Test {
   id        String   @id
   title     String
   testCode  String?
+  type      String   @default("READING")
   // Store the complex nested IELTS structure (passages, questionGroups, questions)
   // as a JSONB object to maintain flexibility and avoid over-engineering relational tables
   content   Json
