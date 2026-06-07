@@ -1,25 +1,24 @@
 export interface IeltsListeningQuestion {
-  id: string;
+  id?: string | null;
   number: number;
   text: string;
-  options: string[] | null;
+  options?: string[] | null;
 }
 
 export interface IeltsListeningQuestionGroup {
-  id: string;
+  id?: string | null;
   type: string; // "COMPLETION" | "MULTIPLE_CHOICE" | "PLAN_MAP_DIAGRAM_LABELLING" | "MATCHING"
   instructions: string;
-  groupContentHTML: string | null;
-  sharedOptions: string[] | null;
+  groupContentHTML?: string | null;
+  sharedOptions?: string[] | null;
   questions: IeltsListeningQuestion[];
 }
 
 export interface IeltsListeningPart {
   partNumber: number;
   title: string;
-  contentHTML: string;
+  audioPath?: string | null;
   questionGroups: IeltsListeningQuestionGroup[];
-  audioPath: string;
 }
 
 export interface IeltsListeningTest {

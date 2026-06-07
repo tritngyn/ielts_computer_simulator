@@ -3,9 +3,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Headphones, Clock, Play, Pause, Volume2, Volume1, VolumeX, HelpCircle } from "lucide-react";
-import { IeltsListeningTest } from "@/types/listening";
+import { IeltsListeningTest, IeltsListeningQuestion } from "@/types/listening";
 import { getSupabaseMediaUrl } from "@/utils/storage";
 import { useHistoryStore } from "@/store/useHistoryStore";
+
+const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({
+  html,
+}: {
+  html: string;
+}) {
+  return (
+    <div
+      className="mb-6 prose prose-sm max-w-none text-gray-800 bg-white p-4 rounded border border-gray-100"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+});
 
 interface Props {
   testData: IeltsListeningTest;
@@ -103,9 +116,9 @@ export default function ListeningTest({ testData }: Props) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleAnswerChange = (questionId: string, value: string) => {
+  const handleAnswerChange = React.useCallback((questionId: string, value: string) => {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
-  };
+  }, []);
 
   const processHTML = (html: string) => {
     if (!html) return html;
@@ -114,6 +127,68 @@ export default function ListeningTest({ testData }: Props) {
       return `src="${fullUrl}"`;
     });
   };
+
+  const processGapFillHTML = (rawHtml: string, questions: IeltsListeningQuestion[]) => {
+    if (!rawHtml || !questions || questions.length === 0) return rawHtml;
+    
+    const qNumbers = questions.map(q => q.number).join('|');
+
+    const gapRegex = new RegExp(
+      `(?:<strong[^>]*>|<b>|\\s|&nbsp;|\\xA0)*(?<![a-zA-Z0-9])(${qNumbers})(?![a-zA-Z0-9])(?:</strong>|</b>|\\s|&nbsp;|\\xA0)*((?:(?!</p>|<br\\s*/?>|</?div>|</?table>).)*?)(_{2,}|\\.{2,}|\\u2026+|(?:\\.\\s*){3,})`,
+      "gi"
+    );
+
+    let html = rawHtml.replace(gapRegex, (match, qNum, middleText) => {
+      const qId = questions.find(q => q.number.toString() === qNum.toString())?.id || '';
+      return `<strong class="ml-1 mr-2 text-blue-700">${qNum}</strong> ${middleText} <input type="text" data-qid="${qId}" class="gap-input border-b-2 border-gray-400 bg-transparent inline-block w-32 px-2 py-1 text-center font-semibold text-gray-800 focus:outline-none focus:border-blue-600 transition-colors" />`;
+    });
+
+    html = html.replace(/(<input[^>]*>)\\s*\\.\\s*\\.\\s*/g, '$1. ');
+    html = html.replace(/(<input[^>]*>)\\s*\\.\\s+([a-z])/g, '$1 $2');
+    html = html.replace(/(<input[^>]*>)\\s+\\.\\s*/g, '$1. ');
+    html = html.replace(/(<input[^>]*>)\\s+,\\s*/g, '$1, ');
+
+    return html;
+  };
+
+  // Sync state to DOM values on EVERY render to ensure inputs never desync
+  useEffect(() => {
+    const gapInputs = document.querySelectorAll(".gap-input");
+    gapInputs.forEach((el) => {
+      const input = el as HTMLInputElement;
+      const qId = input.getAttribute("data-qid");
+      if (qId) {
+        const val = answers[qId] || "";
+        if (input.value !== val) {
+          input.value = val;
+        }
+      }
+    });
+  });
+
+  // Native event listener using EVENT DELEGATION
+  useEffect(() => {
+    const handleDelegatedInput = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+
+      if (
+        target &&
+        target.tagName === "INPUT" &&
+        target.classList.contains("gap-input")
+      ) {
+        const qId = target.getAttribute("data-qid");
+        if (qId) {
+          handleAnswerChange(qId, target.value);
+        }
+      }
+    };
+
+    document.addEventListener("input", handleDelegatedInput);
+
+    return () => {
+      document.removeEventListener("input", handleDelegatedInput);
+    };
+  }, [handleAnswerChange]);
 
   return (
     <div className="flex flex-col h-[calc(100vh-64px)] overflow-hidden bg-gray-50 font-sans text-gray-900">
@@ -207,96 +282,173 @@ export default function ListeningTest({ testData }: Props) {
                    dangerouslySetInnerHTML={{ __html: processHTML(currentPart.contentHTML) }} />
             )}
 
-            {currentPart.questionGroups.map((group, gIdx) => (
-              <div key={gIdx} className="mb-10 bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                
-                {/* Instruction Box (Matches Reading Test) */}
-                <div className="mb-6 pb-4 border-b border-gray-100">
-                  <p className="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-2">
-                    Questions {group.questions[0]?.number} - {group.questions[group.questions.length - 1]?.number}
-                  </p>
-                  <div
-                    className="text-sm text-gray-600 italic border-l-4 border-blue-500 pl-3 py-1 bg-blue-50/50"
-                    dangerouslySetInnerHTML={{ __html: group.instructions }}
-                  />
-                </div>
+            {currentPart.questionGroups.map((group, gIdx) => {
+              const hasInlineGaps = group.groupContentHTML && group.groupContentHTML.match(/(?:_{2,}|\.{2,}|\u2026+)/);
 
-                {/* Group Context HTML */}
-                {group.groupContentHTML && (
-                  <div className="mb-6 prose prose-sm max-w-none text-gray-800 bg-white p-4 rounded border border-gray-100"
-                       dangerouslySetInnerHTML={{ __html: processHTML(group.groupContentHTML) }} />
-                )}
+              return (
+                <div key={gIdx} className="mb-10 bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+                  
+                  {/* Instruction Box (Matches Reading Test) */}
+                  <div className="mb-6 pb-4 border-b border-gray-100">
+                    <p className="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-2">
+                      Questions {group.questions[0]?.number} - {group.questions[group.questions.length - 1]?.number}
+                    </p>
+                    <div
+                      className="text-sm text-gray-600 italic border-l-4 border-blue-500 pl-3 py-1 bg-blue-50/50"
+                      dangerouslySetInnerHTML={{ __html: group.instructions }}
+                    />
+                  </div>
 
-                {/* Questions List (Matches Reading Test List Style) */}
-                <div className="space-y-5">
-                  {group.questions.map((q) => (
-                    <div key={q.id} className="flex flex-col gap-3">
-                      <div className="flex gap-3">
-                        <span className="font-bold text-gray-700 min-w-[24px]">
-                          {q.number}.
-                        </span>
-                        <div className="text-gray-800 text-sm leading-relaxed flex-1" dangerouslySetInnerHTML={{ __html: q.text }} />
-                        
-                        {/* Inline Input for Completion questions */}
-                        {group.type !== "MULTIPLE_CHOICE" && group.type !== "MATCHING" && (
-                           <div className="flex-1 mt-0 mb-2 font-medium">
-                            <input
-                              className="w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                              placeholder="Your answer"
-                              type="text"
-                              value={answers[q.id] || ""}
-                              onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                            />
-                           </div>
-                        )}
-                      </div>
-
-                      {/* Multiple Choice */}
-                      {group.type === "MULTIPLE_CHOICE" && q.options && (
-                        <div className="flex flex-col gap-3 ml-9 mt-1">
-                          {q.options.map((opt, i) => {
-                            const val = String.fromCharCode(65 + i);
-                            return (
-                              <label key={i} className="flex items-start gap-3 cursor-pointer">
-                                <input
-                                  type="radio"
-                                  name={`q_${q.id}`}
-                                  value={val}
-                                  checked={answers[q.id] === val}
-                                  onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                                  className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500"
-                                />
-                                <div className="text-sm text-gray-700 leading-relaxed flex gap-2">
-                                  <span className="font-semibold">{val}.</span>
-                                  <span dangerouslySetInnerHTML={{ __html: opt }} />
-                                </div>
-                              </label>
-                            );
-                          })}
-                        </div>
-                      )}
-
-                      {/* Matching Select */}
-                      {group.type === "MATCHING" && group.sharedOptions && (
-                        <div className="ml-9">
-                          <select
-                            className="w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                            value={answers[q.id] || ""}
-                            onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                          >
-                            <option value="" disabled>Select...</option>
-                            {group.sharedOptions.map((opt, i) => {
-                              const val = String.fromCharCode(65 + i);
-                              return <option key={i} value={val}>{val}. {opt}</option>;
-                            })}
-                          </select>
-                        </div>
-                      )}
+                  {group.sharedOptions && group.type !== "MULTIPLE_CHOICE" && (
+                    <div className="mb-6 p-4 bg-gray-50 rounded-md border border-gray-200">
+                      <ul className="flex flex-col gap-3 text-sm text-gray-700">
+                        {group.sharedOptions.map((opt, i) => (
+                          <li key={i}>{opt}</li>
+                        ))}
+                      </ul>
                     </div>
-                  ))}
+                  )}
+
+                  {/* Group Context HTML */}
+                  {group.groupContentHTML && (
+                    <StaticHTMLRenderer
+                      html={
+                        hasInlineGaps
+                          ? processGapFillHTML(processHTML(group.groupContentHTML), group.questions)
+                          : processHTML(group.groupContentHTML)
+                      }
+                    />
+                  )}
+
+                  {/* Questions List (Matches Reading Test List Style) */}
+                  {(!group.groupContentHTML || !hasInlineGaps) && (
+                    <div className="space-y-5">
+                      {group.questions.map((q) => (
+                        <div key={q.id} className="flex flex-col gap-3">
+                          <div className="flex gap-3 items-center">
+                            <span className="font-bold text-gray-700 min-w-[24px]">
+                              {q.number}.
+                            </span>
+                            {(() => {
+                              if (!q.text) return null;
+                              const parts = q.text.split(/(_{2,}|\.{2,}|\u2026+)/);
+                              if (parts.length === 1) {
+                                return <div className="text-gray-800 text-sm leading-relaxed flex-1" dangerouslySetInnerHTML={{ __html: q.text }} />;
+                              }
+                              return (
+                                <div className="text-gray-800 text-sm leading-relaxed flex-1 leading-8">
+                                  {parts.map((part, i) => {
+                                    if (part.match(/^(_{2,}|\.{2,}|\u2026+)$/)) {
+                                      return (
+                                        <input
+                                          key={i}
+                                          type="text"
+                                          value={answers[q.id || ""] || ""}
+                                          onChange={(e) => handleAnswerChange(q.id || "", e.target.value)}
+                                          className="border-b-2 border-gray-400 bg-transparent inline-block w-32 px-2 py-1 mx-1 text-center font-semibold text-gray-800 focus:outline-none focus:border-blue-600 transition-colors"
+                                        />
+                                      );
+                                    }
+                                    return <span key={i} dangerouslySetInnerHTML={{ __html: part }} />;
+                                  })}
+                                </div>
+                              );
+                            })()}
+                            
+                            {/* Standard Input for non-multiple choice and non-matching if no shared options */}
+                            {group.type !== "MULTIPLE_CHOICE" && group.type !== "MATCHING" && !(q.text && q.text.match(/(?:_{2,}|\.{2,}|\u2026+)/)) && (
+                               <div className="flex-1 mt-0 mb-2 font-medium">
+                                <input
+                                  className="w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                  placeholder="Your answer"
+                                  type="text"
+                                  value={answers[q.id || ""] || ""}
+                                  onChange={(e) => handleAnswerChange(q.id || "", e.target.value)}
+                                />
+                               </div>
+                            )}
+                          </div>
+
+                          {/* Multiple Choice Options */}
+                          {group.type === "MULTIPLE_CHOICE" && q.options && q.options.length > 0 && (
+                            <div className="flex flex-col gap-3 ml-9 mt-1">
+                              {q.options.map((opt, i) => {
+                                const val = String.fromCharCode(65 + i);
+                                return (
+                                  <label key={i} className="flex items-start gap-3 cursor-pointer">
+                                    <input
+                                      type="radio"
+                                      name={`q_${q.id}`}
+                                      value={val}
+                                      checked={answers[q.id || ""] === val}
+                                      onChange={(e) => handleAnswerChange(q.id || "", e.target.value)}
+                                      className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <div className="text-sm text-gray-700 leading-relaxed flex gap-2">
+                                      <span className="font-semibold">{val}.</span>
+                                      <span dangerouslySetInnerHTML={{ __html: opt }} />
+                                    </div>
+                                  </label>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {/* Multiple Choice with Shared Options Fallback */}
+                          {group.type === "MULTIPLE_CHOICE" && (!q.options || q.options.length === 0) && group.sharedOptions && (
+                            <div className="flex flex-wrap gap-4 ml-9 mt-1">
+                              {group.sharedOptions.map((_, i) => {
+                                const val = String.fromCharCode(65 + i);
+                                return (
+                                  <label key={i} className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                      type="radio"
+                                      name={`q_${q.id}`}
+                                      value={val}
+                                      checked={answers[q.id || ""] === val}
+                                      onChange={(e) => handleAnswerChange(q.id || "", e.target.value)}
+                                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-semibold">{val}</span>
+                                  </label>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {/* Matching Select or Input */}
+                          {group.type === "MATCHING" && (
+                            <div className="ml-9">
+                              {group.sharedOptions ? (
+                                <select
+                                  className="w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                  value={answers[q.id || ""] || ""}
+                                  onChange={(e) => handleAnswerChange(q.id || "", e.target.value)}
+                                >
+                                  <option value="" disabled>Select...</option>
+                                  {group.sharedOptions.map((opt, i) => {
+                                    const val = String.fromCharCode(65 + i);
+                                    return <option key={i} value={val}>{val}. {opt}</option>;
+                                  })}
+                                </select>
+                              ) : (
+                                <input
+                                  className="w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                  placeholder="Your answer"
+                                  type="text"
+                                  value={answers[q.id || ""] || ""}
+                                  onChange={(e) => handleAnswerChange(q.id || "", e.target.value)}
+                                />
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </main>
