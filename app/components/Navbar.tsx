@@ -34,6 +34,11 @@ const Navbar = ({ user }: NavbarProps) => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Hide Navbar completely on test-taking pages
+  if (pathname.endsWith("/take")) {
+    return null;
+  }
+
   return (
     <nav className="sticky top-0 z-50 select-none">
       {/* Paper strip background */}

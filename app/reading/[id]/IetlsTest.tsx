@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
-import { Clock, HelpCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Clock, HelpCircle, BookOpen } from "lucide-react";
 import { useTestStore } from "@/store/useTestScore";
 import { useHistoryStore } from "@/store/useHistoryStore";
 import {
@@ -318,6 +319,8 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
                       <div className="flex flex-col gap-3 ml-9 mt-1">
                         {q.options.map((optHtml, i) => {
                           const letter = String.fromCharCode(65 + i);
+                          // Remove leading "A.", "B ", "C)", etc., from the data to prevent duplication
+                          const cleanOpt = optHtml.replace(/^[A-Z][\.\)\s]+/, "");
                           return (
                             <label
                               key={letter}
@@ -337,10 +340,10 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
                                 }
                                 className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500"
                               />
-                              <div
-                                className="text-sm text-gray-700 leading-relaxed"
-                                dangerouslySetInnerHTML={{ __html: optHtml }}
-                              />
+                              <div className="text-sm text-gray-700 leading-relaxed flex gap-2">
+                                <span className="font-semibold">{letter}.</span>
+                                <span dangerouslySetInnerHTML={{ __html: cleanOpt }} />
+                              </div>
                             </label>
                           );
                         })}
@@ -414,12 +417,17 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
     );
   };
 
+  const router = useRouter();
+
   return (
-    <div className="h-screen flex flex-col bg-gray-50 font-sans text-gray-900">
+    <div className="flex flex-col h-screen overflow-hidden bg-gray-50 font-sans text-gray-900">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+      <header className="flex-none z-50 bg-white border-b border-gray-200 shadow-sm px-6 py-3 flex items-center justify-between sticky top-0">
         <div className="flex items-center gap-4">
-          <h1 className="text-lg font-bold text-gray-800">{testData.title}</h1>
+          <div className="cursor-pointer flex-none flex items-center gap-2 text-gray-500 hover:text-gray-800 transition" onClick={() => router.push("/reading")}>
+            <BookOpen className="w-5 h-5" />
+            <span className="text-sm font-medium">Exit</span>
+          </div>
         </div>
         <div className="flex items-center gap-4">
           {showWarning && (
@@ -474,19 +482,30 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
       {/* Footer Navigation */}
       <footer className="bg-white border-t border-gray-200 px-6 py-4 flex items-center justify-between sticky bottom-0 z-50">
         <div className="flex gap-2">
-          {testData.passages.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentPassage(idx)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition ${
-                currentPassage === idx
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              Passage {idx + 1}
-            </button>
-          ))}
+          {testData.passages.map((p, idx) => {
+            const totalQ = p.questionGroups.reduce((acc, g) => acc + g.questions.length, 0);
+            const answeredQ = p.questionGroups.reduce((acc, g) => {
+              return acc + g.questions.filter(q => userAnswers[`passage_${idx}_q${q.number}`]?.trim()).length;
+            }, 0);
+
+            return (
+              <button
+                key={idx}
+                onClick={() => setCurrentPassage(idx)}
+                className={`px-4 py-2 rounded-md text-sm font-bold transition flex items-center gap-2 border ${
+                  currentPassage === idx
+                    ? "bg-blue-50 text-blue-700 border-blue-200 shadow-sm"
+                    : "bg-white text-gray-700 hover:bg-gray-50 border-gray-200 shadow-sm"
+                }`}
+              >
+                <span>Passage {idx + 1}</span>
+                <span className={`text-xs font-normal ${currentPassage === idx ? "text-blue-300" : "text-gray-300"}`}>|</span>
+                <span className={`font-medium ${currentPassage === idx ? "text-blue-600" : "text-gray-600"}`}>
+                  {answeredQ}/{totalQ}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-6">
