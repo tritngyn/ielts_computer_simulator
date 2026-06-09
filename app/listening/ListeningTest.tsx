@@ -224,7 +224,10 @@ export default function ListeningTest({ testData }: Props) {
       <header className="flex-none z-50 bg-white border-b border-gray-200 shadow-sm px-6 py-3 flex items-center justify-between sticky top-0">
         {/* Left: Audio Controls (Replacing Test Title) */}
         <div className="flex items-center gap-5 flex-1 max-w-2xl">
-          <div className="cursor-pointer mr-2 flex-none flex items-center gap-2 text-gray-500 hover:text-gray-800 transition" onClick={() => router.push("/listening")}>
+          <div
+            className="cursor-pointer mr-2 flex-none flex items-center gap-2 text-gray-500 hover:text-gray-800 transition"
+            onClick={() => router.push("/listening")}
+          >
             <Headphones className="w-5 h-5" />
             <span className="text-sm font-medium">Exit</span>
           </div>
@@ -354,7 +357,82 @@ export default function ListeningTest({ testData }: Props) {
                   {/* Questions List (Matches Reading Test List Style) */}
                   {(!group.groupContentHTML || !hasInlineGaps) && (
                     <div className="space-y-5">
-                      {group.questions.map((q) => (
+                      {group.type === "MULTIPLE_CHOICE" && group.sharedOptions && group.sharedOptions.length > 0 ? (
+                        <div className="flex flex-col gap-3">
+                          <div className="flex gap-3 items-center">
+                            <span className="font-bold text-gray-700 min-w-[24px]">
+                              {group.questions.length > 1
+                                ? `${group.questions[0].number}-${group.questions[group.questions.length - 1].number}.`
+                                : `${group.questions[0].number}.`}
+                            </span>
+                            {group.questions[0].text && (
+                              <div
+                                className="text-gray-800 text-sm leading-relaxed flex-1"
+                                dangerouslySetInnerHTML={{ __html: group.questions[0].text }}
+                              />
+                            )}
+                          </div>
+                          
+                          <div className="flex flex-col gap-3 ml-9 mt-1">
+                            {group.sharedOptions.map((opt, i) => {
+                              const val = String.fromCharCode(65 + i);
+                              const cleanOpt = opt.replace(/^[A-Z][\.\)\s]+/, "");
+                              
+                              const isSelected = group.questions.some(q => answers[q.id || ""] === val);
+                              
+                              return (
+                                <label
+                                  key={i}
+                                  className="flex items-start gap-3 cursor-pointer"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    value={val}
+                                    checked={isSelected}
+                                    onChange={(e) => {
+                                      const checked = e.target.checked;
+                                      const currentSelected = group.questions
+                                        .map(q => answers[q.id || ""])
+                                        .filter(Boolean);
+                                      
+                                      let newSelected;
+                                      if (checked) {
+                                        if (currentSelected.length < group.questions.length) {
+                                          newSelected = [...currentSelected, val].sort();
+                                        } else {
+                                          newSelected = [...currentSelected.slice(1), val].sort();
+                                        }
+                                      } else {
+                                        newSelected = currentSelected.filter(v => v !== val);
+                                      }
+                                      
+                                      setAnswers(prev => {
+                                        const next = { ...prev };
+                                        group.questions.forEach(q => {
+                                          if (q.id) next[q.id] = "";
+                                        });
+                                        newSelected.forEach((selectedVal, idx) => {
+                                          const q = group.questions[idx];
+                                          if (q && q.id) {
+                                            next[q.id] = selectedVal;
+                                          }
+                                        });
+                                        return next;
+                                      });
+                                    }}
+                                    className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500 rounded border-gray-300"
+                                  />
+                                  <div className="text-sm text-gray-700 leading-relaxed flex gap-2">
+                                    <span className="font-semibold">{val}.</span>
+                                    <span dangerouslySetInnerHTML={{ __html: cleanOpt }} />
+                                  </div>
+                                </label>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ) : (
+                      group.questions.map((q) => (
                         <div key={q.id} className="flex flex-col gap-3">
                           <div className="flex gap-3 items-center">
                             <span className="font-bold text-gray-700 min-w-[24px]">
@@ -477,39 +555,7 @@ export default function ListeningTest({ testData }: Props) {
                               </div>
                             )}
 
-                          {/* Multiple Choice with Shared Options Fallback */}
-                          {group.type === "MULTIPLE_CHOICE" &&
-                            (!q.options || q.options.length === 0) &&
-                            group.sharedOptions && (
-                              <div className="flex flex-wrap gap-4 ml-9 mt-1">
-                                {group.sharedOptions.map((_, i) => {
-                                  const val = String.fromCharCode(65 + i);
-                                  return (
-                                    <label
-                                      key={i}
-                                      className="flex items-center gap-2 cursor-pointer"
-                                    >
-                                      <input
-                                        type="radio"
-                                        name={`q_${q.id}`}
-                                        value={val}
-                                        checked={answers[q.id || ""] === val}
-                                        onChange={(e) =>
-                                          handleAnswerChange(
-                                            q.id || "",
-                                            e.target.value,
-                                          )
-                                        }
-                                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                                      />
-                                      <span className="text-sm font-semibold">
-                                        {val}
-                                      </span>
-                                    </label>
-                                  );
-                                })}
-                              </div>
-                            )}
+
 
                           {/* Matching Select or Input */}
                           {group.type === "MATCHING" && (
@@ -554,7 +600,8 @@ export default function ListeningTest({ testData }: Props) {
                             </div>
                           )}
                         </div>
-                      ))}
+                      ))
+                    )}
                     </div>
                   )}
                 </div>
@@ -568,9 +615,14 @@ export default function ListeningTest({ testData }: Props) {
       <footer className="flex-none bg-white border-t border-gray-200 px-6 py-4 flex items-center justify-between sticky bottom-0 z-50">
         <div className="flex gap-2">
           {testData.parts.map((part, idx) => {
-            const partQuestions = part.questionGroups.reduce((acc, g) => acc.concat(g.questions), [] as IeltsListeningQuestion[]);
+            const partQuestions = part.questionGroups.reduce(
+              (acc, g) => acc.concat(g.questions),
+              [] as IeltsListeningQuestion[],
+            );
             const totalQ = partQuestions.length;
-            const answeredQ = partQuestions.filter(q => answers[q.id || ""]?.trim()).length;
+            const answeredQ = partQuestions.filter((q) =>
+              answers[q.id || ""]?.trim(),
+            ).length;
 
             return (
               <button
@@ -583,8 +635,14 @@ export default function ListeningTest({ testData }: Props) {
                 }`}
               >
                 <span>Part {idx + 1}</span>
-                <span className={`text-xs font-normal ${currentPartIndex === idx ? "text-blue-300" : "text-gray-300"}`}>|</span>
-                <span className={`font-medium ${currentPartIndex === idx ? "text-blue-600" : "text-gray-600"}`}>
+                <span
+                  className={`text-xs font-normal ${currentPartIndex === idx ? "text-blue-300" : "text-gray-300"}`}
+                >
+                  |
+                </span>
+                <span
+                  className={`font-medium ${currentPartIndex === idx ? "text-blue-600" : "text-gray-600"}`}
+                >
                   {answeredQ}/{totalQ}
                 </span>
               </button>

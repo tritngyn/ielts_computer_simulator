@@ -95,23 +95,36 @@ const Navbar = ({ user }: NavbarProps) => {
               <div className="w-px h-6 bg-amber-200/50 mx-2 hidden lg:block" />
               
               {user ? (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
                   <Link
                     href="/profile"
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-sm font-hand text-lg text-text-secondary hover:text-text-heading hover:bg-paper-white/60 transition-all duration-200"
+                    className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-paper-white/60 transition-all duration-200"
+                    title="Go to Profile"
                   >
-                    <User className="w-4 h-4" />
-                    Profile
+                    {user.user_metadata?.avatar_url ? (
+                      <img 
+                        src={user.user_metadata.avatar_url} 
+                        alt="Profile" 
+                        className="w-8 h-8 rounded-full border-2 border-accent-blue object-cover"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-accent-blue text-white flex items-center justify-center border-2 border-accent-blue shadow-sm">
+                        <User className="w-5 h-5" />
+                      </div>
+                    )}
+                    <span className="font-hand text-lg text-text-heading hidden lg:block">
+                      {user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0] || "Profile"}
+                    </span>
                   </Link>
                   <button
                     onClick={async () => {
                       await logout();
                       window.location.href = "/login";
                     }}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-sm font-hand text-lg text-red-600 hover:bg-red-50 transition-all duration-200"
+                    className="p-2 rounded-full text-red-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+                    title="Logout"
                   >
-                    <LogOut className="w-4 h-4" />
-                    Logout
+                    <LogOut className="w-5 h-5" />
                   </button>
                 </div>
               ) : (

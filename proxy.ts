@@ -4,9 +4,8 @@ import { updateSession } from "@/utils/supabase/middleware";
 import { NextResponse } from "next/server";
 
 export async function proxy(request: NextRequest) {
-  // Tạm thời tắt middleware để kiểm tra xem có phải middleware làm lỗi cookie không
-  // return await updateSession(request);
-  return NextResponse.next();
+  // Đã bật lại middleware/proxy của Supabase để session hoạt động chính xác
+  return await updateSession(request);
 }
 
 export const config = {

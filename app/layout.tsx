@@ -35,12 +35,12 @@ export default async function RootLayout({
   console.log("[LAYOUT] Tên và giá trị các cookies:", allCookies.map(c => `${c.name}=${c.value.substring(0, 15)}...`).join(" | "));
 
   const supabase = await createClient();
+
   const {
-    data: { session },
+    data: { user },
     error,
-  } = await supabase.auth.getSession();
+  } = await supabase.auth.getUser();
   
-  const user = session?.user || null;
   console.log("[LAYOUT] RootLayout Auth Check:", { userId: user?.id, error: error?.message });
 
   return (

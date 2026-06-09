@@ -35,6 +35,7 @@ interface IELTSTestProps {
 import { useState } from "react";
 
 const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -416,8 +417,6 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
       </div>
     );
   };
-
-  const router = useRouter();
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-gray-50 font-sans text-gray-900">
