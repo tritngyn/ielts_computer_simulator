@@ -32,7 +32,12 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const allCookies = cookieStore.getAll();
   console.log("[LAYOUT] Số lượng cookies hiện tại:", allCookies.length);
-  console.log("[LAYOUT] Tên và giá trị các cookies:", allCookies.map(c => `${c.name}=${c.value.substring(0, 15)}...`).join(" | "));
+  console.log(
+    "[LAYOUT] Tên và giá trị các cookies:",
+    allCookies
+      .map((c) => `${c.name}=${c.value.substring(0, 15)}...`)
+      .join(" | "),
+  );
 
   const supabase = await createClient();
 
@@ -40,8 +45,11 @@ export default async function RootLayout({
     data: { user },
     error,
   } = await supabase.auth.getUser();
-  
-  console.log("[LAYOUT] RootLayout Auth Check:", { userId: user?.id, error: error?.message });
+
+  console.log("[LAYOUT] RootLayout Auth Check:", {
+    userId: user?.id,
+    error: error?.message,
+  });
 
   return (
     <html lang="en">

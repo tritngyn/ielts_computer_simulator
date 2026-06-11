@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
@@ -102,9 +103,12 @@ const Navbar = ({ user }: NavbarProps) => {
                     title="Go to Profile"
                   >
                     {user.user_metadata?.avatar_url ? (
-                      <img 
+                      <Image 
                         src={user.user_metadata.avatar_url} 
                         alt="Profile" 
+                        width={32}
+                        height={32}
+                        unoptimized
                         className="w-8 h-8 rounded-full border-2 border-accent-blue object-cover"
                       />
                     ) : (

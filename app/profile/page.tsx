@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { User, Clock, Award, BookOpen, Target, Calendar, History } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
   title: "Profile | IELTS Master",
@@ -58,7 +59,14 @@ export default async function ProfilePage() {
             <div className="flex flex-col items-center text-center mt-4">
               <div className="w-28 h-28 rounded-full overflow-hidden mb-4 photo-frame">
                 {avatar ? (
-                  <img src={avatar} alt={displayName} className="w-full h-full object-cover" />
+                  <Image 
+                    src={avatar} 
+                    alt={displayName} 
+                    width={112}
+                    height={112}
+                    unoptimized
+                    className="w-full h-full object-cover" 
+                  />
                 ) : (
                   <div className="w-full h-full bg-amber-100 flex items-center justify-center text-amber-600 text-4xl font-hand">
                     {displayName.charAt(0).toUpperCase()}

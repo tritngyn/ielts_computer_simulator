@@ -121,7 +121,7 @@ export default function ListeningTest({ testData }: Props) {
 
   const audioUrl = getSupabaseMediaUrl(
     testData.testCode,
-    currentPart.audioPath,
+    currentPart.audioPath || "",
   );
 
   // Answers State
@@ -673,7 +673,7 @@ export default function ListeningTest({ testData }: Props) {
                   p.questionGroups.forEach((group) => {
                     group.questions.forEach((q) => {
                       totalQ++;
-                      const userAnswer = answers[q.id]?.trim().toLowerCase();
+                      const userAnswer = answers[q.id || ""]?.trim().toLowerCase();
                       const correctAnswers =
                         testData.answers[q.number.toString()] || [];
                       if (

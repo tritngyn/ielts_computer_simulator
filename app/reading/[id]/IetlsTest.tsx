@@ -10,7 +10,13 @@ import {
   IeltsPassage,
   IeltsQuestion,
 } from "@/types/ielts";
-import TestResultView from "./TestResultView";
+import dynamic from "next/dynamic";
+import SkeletonLoader from "@/app/components/SkeletonLoader";
+
+const TestResultView = dynamic(() => import("./TestResultView"), {
+  ssr: false,
+  loading: () => <SkeletonLoader />,
+});
 
 // Memoized component to prevent React from touching the DOM once rendered.
 // This is critical for raw HTML inputs so they don't lose focus or reset values

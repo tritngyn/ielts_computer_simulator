@@ -32,6 +32,7 @@ export function ImageWithFallback(
     <img
       src={src}
       alt={alt}
+      loading="lazy"
       className={className}
       style={style}
       {...rest}
