@@ -1,7 +1,8 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import { getReadingTestById } from "@/lib/data";
 import SkeletonLoader from "@/app/components/SkeletonLoader";
+import { createClient } from "@/utils/supabase/server";
 
 const IELTSTest = dynamic(() => import("../IetlsTest"), {
   loading: () => <SkeletonLoader />,
@@ -21,5 +22,13 @@ export default async function TakeTestPage({ params }: PageProps) {
     notFound();
   }
 
-  return <IELTSTest testData={testData} />;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  return <IELTSTest testData={testData} user={user} />;
 }
+

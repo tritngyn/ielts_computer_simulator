@@ -36,11 +36,12 @@ const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({
 
 interface IELTSTestProps {
   testData: IeltsReadingTest;
+  user?: any;
 }
 
 import { useState } from "react";
 
-const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
+const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -185,7 +186,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
   }
 
   if (isSubmitted) {
-    return <TestResultView testData={testData} />;
+    return <TestResultView testData={testData} user={user} />;
   }
 
   const renderInput = (qNumber: number) => {
@@ -518,7 +519,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
             Passage Progress: {answeredCount}/{totalQuestionsInPassage} answered
           </span>
           <button
-            onClick={() => {
+            onClick={async () => {
               if (!isSubmitted) {
                 // Calculate and save to history on first submit
                 let score = 0;
@@ -546,6 +547,24 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
                   });
                 });
 
+                // Import saveTestAttempt dynamically or at the top. Wait, better to import at top.
+                // We will add the import at the top of the file in another step.
+                // For now, let's call it via a dynamically imported action to avoid breaking the file structure too much if we don't do it cleanly,
+                // but static import is better. I will add the import at the top of IetlsTest.tsx separately.
+                try {
+                  const { saveTestAttempt } = await import("@/lib/actions/attempt.actions");
+                  await saveTestAttempt({
+                    testId: testData.id,
+                    score,
+                    totalQuestions: totalQ,
+                    timeTakenSeconds: 3600 - timeLeft,
+                    mode: "Full test",
+                  });
+                } catch (e) {
+                  console.error("Failed to save attempt to DB", e);
+                }
+
+                // Keep local store for optimistic updates or backward compatibility
                 useHistoryStore.getState().addAttempt({
                   testId: testData.id,
                   score,
@@ -553,6 +572,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData }) => {
                   timeTakenSeconds: 3600 - timeLeft,
                   mode: "Full test",
                 });
+                
                 submit();
               }
             }}

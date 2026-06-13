@@ -11,12 +11,15 @@ import {
 } from "lucide-react";
 import { IeltsReadingTest } from "@/types/ielts";
 import { useTestStore } from "@/store/useTestScore";
+import CommentSection from "@/app/components/CommentSection";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 interface Props {
   testData: IeltsReadingTest;
+  user?: SupabaseUser | null;
 }
 
-export default function TestResultView({ testData }: Props) {
+export default function TestResultView({ testData, user }: Props) {
   const { userAnswers, timeLeft } = useTestStore();
   const [activeTab, setActiveTab] = useState<number | "all">("all");
 
@@ -387,90 +390,10 @@ export default function TestResultView({ testData }: Props) {
           </div>
         </div>
 
-        {/* Comment Section (UI Only) */}
-        <div
-          className="bg-paper-white shadow-[6px_6px_16px_rgba(0,0,0,0.08)] p-6 relative"
-          style={{ transform: "rotate(0.2deg)" }}
-        >
-          <div className="tape tape-yellow absolute -top-2 left-1/2 -translate-x-1/2 rotate-[-2deg] w-24" />
-
-          <div className="flex items-center gap-2 mb-6 border-b border-gray-100 pb-4">
-            <MessageSquare className="w-6 h-6 text-accent-blue" />
-            <h2 className="text-2xl text-text-heading">Bình luận</h2>
-            <span className="bg-gray-100 text-gray-600 text-sm py-0.5 px-2 rounded-full font-bold">
-              2
-            </span>
-          </div>
-
-          <div className="mb-8 flex gap-4">
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold shrink-0 shadow-sm border border-blue-200">
-              U
-            </div>
-            <div className="flex-1">
-              <textarea
-                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition-colors min-h-[100px] resize-y"
-                placeholder="Viết bình luận của bạn về đề thi này..."
-              ></textarea>
-              <div className="flex justify-end mt-2">
-                <button className="paper-btn bg-accent-blue text-white shadow-[2px_2px_0px_#1e40af] text-sm py-2 px-6">
-                  Gửi bình luận
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            {/* Mock Comment 1 */}
-            <div className="flex gap-4">
-              <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-700 font-bold shrink-0">
-                A
-              </div>
-              <div className="flex-1">
-                <div className="bg-gray-50 p-4 rounded-lg rounded-tl-none border border-gray-100">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-bold text-sm text-gray-800">
-                      Anh Nguyễn
-                    </span>
-                    <span className="text-xs text-gray-400">2 giờ trước</span>
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    Đề này Passage 3 phần True/False/Not Given khó quá, mình làm
-                    sai gần hết 😭 Mọi người có tips nào cho dạng này không ạ?
-                  </p>
-                </div>
-                <div className="flex gap-4 mt-2 ml-2 text-xs font-semibold text-gray-500">
-                  <button className="hover:text-blue-600">Thích</button>
-                  <button className="hover:text-blue-600">Phản hồi</button>
-                </div>
-              </div>
-            </div>
-
-            {/* Mock Comment 2 */}
-            <div className="flex gap-4">
-              <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold shrink-0">
-                M
-              </div>
-              <div className="flex-1">
-                <div className="bg-gray-50 p-4 rounded-lg rounded-tl-none border border-gray-100">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-bold text-sm text-gray-800">
-                      Minh Trần
-                    </span>
-                    <span className="text-xs text-gray-400">1 ngày trước</span>
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    Đề sát với cấu trúc thi thật, cám ơn admin đã tổng hợp.
-                  </p>
-                </div>
-                <div className="flex gap-4 mt-2 ml-2 text-xs font-semibold text-gray-500">
-                  <button className="hover:text-blue-600">Thích</button>
-                  <button className="hover:text-blue-600">Phản hồi</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Comment Section */}
+        <CommentSection testId={testData.id} user={user || null} />
       </div>
     </div>
   );
 }
+
