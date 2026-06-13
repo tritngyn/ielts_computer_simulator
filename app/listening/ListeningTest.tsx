@@ -59,15 +59,21 @@ export default function ListeningTest({ testData, user }: Props) {
   const [volume, setVolume] = useState(0.8);
   const progressRef = useRef<HTMLDivElement>(null);
 
+  // Answers & Submission State
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   // Time remaining for test (e.g., 30 mins)
   const [timeLeft, setTimeLeft] = useState(30 * 60);
 
+
   useEffect(() => {
+    if (isSubmitted) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isSubmitted]);
 
   // Audio Handlers
   const togglePlayPause = () => {
@@ -129,8 +135,7 @@ export default function ListeningTest({ testData, user }: Props) {
   );
 
   // Answers State
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
 
   const handleAnswerChange = React.useCallback(
     (questionId: string, value: string) => {
