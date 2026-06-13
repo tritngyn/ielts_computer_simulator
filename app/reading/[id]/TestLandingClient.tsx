@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Clock,
@@ -179,9 +180,12 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
                           {formatTime(attempt.timeTakenSeconds)}
                         </td>
                         <td className="p-4">
-                          <button className="text-blue-600 hover:text-blue-800 hover:underline font-medium text-sm">
+                          <Link 
+                            href={`/reading/${testData.id}/result/${attempt.id}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline font-medium text-sm"
+                          >
                             Xem chi tiết
-                          </button>
+                          </Link>
                         </td>
                       </tr>
                     ))}

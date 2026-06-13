@@ -29,8 +29,12 @@ const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({
   );
 });
 
+import type { User as SupabaseUser } from "@supabase/supabase-js";
+import ListeningTestResultView from "./ListeningTestResultView";
+
 interface Props {
   testData: IeltsListeningTest;
+  user?: SupabaseUser | null;
 }
 
 const formatTime = (time: number) => {
@@ -40,7 +44,7 @@ const formatTime = (time: number) => {
   return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 };
 
-export default function ListeningTest({ testData }: Props) {
+export default function ListeningTest({ testData, user }: Props) {
   const router = useRouter();
 
   // Navigation State
@@ -209,6 +213,17 @@ export default function ListeningTest({ testData }: Props) {
       document.removeEventListener("input", handleDelegatedInput);
     };
   }, [handleAnswerChange]);
+
+  if (isSubmitted) {
+    return (
+      <ListeningTestResultView 
+        testData={testData} 
+        user={user} 
+        currentAnswers={answers} 
+        currentTimeTaken={30 * 60 - timeLeft} 
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-gray-50 font-sans text-gray-900">
@@ -688,6 +703,18 @@ export default function ListeningTest({ testData }: Props) {
                   });
                 });
 
+                // Save to DB
+                import("@/lib/actions/attempt.actions").then(({ saveTestAttempt }) => {
+                  saveTestAttempt({
+                    testId: testData.id,
+                    score,
+                    totalQuestions: totalQ,
+                    timeTakenSeconds: 30 * 60 - timeLeft,
+                    mode: "Full test",
+                    userAnswers: answers,
+                  }).catch(console.error);
+                });
+
                 useHistoryStore.getState().addAttempt({
                   testId: testData.id,
                   score,
@@ -696,12 +723,11 @@ export default function ListeningTest({ testData }: Props) {
                   mode: "Full test",
                 });
                 setIsSubmitted(true);
-                alert(`Test submitted! Your score: ${score}/${totalQ}`);
               }
             }}
             className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold shadow-sm transition"
           >
-            {isSubmitted ? "Submitted" : "Submit Test"}
+            Submit Test
           </button>
         </div>
       </footer>

@@ -10,12 +10,14 @@ export async function saveTestAttempt({
   totalQuestions,
   timeTakenSeconds,
   mode,
+  userAnswers,
 }: {
   testId: string;
   score: number;
   totalQuestions: number;
   timeTakenSeconds: number;
   mode: string;
+  userAnswers?: Record<string, string>;
 }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -33,6 +35,7 @@ export async function saveTestAttempt({
         totalQuestions,
         timeTakenSeconds,
         mode,
+        userAnswers: userAnswers || undefined,
       },
     });
     
@@ -67,3 +70,31 @@ export async function getUserAttempts(testId?: string) {
     return [];
   }
 }
+
+export async function getAttemptById(attemptId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return null;
+  }
+
+  try {
+    const attempt = await prisma.attempt.findUnique({
+      where: { id: attemptId },
+      include: {
+        test: true, // we might need test info
+      }
+    });
+
+    // Make sure the attempt belongs to the user
+    if (attempt && attempt.userId === user.id) {
+      return attempt;
+    }
+    return null;
+  } catch (error) {
+    console.error("Failed to get attempt:", error);
+    return null;
+  }
+}
+

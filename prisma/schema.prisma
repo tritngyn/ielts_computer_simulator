@@ -49,6 +49,7 @@ model Attempt {
   totalQuestions   Int
   timeTakenSeconds Int
   mode             String   // e.g., "Full test", "Luyện tập"
+  userAnswers      Json?    // Added to store detailed answers
   
   createdAt        DateTime @default(now())
 }

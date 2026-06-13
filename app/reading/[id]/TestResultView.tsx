@@ -17,16 +17,22 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
 interface Props {
   testData: IeltsReadingTest;
   user?: SupabaseUser | null;
+  pastAttempt?: any; // The attempt data from DB
 }
 
-export default function TestResultView({ testData, user }: Props) {
-  const { userAnswers, timeLeft } = useTestStore();
+export default function TestResultView({ testData, user, pastAttempt }: Props) {
+  const { userAnswers: storeAnswers, timeLeft } = useTestStore();
+  
+  // Use past attempt data if provided, otherwise use current store data
+  const userAnswers = pastAttempt?.userAnswers || storeAnswers;
+  const timeTakenSeconds = pastAttempt ? pastAttempt.timeTakenSeconds : (3600 - timeLeft);
+
   const [activeTab, setActiveTab] = useState<number | "all">("all");
 
-  const timeTakenSeconds = 3600 - timeLeft;
   const timeTakenFormatted = `${Math.floor(timeTakenSeconds / 60)
     .toString()
     .padStart(2, "0")}:${(timeTakenSeconds % 60).toString().padStart(2, "0")}`;
+
 
   let totalCorrect = 0;
   let totalIncorrect = 0;

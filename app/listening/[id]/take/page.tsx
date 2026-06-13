@@ -1,12 +1,13 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import ListeningTest from "../../ListeningTest";
 import { getListeningTestById } from "@/lib/data";
+import { createClient } from "@/utils/supabase/server";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function TakeTestPage({ params }: PageProps) {
+export default async function TakeListeningTestPage({ params }: PageProps) {
   const { id } = await params;
   const decodedId = decodeURIComponent(id);
 
@@ -16,5 +17,12 @@ export default async function TakeTestPage({ params }: PageProps) {
     notFound();
   }
 
-  return <ListeningTest testData={testData} />;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  return <ListeningTest testData={testData} user={user} />;
 }

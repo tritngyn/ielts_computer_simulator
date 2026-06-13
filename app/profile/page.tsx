@@ -151,6 +151,12 @@ export default async function ProfilePage() {
                     <div className="text-2xl font-bold font-hand text-accent-green">
                       {attempt.score} <span className="text-sm text-text-secondary font-normal font-body">/ {attempt.totalQuestions}</span>
                     </div>
+                    <Link 
+                      href={`/${attempt.test.type.toLowerCase()}/${attempt.testId}/result/${attempt.id}`}
+                      className="text-xs font-bold text-accent-blue hover:underline bg-blue-50 px-2 py-1 rounded"
+                    >
+                      Xem chi tiết
+                    </Link>
                   </div>
                 </div>
               ))}

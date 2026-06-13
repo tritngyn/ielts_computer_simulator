@@ -559,6 +559,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                     totalQuestions: totalQ,
                     timeTakenSeconds: 3600 - timeLeft,
                     mode: "Full test",
+                    userAnswers, // Add userAnswers to DB
                   });
                 } catch (e) {
                   console.error("Failed to save attempt to DB", e);

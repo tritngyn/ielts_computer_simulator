@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Clock,
@@ -15,11 +16,16 @@ import { IeltsListeningTest } from "@/types/listening";
 import { useHistoryStore } from "@/store/useHistoryStore";
 import { useTestStore } from "@/store/useTestScore";
 
+import type { User as SupabaseUser } from "@supabase/supabase-js";
+import CommentSection from "@/app/components/CommentSection";
+
 interface Props {
   testData: IeltsListeningTest;
+  user: SupabaseUser | null;
+  dbAttempts: any[];
 }
 
-export default function ListeningTestLandingClient({ testData }: Props) {
+export default function ListeningTestLandingClient({ testData, user, dbAttempts }: Props) {
   const router = useRouter();
   const resetTestStore = useTestStore((state) => state.reset);
 
@@ -31,15 +37,8 @@ export default function ListeningTestLandingClient({ testData }: Props) {
     return () => clearTimeout(timer);
   }, []);
 
-  // Calculate history during render to avoid cascading renders inside useEffect.
-  // We use isMounted to prevent hydration mismatches with Zustand persist.
-  const history = !isMounted
-    ? []
-    : [...allAttempts]
-        .filter((a) => a.testId === testData.id)
-        .sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
+  // Use DB attempts
+  const history = !isMounted ? [] : dbAttempts;
 
   const totalQuestions = testData.parts.reduce(
     (sum, p) =>
@@ -48,6 +47,10 @@ export default function ListeningTestLandingClient({ testData }: Props) {
   );
 
   const startTest = () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
     resetTestStore();
     router.push(`/listening/${encodeURIComponent(testData.id)}/take`);
   };
@@ -122,63 +125,86 @@ export default function ListeningTestLandingClient({ testData }: Props) {
         </motion.div>
 
         {/* Test History Section */}
-        <motion.div
-          className="bg-paper-white shadow-[4px_4px_12px_rgba(0,0,0,0.06)] p-8 relative"
-          style={{ transform: "rotate(0.3deg)" }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <h2 className="text-xl font-bold mb-6">Kết quả làm bài của bạn:</h2>
+        {user ? (
+          <motion.div
+            className="bg-paper-white shadow-[4px_4px_12px_rgba(0,0,0,0.06)] p-8 relative"
+            style={{ transform: "rotate(0.3deg)" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <h2 className="text-xl font-bold mb-6">Kết quả làm bài của bạn:</h2>
 
-          {history.length > 0 ? (
-            <div className="overflow-x-auto border border-gray-200 rounded-sm">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200 text-gray-600">
-                    <th className="p-4 font-bold">Ngày làm</th>
-                    <th className="p-4 font-bold">Kết quả</th>
-                    <th className="p-4 font-bold">Thời gian làm bài</th>
-                    <th className="p-4 font-bold"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {history.map((attempt) => (
-                    <tr
-                      key={attempt.id}
-                      className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors"
-                    >
-                      <td className="p-4">
-                        <div className="font-medium text-gray-800">
-                          {new Date(attempt.date).toLocaleDateString("vi-VN")}
-                        </div>
-                        <span className="inline-block mt-1 bg-green-100 text-green-700 px-2 py-0.5 text-xs font-bold rounded-sm border border-green-200">
-                          {attempt.mode}
-                        </span>
-                      </td>
-                      <td className="p-4 font-bold text-gray-800">
-                        {attempt.score}/{attempt.totalQuestions}
-                      </td>
-                      <td className="p-4 text-gray-600">
-                        {formatTime(attempt.timeTakenSeconds)}
-                      </td>
-                      <td className="p-4">
-                        <button className="text-blue-600 hover:text-blue-800 hover:underline font-medium text-sm">
-                          Xem chi tiết
-                        </button>
-                      </td>
+            {history.length > 0 ? (
+              <div className="overflow-x-auto border border-gray-200 rounded-sm">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-200 text-gray-600">
+                      <th className="p-4 font-bold">Ngày làm</th>
+                      <th className="p-4 font-bold">Kết quả</th>
+                      <th className="p-4 font-bold">Thời gian làm bài</th>
+                      <th className="p-4 font-bold"></th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {history.map((attempt) => (
+                      <tr
+                        key={attempt.id}
+                        className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors"
+                      >
+                        <td className="p-4">
+                          <div className="font-medium text-gray-800">
+                            {new Date(attempt.createdAt).toLocaleDateString("vi-VN", {
+                              hour: '2-digit', minute: '2-digit'
+                            })}
+                          </div>
+                          <span className="inline-block mt-1 bg-green-100 text-green-700 px-2 py-0.5 text-xs font-bold rounded-sm border border-green-200">
+                            {attempt.mode}
+                          </span>
+                        </td>
+                        <td className="p-4 font-bold text-gray-800">
+                          {attempt.score}/{attempt.totalQuestions}
+                        </td>
+                        <td className="p-4 text-gray-600">
+                          {formatTime(attempt.timeTakenSeconds)}
+                        </td>
+                        <td className="p-4">
+                          <Link 
+                            href={`/listening/${testData.id}/result/${attempt.id}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline font-medium text-sm"
+                          >
+                            Xem chi tiết
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="text-center py-10 bg-gray-50 border border-dashed border-gray-300">
+                <FileText className="w-10 h-10 text-gray-300 mx-auto mb-2" />
+                <p className="text-gray-500">Bạn chưa làm đề thi này lần nào.</p>
+              </div>
+            )}
+          </motion.div>
+        ) : (
+          <motion.div
+            className="bg-paper-white shadow-[4px_4px_12px_rgba(0,0,0,0.06)] p-8 relative"
+            style={{ transform: "rotate(0.3deg)" }}
+          >
+            <h2 className="text-xl font-bold mb-6">Kết quả làm bài của bạn:</h2>
+            <div className="text-center py-10 bg-gray-50 border border-dashed border-gray-300 rounded">
+              <p className="text-gray-500 mb-4">Vui lòng đăng nhập để lưu và xem kết quả làm bài của bạn.</p>
+              <button onClick={() => router.push("/login")} className="paper-btn bg-gray-800 text-white shadow-[3px_3px_0px_#374151] px-6 py-2">
+                Đăng nhập
+              </button>
             </div>
-          ) : (
-            <div className="text-center py-10 bg-gray-50 border border-dashed border-gray-300">
-              <FileText className="w-10 h-10 text-gray-300 mx-auto mb-2" />
-              <p className="text-gray-500">Bạn chưa làm đề thi này lần nào.</p>
-            </div>
-          )}
-        </motion.div>
+          </motion.div>
+        )}
+
+        {/* Comment Section */}
+        <CommentSection testId={testData.id} user={user} />
       </div>
     </div>
   );
