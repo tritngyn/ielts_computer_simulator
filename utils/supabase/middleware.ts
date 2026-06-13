@@ -36,7 +36,7 @@ export async function updateSession(request: NextRequest) {
         remove(name: string, options: any) {
           request.cookies.set({
             name,
-            value: '',
+            value: "",
             ...options,
           });
           supabaseResponse = NextResponse.next({
@@ -46,7 +46,7 @@ export async function updateSession(request: NextRequest) {
           });
           supabaseResponse.cookies.set({
             name,
-            value: '',
+            value: "",
             ...options,
           });
         },

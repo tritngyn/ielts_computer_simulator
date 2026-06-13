@@ -596,9 +596,10 @@ export default function ListeningTest({ testData, user }: Props) {
                                   </option>
                                   {group.sharedOptions.map((opt, i) => {
                                     const val = String.fromCharCode(65 + i);
+                                    const cleanOpt = opt.replace(/^[A-Z][\.\)\s]+/, "");
                                     return (
                                       <option key={i} value={val}>
-                                        {val}. {opt}
+                                        {val}. {cleanOpt}
                                       </option>
                                     );
                                   })}

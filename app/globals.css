@@ -513,3 +513,23 @@ h6 {
 .stagger-6 {
   animation-delay: 0.3s;
 }
+
+/* ============================================================
+   PROSE TABLE STYLING
+   ============================================================ */
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.prose th, .prose td {
+  border: 1px solid #d1d5db;
+  padding: 0.75rem;
+  text-align: left;
+}
+.prose th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+

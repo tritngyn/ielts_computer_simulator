@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { getListeningTestById } from "@/lib/data";
 import { getAttemptById } from "@/lib/actions/attempt.actions";
 import { createClient } from "@/utils/supabase/server";
-import ListeningTestResultView from "../../ListeningTestResultView";
+import ListeningTestResultView from "@/app/listening/ListeningTestResultView";
 
 interface PageProps {
   params: Promise<{ id: string; attemptId: string }>;
