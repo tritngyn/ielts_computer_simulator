@@ -113,7 +113,7 @@ export async function logout() {
   return { success: true };
 }
 
-export async function signInWithOAuth(provider: "google" | "github") {
+export async function signInWithOAuth(provider: "google") {
   const supabase = await createClient();
   
   // The redirect callback URL should point to your callback route

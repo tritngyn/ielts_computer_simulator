@@ -1,6 +1,6 @@
-# 🎓 IELTS Computer-Delivered Simulator
+# 🎓 IELTS Master Simulator (Computer-Delivered)
 
-> **A high-performance, full-stack web application designed to replicate the authentic computer-delivered IELTS testing experience.**
+> **A high-performance, full-stack web application designed to replicate the authentic computer-delivered IELTS testing experience with modern cinematic UI.**
 
 ![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -12,44 +12,43 @@
 
 ## 📖 Overview
 
-This project is a sophisticated **IELTS Reading Simulator** built to provide users with a seamless, lag-free test environment. It goes beyond a standard quiz app by supporting complex, dynamic HTML parsing required for real-world IELTS question types (such as in-text Gap Filling, Matching Information, and True/False/Not Given), all while maintaining a strict 60-minute synchronized timer.
+This project is a sophisticated **Full-stack IELTS Simulator** built to provide users with a seamless, lag-free test environment across all four skills: **Reading, Listening, Writing, and Speaking**. It goes beyond a standard quiz app by supporting complex, dynamic HTML parsing required for real-world IELTS question types (such as in-text Gap Filling, Matching Information, and True/False/Not Given), integrated audio players for Listening, and a fully responsive "Light Cinematic" minimalist UI.
 
 ## 🚀 Key Technical Achievements
 
-This project was built with a strong focus on **performance optimization, complex state management, and modern React architectures**, showcasing skills directly applicable to enterprise-level SaaS products:
+This project was built with a strong focus on **performance optimization, complex state management, and modern React architectures**:
 
 ### 1. Advanced React Rendering & Native DOM Interop
 - **Problem:** Frequent state updates from a 1-second ticking timer caused the entire test component to re-render, destroying the focus state of raw HTML input fields (Gap Fill) injected via `dangerouslySetInnerHTML`.
 - **Solution:** Implemented strategic memoization using `React.memo` to freeze the raw HTML DOM nodes. Bridged the gap between React's synthetic event system and the browser's native DOM by attaching native `EventListener`s directly to dynamically generated elements. This guarantees 0 missed keystrokes and perfectly stable input focus during cascading timer re-renders.
 
-### 2. Robust State Management & Hydration Safety
-- Utilized **Zustand** to handle deeply nested application state (user answers, active passages, ticking timers) without prop-drilling.
-- Implemented `zustand/persist` for storing test history in `localStorage`. 
-- Overcame Next.js / React 18+ strict **Hydration Mismatch** and "Synchronous setState" compiler errors by employing reactive store subscriptions and macrotask queue deferral (`setTimeout`), ensuring seamless Server-Side Rendering (SSR) to Client-Side hydration.
-
-### 3. Complex Data Parsing Architecture
-- Developed highly reliable Regex parsers to seamlessly transform raw HTML data (scraped from original Cambridge materials) into interactive React components on the fly, while strictly preserving original table/list formatting.
-
-### 4. Database & ORM
+### 2. Full-Stack Architecture & Auth
 - Integrated **Supabase (PostgreSQL)** combined with **Prisma ORM** for structured, type-safe database migrations and robust data fetching.
+- Engineered secure user authentication and session management using Supabase Auth and Next.js middleware, protecting test routes and user histories.
+
+### 3. Robust State Management & Hydration Safety
+- Utilized **Zustand** to handle deeply nested application state (user answers, active passages, ticking timers) without prop-drilling.
+- Overcame Next.js strict **Hydration Mismatch** errors by employing reactive store subscriptions and macrotask queue deferral, ensuring seamless Server-Side Rendering (SSR) to Client-Side hydration.
+
+### 4. Fully Responsive "Impeccable" UI
+- Crafted a minimalist, distraction-free "Light Cinematic" interface leveraging Tailwind CSS and Framer Motion. 
+- Implemented complex responsive layouts, including a dynamic Mobile Tab Switcher for the test-taking interface, ensuring a flawless experience on both desktop and mobile devices.
 
 ## 🌟 Core Features
 
-- **Authentic Split-Screen UI:** Passage on the left, interactive questions on the right.
-- **Support for All IELTS Formats:** Multiple Choice, Gap Fill (in-text inputs), Matching Headings, True/False/Not Given.
+- **Authentic Split-Screen UI:** Replicates the exact layout of the computer-delivered IELTS exam.
+- **Comprehensive 4-Skill Support:** Reading, Listening (with synchronized audio), Writing, and Speaking modules.
 - **Real-time Synchronization:** Answers are persisted instantly to global state.
 - **Automated Grading:** Intelligent grading system that handles alternate correct answers and calculates final scores instantly upon submission.
 - **History Tracking:** Personalized dashboard to review past attempts, scores, and completion times.
 
 ## 🛠️ Tech Stack
 
-- **Frontend Framework:** Next.js (App Router), React 18
-- **Language:** TypeScript (Strict Mode)
-- **Styling & UI:** Tailwind CSS, Framer Motion (Micro-animations)
-- **State Management:** Zustand (with Persist Middleware)
-- **Backend & DB:** PostgreSQL hosted on Supabase
-- **ORM:** Prisma
-- **Icons:** Lucide React
+- **Frontend:** Next.js (App Router), React 18, TypeScript (Strict Mode)
+- **Styling:** Tailwind CSS, Framer Motion (Micro-animations)
+- **State Management:** Zustand
+- **Backend & Database:** PostgreSQL hosted on Supabase, Prisma ORM
+- **Deployment:** Vercel
 
 ## 💻 Running Locally
 
@@ -61,8 +60,10 @@ This project was built with a strong focus on **performance optimization, comple
    ```bash
    npm install
    ```
-3. Set up environment variables (create a `.env` file):
+3. Set up environment variables in `.env`:
    ```env
+   NEXT_PUBLIC_SUPABASE_URL="your-supabase-url"
+   NEXT_PUBLIC_SUPABASE_ANON_KEY="your-supabase-anon-key"
    DATABASE_URL="your-supabase-connection-string"
    DIRECT_URL="your-supabase-direct-connection-string"
    ```
@@ -76,4 +77,4 @@ This project was built with a strong focus on **performance optimization, comple
    ```
 
 ## 🎯 Why This Project Matters
-This application demonstrates the ability to solve non-trivial frontend challenges—such as preventing React cascading renders, handling edge cases in SSR hydration, and managing complex DOM/State synchronization—skills that are critical for building scalable, high-performance web applications.
+This application demonstrates the ability to solve non-trivial frontend and backend challenges—such as preventing React cascading renders, implementing secure auth flows, and managing complex DOM/State synchronization—skills that are critical for building scalable, high-performance web applications.
