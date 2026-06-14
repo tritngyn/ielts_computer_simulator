@@ -9,6 +9,8 @@ export const metadata = {
   title: "Profile | IELTS Master",
 };
 
+import ProfileCard from "./ProfileCard";
+
 export default async function ProfilePage() {
   const supabase = await createClient();
   const {
@@ -53,49 +55,13 @@ export default async function ProfilePage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Column: User Info */}
         <div className="md:col-span-1 space-y-8">
-          <div className="paper-card p-6 rotate-[-1deg]">
-            <div className="tape tape-yellow absolute -top-3 left-1/2 -translate-x-1/2 rotate-[-2deg]" />
-            
-            <div className="flex flex-col items-center text-center mt-4">
-              <div className="w-28 h-28 rounded-full overflow-hidden mb-4 photo-frame">
-                {avatar ? (
-                  <Image 
-                    src={avatar} 
-                    alt={displayName} 
-                    width={112}
-                    height={112}
-                    unoptimized
-                    className="w-full h-full object-cover" 
-                  />
-                ) : (
-                  <div className="w-full h-full bg-amber-100 flex items-center justify-center text-amber-600 text-4xl font-hand">
-                    {displayName.charAt(0).toUpperCase()}
-                  </div>
-                )}
-              </div>
-              <h2 className="text-2xl font-bold text-text-heading mb-1">{displayName}</h2>
-              <p className="text-text-secondary font-body break-all">{email}</p>
-              
-              <div className="w-full h-px bg-amber-200/50 my-6" />
-              
-              <div className="w-full space-y-4">
-                <div className="flex justify-between items-center px-2">
-                  <div className="flex items-center gap-2 text-text-secondary">
-                    <BookOpen className="w-4 h-4" />
-                    <span className="font-body">Tổng bài làm</span>
-                  </div>
-                  <span className="font-bold text-lg font-hand text-accent-blue">{totalTests}</span>
-                </div>
-                <div className="flex justify-between items-center px-2">
-                  <div className="flex items-center gap-2 text-text-secondary">
-                    <Award className="w-4 h-4" />
-                    <span className="font-body">Điểm trung bình</span>
-                  </div>
-                  <span className="font-bold text-lg font-hand text-accent-green">{avgScore}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ProfileCard
+            initialDisplayName={displayName}
+            email={email || "No email provided"}
+            initialAvatar={avatar}
+            totalTests={totalTests}
+            avgScore={avgScore}
+          />
         </div>
 
         {/* Right Column: History */}

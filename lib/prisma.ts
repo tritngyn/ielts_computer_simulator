@@ -1,11 +1,17 @@
 import { PrismaClient } from '@prisma/client'
 
 const prismaClientSingleton = () => {
+  let url = process.env.DATABASE_URL;
+  // Tự động thêm pgbouncer=true nếu dùng Supabase Pooler (port 6543) mà quên thêm
+  if (url && url.includes('6543') && !url.includes('pgbouncer=true')) {
+    url += url.includes('?') ? '&pgbouncer=true' : '?pgbouncer=true';
+  }
+
   return new PrismaClient({
-    ...(process.env.DATABASE_URL && {
+    ...(url && {
       datasources: {
         db: {
-          url: process.env.DATABASE_URL,
+          url: url,
         },
       },
     }),
