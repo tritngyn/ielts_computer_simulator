@@ -5,26 +5,21 @@ import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { BookOpen, FileText, Clock, ChevronRight, ChevronLeft } from "lucide-react";
 import { IeltsReadingTest } from "@/types/ielts";
+import { Instrument_Serif } from "next/font/google";
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 const TESTS_PER_PAGE = 6;
 
-const paperIn: Variants = {
-  hidden: { opacity: 0, y: 16, rotate: -1 },
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 16 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    rotate: 0,
-    transition: { delay: i * 0.06, duration: 0.4, ease: "easeOut" },
-  }),
-};
-
-const cardIn: Variants = {
-  hidden: { opacity: 0, y: 16, rotate: -1 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    rotate: 0,
-    transition: { delay: i * 0.06, duration: 0.4, ease: "easeOut" },
+    transition: { delay: i * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] },
   }),
 };
 
@@ -52,107 +47,102 @@ export default function ReadingListClient({ tests }: Props) {
       label: "Total Tests",
       value: mappedTests.length,
       icon: FileText,
-      paper: "bg-blue-50",
-      rotation: "rotate-[-1deg]",
     },
     {
       label: "Test Duration",
       value: "60 min",
       icon: Clock,
-      paper: "bg-pink-50",
-      rotation: "rotate-[0.5deg]",
     },
     {
       label: "Questions per Test",
       value: "40",
       icon: BookOpen,
-      paper: "bg-green-50",
-      rotation: "rotate-[-0.5deg]",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-paper-cream py-10 px-4">
+    <div className="min-h-screen bg-background pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          className="mb-10 relative"
+          className="mb-16"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div
-            className="inline-block bg-paper-white p-6 pr-12 shadow-[6px_6px_16px_rgba(0,0,0,0.1)]"
-            style={{ transform: "rotate(-0.8deg)" }}
-          >
-            <div className="tape tape-blue absolute -top-2 left-6 rotate-[-10deg] w-16" />
-            <div className="flex items-center gap-3 mb-3">
-              <div className="bg-accent-blue p-2.5 rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,0.1)]">
-                <BookOpen className="w-7 h-7 text-white" />
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="bg-black/5 border border-black/5 p-3 rounded-full">
+                  <BookOpen className="w-6 h-6 text-foreground" />
+                </div>
+                <h1 className={`text-4xl md:text-6xl text-foreground ${instrumentSerif.className}`}>
+                  Reading Tests
+                </h1>
               </div>
-              <h1 className="text-4xl md:text-5xl text-text-heading">Reading Tests</h1>
+              <p className="text-muted-foreground text-lg max-w-2xl">
+                Official Cambridge IELTS Reading tests. Sharpen your focus and improve your comprehension with full-length simulations.
+              </p>
             </div>
-            <p className="text-text-secondary text-lg font-body pl-1">
-              Official Cambridge IELTS Reading tests — 3 passages, 40 questions each
-            </p>
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {statCards.map((stat, index) => {
             const Icon = stat.icon;
             return (
               <motion.div
                 key={stat.label}
-                className={`${stat.paper} p-6 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] ${stat.rotation} transition-all duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_16px_rgba(0,0,0,0.12)]`}
+                className="liquid-glass p-8 rounded-2xl flex items-center justify-between"
                 custom={index}
-                variants={cardIn}
+                variants={fadeUp}
                 initial="hidden"
                 animate="visible"
               >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-text-secondary text-sm font-body mb-1">{stat.label}</p>
-                    <p className="text-3xl text-text-heading">{stat.value}</p>
-                  </div>
-                  <Icon className="w-12 h-12 text-accent-blue opacity-20" />
+                <div>
+                  <p className="text-muted-foreground text-sm mb-2">{stat.label}</p>
+                  <p className={`text-4xl text-foreground ${instrumentSerif.className}`}>{stat.value}</p>
+                </div>
+                <div className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center border border-black/5">
+                  <Icon className="w-5 h-5 text-muted-foreground" />
                 </div>
               </motion.div>
             );
           })}
         </div>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {paginatedTests.map((test, index) => (
-            <motion.div key={test.id} custom={index} variants={cardIn} initial="hidden" animate="visible">
+            <motion.div key={test.id} custom={index} variants={fadeUp} initial="hidden" animate="visible">
               <Link
                 href={`/reading/${test.id}`}
-                className="block bg-paper-white p-6 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] group transition-all duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_16px_rgba(0,0,0,0.14)]"
-                style={{ transform: `rotate(${index % 2 === 0 ? "-0.3" : "0.3"}deg)` }}
+                className="block liquid-glass p-6 md:p-8 rounded-2xl group transition-all"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-start gap-4 flex-1">
-                    <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_rgba(0,0,0,0.06)]">
-                      <BookOpen className="w-6 h-6 text-accent-blue" />
+                  <div className="flex items-start gap-5 flex-1">
+                    <div className="w-12 h-12 bg-black/5 border border-black/5 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-black/10 group-hover:border-black/10 transition-colors">
+                      <BookOpen className="w-5 h-5 text-foreground" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl text-text-heading mb-2">{test.book}</h3>
-                      <div className="flex flex-wrap gap-3 text-sm">
-                        <span className="paper-tag bg-blue-100 text-blue-700">
-                          <FileText className="w-3.5 h-3.5 mr-1 inline" />
+                      <h3 className={`text-2xl text-foreground mb-3 ${instrumentSerif.className}`}>{test.book}</h3>
+                      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1.5">
+                          <FileText className="w-4 h-4 opacity-70" />
                           {test.passages} passages
                         </span>
-                        <span className="paper-tag bg-yellow-100 text-yellow-800">
-                          <BookOpen className="w-3.5 h-3.5 mr-1 inline" />
+                        <span className="flex items-center gap-1.5">
+                          <BookOpen className="w-4 h-4 opacity-70" />
                           {test.questions} questions
                         </span>
-                        <span className="paper-tag bg-green-100 text-green-700">
-                          <Clock className="w-3.5 h-3.5 mr-1 inline" />
-                          {test.time} minutes
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="w-4 h-4 opacity-70" />
+                          {test.time} mins
                         </span>
                       </div>
                     </div>
                   </div>
-                  <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-accent-blue group-hover:translate-x-1 transition-all duration-150" />
+                  <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
+                    <ChevronRight className="w-5 h-5 text-foreground" />
+                  </div>
                 </div>
               </Link>
             </motion.div>
@@ -160,22 +150,22 @@ export default function ReadingListClient({ tests }: Props) {
         </div>
 
         {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-4 mt-10">
+          <div className="flex items-center justify-center gap-6 mt-16">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="paper-btn bg-paper-white text-text-heading rounded-sm text-base disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-6 py-3 rounded-full border border-black/10 text-foreground hover:bg-black/5 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
-              Previous
+              Prev
             </button>
-            <span className="paper-tag bg-paper-kraft text-text-heading px-6">
-              {page} / {totalPages}
+            <span className="text-muted-foreground text-sm">
+              Page <span className="text-foreground font-medium">{page}</span> of {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="paper-btn bg-paper-white text-text-heading rounded-sm text-base disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-6 py-3 rounded-full border border-black/10 text-foreground hover:bg-black/5 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             >
               Next
               <ChevronRight className="w-4 h-4" />
@@ -184,21 +174,21 @@ export default function ReadingListClient({ tests }: Props) {
         )}
 
         <motion.div
-          className="mt-10 relative bg-paper-kraft p-8 shadow-[6px_6px_16px_rgba(0,0,0,0.1)] torn-bottom pb-14"
-          style={{ transform: "rotate(0.3deg)" }}
+          className="mt-24 liquid-glass p-8 md:p-12 rounded-2xl relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="tape tape-pink absolute -top-2 right-8 rotate-[6deg] w-16" />
-          <h3 className="text-2xl text-text-heading mb-4">📖 About Reading Tests</h3>
-          <div className="text-text-secondary font-body space-y-2 leading-relaxed">
-            <p>✦ Each test consists of 3 reading passages with increasing difficulty</p>
-            <p>✦ You have 60 minutes to complete 40 questions</p>
-            <p>✦ Question types include multiple choice, true/false/not given, matching, and more</p>
-            <p>✦ Tests are from official Cambridge IELTS preparation materials</p>
-            <p>✦ Your score will be calculated based on the number of correct answers</p>
+          {/* Subtle gradient glow inside the card */}
+          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-accent/20 rounded-full blur-[80px] pointer-events-none" />
+          
+          <h3 className={`text-3xl text-foreground mb-6 ${instrumentSerif.className}`}>About Reading Tests</h3>
+          <div className="text-muted-foreground space-y-3 leading-relaxed max-w-3xl">
+            <p>— Each test consists of 3 reading passages with increasing difficulty.</p>
+            <p>— You have 60 minutes to complete 40 questions in a focused environment.</p>
+            <p>— Question types include multiple choice, true/false/not given, matching, and more.</p>
+            <p>— Tests are sourced from official preparation materials for maximum realism.</p>
           </div>
         </motion.div>
       </div>

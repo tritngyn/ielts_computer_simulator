@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   BookOpen,
   Headphones,
@@ -14,10 +14,15 @@ import {
   Menu,
   X,
   LogOut,
-  LogIn,
 } from "lucide-react";
 import { logout } from "../(auth)/actions";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
+import { Instrument_Serif } from "next/font/google";
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 interface NavbarProps {
   user: SupabaseUser | null;
@@ -34,141 +39,124 @@ const navLinks = [
 const Navbar = ({ user }: NavbarProps) => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Hide Navbar completely on test-taking pages
   if (pathname.endsWith("/take")) {
     return null;
   }
 
+  // The Homepage has its own transparent navbar if we want, but we can also use this global one
+  // Since we redesigned the Homepage to be integrated, let's use the global one but make it transparent.
+  const isHome = pathname === "/";
+
   return (
-    <nav className="sticky top-0 z-50 select-none">
-      {/* Paper strip background */}
-      <div
-        className="relative bg-paper-kraft shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
-        style={{ transform: "rotate(-0.3deg)", transformOrigin: "center" }}
-      >
-        {/* Tape decorations */}
-        <div className="tape tape-yellow absolute -top-2 left-8 rotate-[-12deg]" />
-        <div className="tape tape-blue absolute -top-2 right-12 rotate-[8deg]" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div
-            className="flex items-center justify-between h-16"
-            style={{ transform: "rotate(0.3deg)" }}
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 select-none transition-all duration-300 ${
+        scrolled ? "bg-background/80 backdrop-blur-md border-b border-black/5 py-4 shadow-sm" : "bg-transparent py-6"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className={`text-3xl tracking-tight text-foreground ${instrumentSerif.className} hover:opacity-80 transition-opacity`}
           >
-            {/* Logo */}
-            <Link
-              href="/"
-              className="font-hand text-2xl text-text-heading tracking-wide hover:rotate-[-1deg] transition-transform duration-200"
-            >
-              ✏️ IELTS Master
-            </Link>
+            IELTS Master<sup className="text-xs">®</sup>
+          </Link>
 
-            {/* Desktop links */}
-            <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => {
-                const Icon = link.icon;
-                const isActive =
-                  link.href === "/"
-                    ? pathname === "/"
-                    : pathname.startsWith(link.href);
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(link.href);
 
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`
-                      relative flex items-center gap-1.5 px-4 py-2 rounded-sm
-                      font-hand text-lg transition-all duration-200
-                      ${
-                        isActive
-                          ? "bg-paper-white shadow-[3px_3px_0px_rgba(0,0,0,0.12)] text-text-heading -rotate-1"
-                          : "text-text-secondary hover:text-text-heading hover:bg-paper-white/60 hover:-translate-y-0.5"
-                      }
-                    `}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {link.label}
-                  </Link>
-                );
-              })}
-              
-              <div className="w-px h-6 bg-amber-200/50 mx-2 hidden lg:block" />
-              
-              {user ? (
-                <div className="flex items-center gap-4">
-                  <Link
-                    href="/profile"
-                    className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-paper-white/60 transition-all duration-200"
-                    title="Go to Profile"
-                  >
-                    {user.user_metadata?.avatar_url ? (
-                      <Image 
-                        src={user.user_metadata.avatar_url} 
-                        alt="Profile" 
-                        width={32}
-                        height={32}
-                        unoptimized
-                        className="w-8 h-8 rounded-full border-2 border-accent-blue object-cover"
-                      />
-                    ) : (
-                      <div className="w-8 h-8 rounded-full bg-accent-blue text-white flex items-center justify-center border-2 border-accent-blue shadow-sm">
-                        <User className="w-5 h-5" />
-                      </div>
-                    )}
-                    <span className="font-hand text-lg text-text-heading hidden lg:block">
-                      {user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0] || "Profile"}
-                    </span>
-                  </Link>
-                  <button
-                    onClick={async () => {
-                      await logout();
-                      window.location.href = "/login";
-                    }}
-                    className="p-2 rounded-full text-red-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
-                    title="Logout"
-                  >
-                    <LogOut className="w-5 h-5" />
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-3">
-                  <Link
-                    href="/login"
-                    className="font-hand text-lg text-text-secondary hover:text-text-heading transition-colors"
-                  >
-                    Log In
-                  </Link>
-                  <Link
-                    href="/signup"
-                    className="font-hand text-lg px-4 py-1.5 bg-accent-blue text-white rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,0.1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_rgba(0,0,0,0.1)] transition-all"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
-              )}
-            </div>
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm transition-colors ${
+                    isActive
+                      ? "text-foreground font-medium"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
 
-            {/* Mobile toggle */}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 text-text-heading"
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
+            <div className="w-px h-4 bg-border mx-2 hidden lg:block" />
+
+            {user ? (
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/profile"
+                  className="flex items-center gap-2 group"
+                  title="Go to Profile"
+                >
+                  {user.user_metadata?.avatar_url ? (
+                    <Image
+                      src={user.user_metadata.avatar_url}
+                      alt="Profile"
+                      width={32}
+                      height={32}
+                      unoptimized
+                      className="w-8 h-8 rounded-full border border-border object-cover group-hover:border-foreground transition-colors"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-secondary text-foreground flex items-center justify-center border border-border group-hover:border-foreground transition-colors">
+                      <User className="w-4 h-4" />
+                    </div>
+                  )}
+                </Link>
+                <button
+                  onClick={async () => {
+                    await logout();
+                    window.location.href = "/login";
+                  }}
+                  className="text-muted-foreground hover:text-red-400 transition-colors"
+                  title="Logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="liquid-glass rounded-full px-6 py-2 text-sm text-foreground hover:scale-[1.03]"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
+
+          {/* Mobile toggle */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2 text-foreground"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-paper-kraft border-t border-amber-200/50 shadow-[0_8px_16px_rgba(0,0,0,0.1)]">
-          <div className="px-4 py-3 space-y-1">
+        <div className="md:hidden absolute top-full left-0 w-full bg-background border-b border-black/5 shadow-2xl">
+          <div className="px-4 py-4 space-y-1">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive =
@@ -182,12 +170,11 @@ const Navbar = ({ user }: NavbarProps) => {
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className={`
-                    flex items-center gap-3 px-4 py-3 rounded-sm
-                    font-hand text-lg transition-all duration-150
+                    flex items-center gap-3 px-4 py-3 rounded-md transition-all duration-150
                     ${
                       isActive
-                        ? "bg-paper-white shadow-[3px_3px_0px_rgba(0,0,0,0.1)] text-text-heading"
-                        : "text-text-secondary hover:bg-paper-white/50 hover:text-text-heading"
+                        ? "bg-black/5 text-foreground"
+                        : "text-muted-foreground hover:bg-black/5 hover:text-foreground"
                     }
                   `}
                 >
@@ -197,14 +184,14 @@ const Navbar = ({ user }: NavbarProps) => {
               );
             })}
 
-            <div className="h-px bg-amber-200/50 my-2" />
-            
+            <div className="h-px bg-border my-4" />
+
             {user ? (
               <>
                 <Link
                   href="/profile"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-sm font-hand text-lg text-text-secondary hover:bg-paper-white/50 hover:text-text-heading transition-all duration-150"
+                  className="flex items-center gap-3 px-4 py-3 rounded-md text-muted-foreground hover:bg-black/5 hover:text-foreground transition-all duration-150"
                 >
                   <User className="w-5 h-5" />
                   Profile
@@ -215,27 +202,20 @@ const Navbar = ({ user }: NavbarProps) => {
                     await logout();
                     window.location.href = "/login";
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-sm font-hand text-lg text-red-600 hover:bg-red-50 transition-all duration-150"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-md text-red-400 hover:bg-red-950/30 transition-all duration-150"
                 >
                   <LogOut className="w-5 h-5" />
                   Logout
                 </button>
               </>
             ) : (
-              <div className="grid grid-cols-2 gap-3 px-4 py-2">
+              <div className="px-4 py-2">
                 <Link
                   href="/login"
                   onClick={() => setMobileOpen(false)}
-                  className="text-center font-hand text-lg py-2 border-2 border-gray-200 rounded-sm hover:bg-gray-50 transition-colors"
+                  className="flex w-full justify-center liquid-glass rounded-full px-6 py-3 text-sm text-foreground"
                 >
-                  Log In
-                </Link>
-                <Link
-                  href="/signup"
-                  onClick={() => setMobileOpen(false)}
-                  className="text-center font-hand text-lg py-2 bg-accent-blue text-white rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,0.1)]"
-                >
-                  Sign Up
+                  Sign In
                 </Link>
               </div>
             )}

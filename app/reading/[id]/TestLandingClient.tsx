@@ -9,11 +9,18 @@ import {
   Users,
   CheckCircle2,
   FileText,
+  Play,
 } from "lucide-react";
 import { IeltsReadingTest } from "@/types/ielts";
 import { useTestStore } from "@/store/useTestScore";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import CommentSection from "@/app/components/CommentSection";
+import { Instrument_Serif } from "next/font/google";
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 interface Props {
   testData: IeltsReadingTest;
@@ -57,165 +64,156 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
   };
 
   return (
-    <div className="min-h-screen bg-paper-cream py-10 px-4 font-body text-text-heading">
-      <div className="max-w-5xl mx-auto space-y-8">
+    <div className="min-h-screen bg-background py-32 px-6">
+      <div className="max-w-4xl mx-auto space-y-10">
+        
         {/* Header Section */}
         <motion.div
-          className="bg-paper-white p-8 shadow-[6px_6px_16px_rgba(0,0,0,0.08)] relative torn-bottom"
-          style={{ transform: "rotate(-0.5deg)" }}
+          className="liquid-glass p-8 md:p-12 rounded-3xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="tape tape-blue absolute -top-3 left-10 rotate-[-8deg] w-20" />
-
-          <div className="flex gap-3 mb-4">
-            <span className="bg-gray-100 text-gray-600 px-3 py-1 text-xs font-bold rounded-sm border border-gray-200">
-              #IELTS Academic
+          <div className="flex gap-3 mb-6">
+            <span className="bg-black/5 text-foreground/80 px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-md border border-black/5">
+              IELTS Academic
             </span>
-            <span className="bg-gray-100 text-gray-600 px-3 py-1 text-xs font-bold rounded-sm border border-gray-200">
-              #Reading
+            <span className="bg-black/5 text-foreground/80 px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-md border border-black/5">
+              Reading
             </span>
           </div>
 
-          <div className="flex items-center gap-3 mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold">{testData.title}</h1>
-            <CheckCircle2 className="w-8 h-8 text-green-500 shrink-0" />
+          <div className="flex items-center gap-4 mb-8">
+            <h1 className={`text-4xl md:text-5xl text-foreground ${instrumentSerif.className}`}>
+              {testData.title}
+            </h1>
+            <CheckCircle2 className="w-8 h-8 text-green-600 shrink-0" />
           </div>
 
-          <div className="flex border-b border-gray-200 mb-6">
-            <button className="px-6 py-2 border-b-2 border-blue-600 text-blue-700 font-bold bg-blue-50/50">
-              Thông tin đề thi
+          <div className="flex gap-6 border-b border-black/10 mb-8">
+            <button className="pb-3 border-b-2 border-foreground text-foreground font-semibold">
+              Test Information
             </button>
             {user ? (
               <button 
                 onClick={() => router.push(`/reading/${testData.id}/take`)} 
-                className="px-6 py-2 text-gray-500 font-medium hover:bg-gray-50 transition-colors"
+                className="pb-3 text-muted-foreground hover:text-foreground transition-colors"
               >
-                Đáp án/transcript
+                Answers & Transcript
               </button>
             ) : (
               <button 
                 onClick={() => router.push("/login")} 
-                className="px-6 py-2 text-gray-500 font-medium hover:bg-gray-50 transition-colors"
-                title="Đăng nhập để xem"
+                className="pb-3 text-muted-foreground hover:text-foreground transition-colors"
+                title="Login to view"
               >
-                Đáp án/transcript
+                Answers & Transcript
               </button>
             )}
           </div>
 
-          <div className="space-y-3 text-text-secondary text-sm">
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4" /> Thời gian làm bài: 60 phút |{" "}
-              {testData.passages.length} phần thi | {totalQuestions} câu hỏi
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-muted-foreground text-sm mb-10">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center">
+                <Clock className="w-4 h-4" />
+              </div>
+              <span>60 Minutes • {testData.passages.length} Sections • {totalQuestions} Questions</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4" /> 1,570,503 người đã luyện tập đề thi
-              này
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center">
+                <Users className="w-4 h-4" />
+              </div>
+              <span>1,570,503 practitioners</span>
             </div>
           </div>
 
-          <div className="mt-6 p-3 bg-red-50 text-red-700 text-sm border-l-4 border-red-500 italic">
-            Chú ý: để được quy đổi sang scaled score (ví dụ trên thang điểm 990
-            cho TOEIC hoặc 9.0 cho IELTS), vui lòng chọn chế độ làm FULL TEST.
-          </div>
-
-          <div className="mt-8 flex gap-4 items-center">
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
             <button
               onClick={startTest}
-              className="paper-btn bg-accent-blue text-white shadow-[4px_4px_0px_#1e40af] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all px-10 py-3 text-lg"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 transition-colors px-10 py-4 rounded-full font-medium"
             >
-              Làm bài (Luyện tập)
+              <Play className="w-5 h-5 fill-background" />
+              Start Practice
             </button>
             {!user && (
-              <span className="text-red-500 text-sm italic font-medium ml-2">
-                * Vui lòng đăng nhập để làm bài
+              <span className="text-red-500 text-sm font-medium">
+                * Please sign in to practice
               </span>
             )}
           </div>
         </motion.div>
 
         {/* Test History Section */}
-        {user ? (
-          <motion.div
-            className="bg-paper-white shadow-[4px_4px_12px_rgba(0,0,0,0.06)] p-8 relative"
-            style={{ transform: "rotate(0.3deg)" }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <h2 className="text-xl font-bold mb-6">Kết quả làm bài của bạn:</h2>
+        <motion.div
+          className="liquid-glass p-8 md:p-12 rounded-3xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <h2 className={`text-3xl text-foreground mb-8 ${instrumentSerif.className}`}>Your Results</h2>
 
-            {history.length > 0 ? (
-              <div className="overflow-x-auto border border-gray-200 rounded-sm">
-                <table className="w-full text-left text-sm">
-                  <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200 text-gray-600">
-                      <th className="p-4 font-bold">Ngày làm</th>
-                      <th className="p-4 font-bold">Kết quả</th>
-                      <th className="p-4 font-bold">Thời gian làm bài</th>
-                      <th className="p-4 font-bold"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {history.map((attempt) => (
-                      <tr
-                        key={attempt.id}
-                        className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors"
-                      >
-                        <td className="p-4">
-                          <div className="font-medium text-gray-800">
-                            {new Date(attempt.createdAt).toLocaleDateString("vi-VN", {
-                              hour: '2-digit', minute: '2-digit'
-                            })}
-                          </div>
-                          <span className="inline-block mt-1 bg-green-100 text-green-700 px-2 py-0.5 text-xs font-bold rounded-sm border border-green-200">
-                            {attempt.mode}
-                          </span>
-                        </td>
-                        <td className="p-4 font-bold text-gray-800">
-                          {attempt.score}/{attempt.totalQuestions}
-                        </td>
-                        <td className="p-4 text-gray-600">
-                          {formatTime(attempt.timeTakenSeconds)}
-                        </td>
-                        <td className="p-4">
-                          <Link 
-                            href={`/reading/${testData.id}/result/${attempt.id}`}
-                            className="text-blue-600 hover:text-blue-800 hover:underline font-medium text-sm"
-                          >
-                            Xem chi tiết
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className="text-center py-10 bg-gray-50 border border-dashed border-gray-300">
-                <FileText className="w-10 h-10 text-gray-300 mx-auto mb-2" />
-                <p className="text-gray-500">Bạn chưa làm đề thi này lần nào.</p>
-              </div>
-            )}
-          </motion.div>
-        ) : (
-          <motion.div
-            className="bg-paper-white shadow-[4px_4px_12px_rgba(0,0,0,0.06)] p-8 relative"
-            style={{ transform: "rotate(0.3deg)" }}
-          >
-            <h2 className="text-xl font-bold mb-6">Kết quả làm bài của bạn:</h2>
-            <div className="text-center py-10 bg-gray-50 border border-dashed border-gray-300 rounded">
-              <p className="text-gray-500 mb-4">Vui lòng đăng nhập để lưu và xem kết quả làm bài của bạn.</p>
-              <button onClick={() => router.push("/login")} className="paper-btn bg-gray-800 text-white shadow-[3px_3px_0px_#374151] px-6 py-2">
-                Đăng nhập
+          {!user ? (
+            <div className="text-center py-16 bg-black/5 rounded-2xl border border-black/5">
+              <p className="text-muted-foreground mb-6">Sign in to save and track your test progress.</p>
+              <button onClick={() => router.push("/login")} className="bg-foreground text-background hover:bg-foreground/90 transition-colors px-8 py-3 rounded-full font-medium">
+                Sign In
               </button>
             </div>
-          </motion.div>
-        )}
+          ) : history.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm min-w-[500px]">
+                <thead>
+                  <tr className="border-b border-black/10 text-muted-foreground">
+                    <th className="pb-4 font-medium">Date Taken</th>
+                    <th className="pb-4 font-medium">Score</th>
+                    <th className="pb-4 font-medium">Time Taken</th>
+                    <th className="pb-4 font-medium text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-black/5">
+                  {history.map((attempt) => (
+                    <tr key={attempt.id} className="hover:bg-black/[0.02] transition-colors group">
+                      <td className="py-4">
+                        <div className="font-medium text-foreground">
+                          {new Date(attempt.createdAt).toLocaleDateString("vi-VN", {
+                            hour: '2-digit', minute: '2-digit'
+                          })}
+                        </div>
+                        <span className="inline-block mt-1 bg-black/5 text-foreground/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded border border-black/5">
+                          {attempt.mode}
+                        </span>
+                      </td>
+                      <td className="py-4 font-semibold text-foreground">
+                        {attempt.score}/{attempt.totalQuestions}
+                      </td>
+                      <td className="py-4 text-muted-foreground">
+                        {formatTime(attempt.timeTakenSeconds)}
+                      </td>
+                      <td className="py-4 text-right">
+                        <Link 
+                          href={`/reading/${testData.id}/result/${attempt.id}`}
+                          className="text-foreground hover:opacity-70 font-medium text-sm transition-opacity"
+                        >
+                          View Details →
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="text-center py-16 bg-black/5 rounded-2xl border border-black/5">
+              <FileText className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
+              <p className="text-muted-foreground">You haven't attempted this test yet.</p>
+            </div>
+          )}
+        </motion.div>
 
         {/* Comment Section */}
-        <CommentSection testId={testData.id} user={user} />
+        <div className="liquid-glass p-8 md:p-12 rounded-3xl">
+          <CommentSection testId={testData.id} user={user} />
+        </div>
       </div>
     </div>
   );

@@ -38,6 +38,7 @@ export default async function RootLayout({
       .map((c) => `${c.name}=${c.value.substring(0, 15)}...`)
       .join(" | "),
   );
+  // Force hot reload for CSS theme change
 
   const supabase = await createClient();
 
@@ -55,7 +56,7 @@ export default async function RootLayout({
     <html lang="en">
       <body
         suppressHydrationWarning
-        className={`${patrickHand.variable} ${nunito.variable} antialiased`}
+        className={`${patrickHand.variable} ${nunito.variable} antialiased force-css-reload-1`}
       >
         <Navbar user={user} />
         {children}

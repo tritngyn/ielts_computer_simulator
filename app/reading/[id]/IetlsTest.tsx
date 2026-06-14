@@ -28,7 +28,7 @@ const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({
 }) {
   return (
     <div
-      className="mb-6 prose prose-sm max-w-none text-gray-800 bg-white p-4 rounded border border-gray-100"
+      className="mb-6 prose prose-sm max-w-none text-foreground bg-background p-5 rounded-xl border border-border/60 shadow-sm"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -44,6 +44,7 @@ import { useState } from "react";
 const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'passage' | 'questions'>('passage');
 
   useEffect(() => {
     setIsMounted(true);
@@ -179,8 +180,8 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
 
   if (!isMounted) {
     return (
-      <div className="h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground"></div>
       </div>
     );
   }
@@ -196,7 +197,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
           type="text"
           value={userAnswers[`passage_${currentPassage}_q${qNumber}`] || ""}
           onChange={(e) => handleAnswerChange(qNumber, e.target.value)}
-          className="flex-1 px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          className="flex-1 px-4 py-2.5 border rounded-lg text-sm bg-background border-border focus:border-foreground focus:ring-1 focus:ring-foreground transition-colors outline-none"
           placeholder="Your answer"
         />
       </div>
@@ -205,20 +206,20 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
 
   const renderGroup = (group: IeltsQuestionGroup) => {
     return (
-      <div className="mb-10 bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-        <div className="mb-6 pb-4 border-b border-gray-100">
-          <p className="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-2">
+      <div className="bg-background p-6 md:p-8 rounded-2xl border border-border shadow-sm">
+        <div className="mb-6 pb-4 border-b border-border/50">
+          <p className="text-sm font-bold text-foreground/80 uppercase tracking-wider mb-2">
             {group.type.replace(/_/g, " ")}
           </p>
           <div
-            className="text-sm text-gray-600 italic border-l-4 border-blue-500 pl-3 py-1 bg-blue-50/50"
+            className="text-sm text-muted-foreground italic border-l-4 border-foreground/30 pl-4 py-1 bg-black/[0.02]"
             dangerouslySetInnerHTML={{ __html: group.instructions }}
           />
         </div>
 
         {group.sharedOptions && group.type !== "MULTIPLE_CHOICE" && (
-          <div className="mb-6 p-4 bg-gray-50 rounded-md border border-gray-200">
-            <ul className="flex flex-col gap-3 text-sm text-gray-700">
+          <div className="mb-8 p-5 bg-black/[0.02] rounded-xl border border-border/50">
+            <ul className="flex flex-col gap-3 text-sm text-foreground/90">
               {group.sharedOptions.map((opt, i) => {
                 const match = opt.trim().match(/^(TRUE|FALSE|NOT GIVEN|YES|NO)(?:\s+(.*))?/i);
                 if (match) {
@@ -275,11 +276,11 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                 return (
                   <div key={q.number} className="flex flex-col gap-3">
                     <div className="flex gap-3">
-                      <span className="font-bold text-gray-700 min-w-[24px]">
+                      <span className="font-bold text-foreground min-w-[24px]">
                         {q.number}.
                       </span>
                       <div
-                        className="text-gray-800 text-sm leading-relaxed"
+                        className="text-foreground/90 text-sm leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: q.text }}
                       />
                     </div>
@@ -301,9 +302,9 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                             onChange={(e) =>
                               handleAnswerChange(q.number, e.target.value)
                             }
-                            className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                            className="w-4 h-4 text-foreground focus:ring-foreground border-border"
                           />
-                          <span className="text-sm text-gray-700">{opt}</span>
+                          <span className="text-sm font-medium text-foreground/90">{opt}</span>
                         </label>
                       ))}
                     </div>
@@ -316,11 +317,11 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                   return (
                     <div key={q.number} className="flex flex-col gap-3">
                       <div className="flex gap-3">
-                        <span className="font-bold text-gray-700 min-w-[24px]">
+                        <span className="font-bold text-foreground min-w-[24px]">
                           {q.number}.
                         </span>
                         <div
-                          className="text-gray-800 text-sm leading-relaxed"
+                          className="text-foreground/90 text-sm leading-relaxed"
                           dangerouslySetInnerHTML={{ __html: q.text }}
                         />
                       </div>
@@ -346,9 +347,9 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                                 onChange={(e) =>
                                   handleAnswerChange(q.number, e.target.value)
                                 }
-                                className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500"
+                                className="mt-1 w-4 h-4 text-foreground focus:ring-foreground border-border"
                               />
-                              <div className="text-sm text-gray-700 leading-relaxed flex gap-2">
+                              <div className="text-sm text-foreground/90 leading-relaxed flex gap-2">
                                 <span className="font-semibold">{letter}.</span>
                                 <span dangerouslySetInnerHTML={{ __html: cleanOpt }} />
                               </div>
@@ -366,11 +367,11 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                     : ["A", "B", "C", "D", "E"];
                   return (
                     <div key={q.number} className="flex items-center gap-3">
-                      <span className="font-bold text-gray-700 min-w-[24px]">
+                      <span className="font-bold text-foreground min-w-[24px]">
                         {q.number}.
                       </span>
                       <div
-                        className="text-gray-800 text-sm flex-1"
+                        className="text-foreground/90 text-sm flex-1"
                         dangerouslySetInnerHTML={{ __html: q.text }}
                       />
                       <div className="flex flex-wrap gap-4">
@@ -391,9 +392,9 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                               onChange={(e) =>
                                 handleAnswerChange(q.number, e.target.value)
                               }
-                              className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                              className="w-4 h-4 text-foreground focus:ring-foreground border-border"
                             />
-                            <span className="text-sm font-semibold">{opt}</span>
+                            <span className="text-sm font-medium">{opt}</span>
                           </label>
                         ))}
                       </div>
@@ -405,11 +406,11 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
               // Default for MATCHING_HEADINGS, MATCHING_INFORMATION
               return (
                 <div key={q.number} className="flex items-center gap-3">
-                  <span className="font-bold text-gray-700 min-w-[24px]">
+                  <span className="font-bold text-foreground min-w-[24px]">
                     {q.number}.
                   </span>
                   {q.text && (
-                    <span className="text-gray-800 text-sm flex-1">
+                    <span className="text-foreground/90 text-sm flex-1">
                       {q.text}
                     </span>
                   )}
@@ -426,56 +427,72 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-gray-50 font-sans text-gray-900">
+    <div className="flex flex-col h-screen overflow-hidden bg-background font-body text-foreground">
       {/* Header */}
-      <header className="flex-none z-50 bg-white border-b border-gray-200 shadow-sm px-6 py-3 flex items-center justify-between sticky top-0">
-        <div className="flex items-center gap-4">
-          <div className="cursor-pointer flex-none flex items-center gap-2 text-gray-500 hover:text-gray-800 transition" onClick={() => router.push("/reading")}>
+      <header className="flex-none z-50 bg-background border-b border-border px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between sticky top-0">
+        <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+          <div className="cursor-pointer flex-none flex items-center gap-1 sm:gap-2 text-muted-foreground hover:text-foreground transition-colors" onClick={() => router.push("/reading")}>
             <BookOpen className="w-5 h-5" />
-            <span className="text-sm font-medium">Exit</span>
+            <span className="text-sm font-medium hidden sm:inline">Exit Test</span>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-5">
           {showWarning && (
-            <span className="bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-medium animate-pulse border border-red-200">
-              ⚠️ 10 minutes remaining!
+            <span className="hidden sm:inline-block bg-red-50 text-red-600 px-3 py-1 rounded-md text-sm font-semibold animate-pulse border border-red-200">
+              ⚠️ 10 minutes remaining
             </span>
           )}
-          <div className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-md border border-gray-200">
-            <Clock size={18} className="text-gray-500" />
-            <span className="font-mono font-bold text-gray-700">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-black/5 px-2 sm:px-4 py-1 sm:py-2 rounded-lg border border-black/5">
+            <Clock size={16} className="text-muted-foreground" />
+            <span className="font-mono font-bold text-foreground text-sm sm:text-base">
               {formatTime(timeLeft)}
             </span>
           </div>
-          <button className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition flex items-center gap-2">
+          <button className="hidden sm:flex px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-black/5 rounded-lg transition-colors items-center gap-2 font-medium">
             <HelpCircle size={16} /> Help
           </button>
         </div>
       </header>
 
+      {/* Mobile Tab Switcher */}
+      <div className="lg:hidden flex border-b border-border bg-background shrink-0">
+        <button
+          onClick={() => setMobileTab('passage')}
+          className={`flex-1 py-3 text-sm font-semibold transition-colors flex items-center justify-center gap-2 ${mobileTab === 'passage' ? 'border-b-2 border-foreground text-foreground' : 'text-muted-foreground'}`}
+        >
+          <BookOpen className="w-4 h-4" /> Passage
+        </button>
+        <button
+          onClick={() => setMobileTab('questions')}
+          className={`flex-1 py-3 text-sm font-semibold transition-colors flex items-center justify-center gap-2 ${mobileTab === 'questions' ? 'border-b-2 border-foreground text-foreground' : 'text-muted-foreground'}`}
+        >
+          <HelpCircle className="w-4 h-4" /> Questions
+        </button>
+      </div>
+
       {/* Main Content */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden flex-col lg:flex-row">
         {/* Passage Column */}
-        <div className="w-1/2 bg-white p-8 overflow-y-auto border-r border-gray-200">
+        <div className={`w-full lg:w-1/2 bg-background p-5 md:p-8 lg:p-12 overflow-y-auto lg:border-r border-border custom-scrollbar ${mobileTab === 'passage' ? 'block' : 'hidden lg:block'}`}>
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold mb-2 text-gray-900">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-foreground font-serif">
               {passage.title}
             </h2>
             {passage.subtitle && (
-              <p className="text-lg text-gray-600 mb-8 italic">
+              <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 italic">
                 {passage.subtitle}
               </p>
             )}
             <div
-              className="prose prose-blue max-w-none text-gray-800 leading-relaxed text-[15px]"
+              className="prose prose-sm sm:prose-base prose-neutral max-w-none text-foreground/90 leading-relaxed"
               dangerouslySetInnerHTML={{ __html: passage.contentHTML }}
             />
           </div>
         </div>
 
         {/* Questions Column */}
-        <div className="w-1/2 bg-[#f8fafc] p-8 overflow-y-auto">
-          <div className="max-w-2xl mx-auto">
+        <div className={`w-full lg:w-1/2 bg-secondary/30 p-5 md:p-8 lg:p-12 overflow-y-auto custom-scrollbar ${mobileTab === 'questions' ? 'block' : 'hidden lg:block'}`}>
+          <div className="max-w-2xl mx-auto space-y-6 sm:space-y-8">
             {passage.questionGroups.map((group) => (
               <React.Fragment key={group.id}>
                 {renderGroup(group)}
@@ -486,8 +503,8 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
       </div>
 
       {/* Footer Navigation */}
-      <footer className="bg-white border-t border-gray-200 px-6 py-4 flex items-center justify-between sticky bottom-0 z-50">
-        <div className="flex gap-2">
+      <footer className="bg-background border-t border-border px-4 sm:px-8 py-3 sm:py-5 flex items-center justify-between sticky bottom-0 z-50 gap-4">
+        <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-1 custom-scrollbar shrink-0 max-w-[60%] lg:max-w-none">
           {testData.passages.map((p, idx) => {
             const totalQ = p.questionGroups.reduce((acc, g) => acc + g.questions.length, 0);
             const answeredQ = p.questionGroups.reduce((acc, g) => {
@@ -498,15 +515,15 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
               <button
                 key={idx}
                 onClick={() => setCurrentPassage(idx)}
-                className={`px-4 py-2 rounded-md text-sm font-bold transition flex items-center gap-2 border ${
+                className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center gap-1 sm:gap-3 border whitespace-nowrap shrink-0 ${
                   currentPassage === idx
-                    ? "bg-blue-50 text-blue-700 border-blue-200 shadow-sm"
-                    : "bg-white text-gray-700 hover:bg-gray-50 border-gray-200 shadow-sm"
+                    ? "bg-foreground text-background border-foreground shadow-md"
+                    : "bg-background text-foreground hover:bg-black/5 border-border shadow-sm"
                 }`}
               >
                 <span>Passage {idx + 1}</span>
-                <span className={`text-xs font-normal ${currentPassage === idx ? "text-blue-300" : "text-gray-300"}`}>|</span>
-                <span className={`font-medium ${currentPassage === idx ? "text-blue-600" : "text-gray-600"}`}>
+                <span className={`text-[10px] sm:text-xs font-normal ${currentPassage === idx ? "text-background/50" : "text-muted-foreground/30"}`}>|</span>
+                <span className={`font-bold ${currentPassage === idx ? "text-background" : "text-muted-foreground"}`}>
                   {answeredQ}/{totalQ}
                 </span>
               </button>
@@ -514,9 +531,9 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
           })}
         </div>
 
-        <div className="flex items-center gap-6">
-          <span className="text-sm font-medium text-gray-600">
-            Passage Progress: {answeredCount}/{totalQuestionsInPassage} answered
+        <div className="flex items-center gap-3 sm:gap-8 shrink-0">
+          <span className="hidden sm:inline-block text-sm font-medium text-muted-foreground">
+            Progress: <strong className="text-foreground">{answeredCount}/{totalQuestionsInPassage}</strong> answered
           </span>
           <button
             onClick={async () => {
@@ -547,10 +564,6 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                   });
                 });
 
-                // Import saveTestAttempt dynamically or at the top. Wait, better to import at top.
-                // We will add the import at the top of the file in another step.
-                // For now, let's call it via a dynamically imported action to avoid breaking the file structure too much if we don't do it cleanly,
-                // but static import is better. I will add the import at the top of IetlsTest.tsx separately.
                 try {
                   const { saveTestAttempt } = await import("@/lib/actions/attempt.actions");
                   await saveTestAttempt({
@@ -577,7 +590,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                 submit();
               }
             }}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold shadow-sm transition"
+            className="px-4 sm:px-8 py-2 sm:py-3 text-sm sm:text-base bg-foreground text-background rounded-full hover:bg-foreground/90 font-semibold shadow-md transition-all active:scale-95 whitespace-nowrap"
           >
             Submit Test
           </button>

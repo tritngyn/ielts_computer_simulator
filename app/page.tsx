@@ -1,256 +1,156 @@
 "use client";
 
 import Link from "next/link";
-
+import { Instrument_Serif, Inter } from "next/font/google";
 import { motion, Variants } from "framer-motion";
 import {
   BookOpen,
   Mic,
   Headphones,
   PenTool,
-  ArrowRight,
   Sparkles,
-  Star,
   Target,
   TrendingUp,
   Zap,
+  Star,
   MessageCircle,
 } from "lucide-react";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+});
+
 const skills = [
   {
     id: "reading",
     title: "Reading",
     icon: BookOpen,
-    description: "Test your reading comprehension with various passage types",
-    paperColor: "bg-blue-50",
-    accentColor: "bg-accent-blue",
-    textColor: "text-blue-700",
-    tagColor: "bg-blue-100 text-blue-700",
-    image:
-      "https://images.unsplash.com/photo-1740102075575-247d391eafd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjByZWFkaW5nJTIwYm9vayUyMHRlc3R8ZW58MXx8fHwxNzcwMDg5NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    description: "Master reading comprehension with 3-passage exams",
     path: "/reading",
-    rotation: "rotate-[-1.5deg]",
-  },
-  {
-    id: "speaking",
-    title: "Speaking",
-    icon: Mic,
-    description: "Practice your speaking skills with simulated interviews",
-    paperColor: "bg-green-50",
-    accentColor: "bg-accent-green",
-    textColor: "text-green-700",
-    tagColor: "bg-green-100 text-green-700",
-    image:
-      "https://images.unsplash.com/photo-1668608322390-46344f213ce9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBzcGVha2luZyUyMG1pY3JvcGhvbmV8ZW58MXx8fHwxNzcwMDg5NDc2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    path: "/speaking",
-    rotation: "rotate-[1deg]",
   },
   {
     id: "listening",
     title: "Listening",
     icon: Headphones,
-    description: "Improve your listening comprehension with audio exercises",
-    paperColor: "bg-purple-50",
-    accentColor: "bg-accent-purple",
-    textColor: "text-purple-700",
-    tagColor: "bg-purple-100 text-purple-700",
-    image:
-      "https://images.unsplash.com/photo-1617803021651-8df9d37672a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjB3ZWFyaW5nJTIwaGVhZHBob25lcyUyMGxpc3RlbmluZ3xlbnwxfHx8fDE3NzAwODk0NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    description: "Improve audio focus with simulated environments",
     path: "/listening",
-    rotation: "rotate-[-0.5deg]",
   },
   {
     id: "writing",
     title: "Writing",
     icon: PenTool,
-    description: "Enhance your writing skills with task-based exercises",
-    paperColor: "bg-orange-50",
-    accentColor: "bg-accent-orange",
-    textColor: "text-orange-700",
-    tagColor: "bg-orange-100 text-orange-700",
-    image:
-      "https://images.unsplash.com/photo-1758876203754-1bc9d3ed514c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjB3cml0aW5nJTIwbm90ZXMlMjBkZXNrfGVufDF8fHx8MTc3MDA4OTQ3N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    description: "Refine expression with AI-scored task analysis",
     path: "/writing",
-    rotation: "rotate-[2deg]",
+  },
+  {
+    id: "speaking",
+    title: "Speaking",
+    icon: Mic,
+    description: "Conquer interview anxiety with real-time feedback",
+    path: "/speaking",
   },
 ];
 
 const features = [
-  {
-    icon: Sparkles,
-    text: "AI-powered feedback & scoring",
-    paper: "bg-yellow-100",
-    rotation: "rotate-[-1deg]",
-  },
-  {
-    icon: Target,
-    text: "Realistic exam simulations",
-    paper: "bg-pink-100",
-    rotation: "rotate-[1.5deg]",
-  },
-  {
-    icon: TrendingUp,
-    text: "Track your progress over time",
-    paper: "bg-blue-100",
-    rotation: "rotate-[-0.5deg]",
-  },
-  {
-    icon: Zap,
-    text: "Expert tips and strategies",
-    paper: "bg-green-100",
-    rotation: "rotate-[1deg]",
-  },
-  {
-    icon: Star,
-    text: "Comprehensive 4-skill practice",
-    paper: "bg-orange-100",
-    rotation: "rotate-[-1.5deg]",
-  },
-  {
-    icon: MessageCircle,
-    text: "24/7 AI assistant for guidance",
-    paper: "bg-purple-100",
-    rotation: "rotate-[0.5deg]",
-  },
+  { icon: Sparkles, text: "AI-powered feedback & precise scoring" },
+  { icon: Target, text: "Realistic CBT exam simulations" },
+  { icon: TrendingUp, text: "Progress analytics over time" },
+  { icon: Zap, text: "Expert strategies & insights" },
+  { icon: Star, text: "Comprehensive 4-skill mastery" },
+  { icon: MessageCircle, text: "24/7 AI tutor guidance" },
 ];
 
-const paperIn: Variants = {
-  hidden: { opacity: 0, y: 20, rotate: -2 },
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    rotate: 0,
-    transition: { delay: i * 0.08, duration: 0.45, ease: "easeOut" },
+    transition: { delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
   }),
 };
 
-const Home = () => {
+export default function Home() {
   return (
-    <div className="min-h-screen overflow-hidden">
+    <div className={`${inter.className} min-h-screen relative`}>
       {/* ====== HERO SECTION ====== */}
-      <section className="relative bg-paper-kraft torn-bottom pb-28 pt-12 px-4 overflow-hidden">
-        {/* Decorative paper shapes */}
-        <div className="absolute top-8 right-[10%] w-28 h-28 bg-yellow-200 rounded-full opacity-40 rotate-12 shadow-md" />
-        <div className="absolute top-32 right-[5%] w-16 h-16 bg-pink-200 rounded-full opacity-30 -rotate-6 shadow-sm" />
-        <div className="absolute bottom-32 left-[3%] w-20 h-20 bg-blue-200 rounded-full opacity-30 rotate-[20deg] shadow-sm" />
-        <div className="absolute top-16 left-[8%] w-12 h-12 bg-green-200 rotate-45 opacity-25 shadow-sm" />
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
+        />
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left — Text content */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              <div className="inline-block paper-tag bg-yellow-200 text-yellow-800 mb-6 shadow-[2px_2px_0px_rgba(0,0,0,0.1)]">
-                ✨ AI-Powered IELTS Prep
-              </div>
-              <h1
-                className="text-5xl md:text-6xl lg:text-7xl mb-6 leading-tight text-text-heading"
-                style={{ transform: "rotate(-1deg)" }}
-              >
-                BẠN MUỐN
-                <span className="block text-accent-blue">9.0 OVERALL?</span>
-              </h1>
-              <p className="text-xl mb-8 text-text-secondary font-body leading-relaxed max-w-lg">
-                Comprehensive online platform for all four IELTS skills.
-                Practice with realistic tests, get instant feedback, and achieve
-                your target band score.
-              </p>
+        {/* Small gradient only at the very bottom edge to blend with the next section */}
+        <div className="absolute bottom-0 inset-x-0 h-4 z-0 bg-gradient-to-t from-background to-transparent" />
 
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href="/reading"
-                  className="paper-btn bg-accent-blue text-white rounded-sm"
-                >
-                  Start Practice <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link
-                  href="#features"
-                  className="paper-btn bg-paper-white text-text-heading rounded-sm border-2 border-gray-200"
-                >
-                  Learn More
-                </Link>
-              </div>
-            </motion.div>
-
-            {/* Right — Photo collage */}
-            <motion.div
-              className="hidden md:block relative"
-              initial={{ opacity: 0, rotate: 3 }}
-              animate={{ opacity: 1, rotate: 2 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            >
-              {/* Background paper layer */}
-              <div className="absolute inset-0 bg-paper-pink rounded-sm shadow-[6px_6px_16px_rgba(0,0,0,0.1)] rotate-[4deg] -translate-x-4 translate-y-4" />
-
-              {/* Main photo */}
-              <div className="relative photo-frame rounded-sm rotate-[1deg]">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1719498828499-48b0086e5c21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50cyUyMHN0dWR5aW5nJTIwZW5nbGlzaCUyMGV4YW18ZW58MXx8fHwxNzcwMDg5NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080"
-                  alt="Students studying"
-                  className="w-full rounded-sm"
-                />
-              </div>
-
-              {/* Tape on photo */}
-              <div className="tape tape-yellow absolute -top-3 left-1/2 -translate-x-1/2 rotate-[-5deg] w-20" />
-
-              {/* Small decorative tag */}
-              <div className="absolute -bottom-4 -right-4 paper-tag bg-green-200 text-green-800 rotate-[6deg] shadow-[3px_3px_0px_rgba(0,0,0,0.1)]">
-                📚 Study Smart
-              </div>
-            </motion.div>
-          </div>
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-20">
+          <h1
+            className={`text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-5xl font-normal  text-foreground ${instrumentSerif.className}`}
+          >
+            Master your{" "}
+            <em className="not-italic text-muted-foreground">language.</em>
+            <br />
+            Conquer your{" "}
+            <em className="not-italic text-muted-foreground">limits.</em>
+          </h1>
+          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed ">
+            A comprehensive computer-delivered IELTS simulator. Designed for
+            deep thinkers and bold creators. Build sharp focus and achieve your
+            target band.
+          </p>
+          <Link
+            href="/reading"
+            className="liquid-glass rounded-full px-12 py-4 text-base text-foreground mt-12 hover:scale-[1.03] cursor-pointer transition-transform "
+          >
+            Take a Free Test
+          </Link>
         </div>
       </section>
 
       {/* ====== FEATURES SECTION ====== */}
-      <section id="features" className="relative py-20 px-4 bg-paper-cream">
+      <section className="relative z-10 py-32 px-6 bg-background">
         <div className="max-w-7xl mx-auto">
-          <motion.h2
-            className="text-4xl md:text-5xl text-center mb-4 text-text-heading"
-            style={{ transform: "rotate(-0.5deg)" }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            Why Choose Us? ✂️
-          </motion.h2>
-          <p className="text-center text-text-secondary mb-14 text-lg font-body max-w-2xl mx-auto">
-            Everything you need to ace the IELTS exam, all in one place
-          </p>
+          <div className="text-center mb-20">
+            <h2
+              className={`text-4xl md:text-5xl mb-4 text-foreground ${instrumentSerif.className}`}
+            >
+              Tools for Deep Thinkers
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+              Everything you need to ace the IELTS exam, refined into a
+              distraction-free digital space.
+            </p>
+          </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <motion.div
                   key={index}
-                  className={`relative p-6 ${feature.paper} shadow-[4px_4px_12px_rgba(0,0,0,0.08)] ${feature.rotation} transition-all duration-200 hover:shadow-[6px_6px_16px_rgba(0,0,0,0.14)] hover:-translate-y-1`}
+                  className="p-8 liquid-glass rounded-2xl group cursor-default"
                   custom={index}
-                  variants={paperIn}
+                  variants={fadeUp}
                   initial="hidden"
                   whileInView="visible"
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: "-100px" }}
                 >
-                  {/* Pin decoration */}
-                  <div
-                    className="paper-pin bg-red-400 -top-2 left-1/2 -translate-x-1/2"
-                    style={{ position: "absolute" }}
-                  />
-
-                  <div className="flex items-start gap-4 pt-2">
-                    <div className="p-2 bg-white/70 rounded-sm shadow-sm flex-shrink-0">
-                      <Icon className="w-6 h-6 text-text-heading" />
-                    </div>
-                    <p className="text-gray-800 font-body text-lg leading-relaxed">
-                      {feature.text}
-                    </p>
+                  <div className="mb-6 w-12 h-12 flex items-center justify-center rounded-full bg-black/5 border border-black/5 group-hover:bg-black/10 group-hover:border-black/10 transition-colors">
+                    <Icon className="w-6 h-6 text-foreground" />
                   </div>
+                  <p className="text-lg text-foreground/90 leading-relaxed font-medium">
+                    {feature.text}
+                  </p>
                 </motion.div>
               );
             })}
@@ -259,80 +159,63 @@ const Home = () => {
       </section>
 
       {/* ====== SKILLS SECTION ====== */}
-      <section className="relative py-20 px-4 bg-paper-warm-gray torn-top pt-28">
+      <section className="relative z-10 py-32 px-6 bg-secondary/30">
         <div className="max-w-7xl mx-auto">
-          <motion.h2
-            className="text-4xl md:text-5xl text-center mb-4 text-text-heading"
-            style={{ transform: "rotate(0.5deg)" }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            Choose Your Test 📝
-          </motion.h2>
-          <p className="text-center text-text-secondary mb-14 text-lg font-body max-w-2xl mx-auto">
-            Practice all four IELTS skills with our comprehensive testing
-            platform
-          </p>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="max-w-xl">
+              <h2
+                className={`text-4xl md:text-5xl mb-4 text-foreground ${instrumentSerif.className}`}
+              >
+                Conquer Your Test
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Practice all four IELTS skills in a highly realistic, minimalist
+                interface. No distractions, just results.
+              </p>
+            </div>
+            <Link
+              href="/reading"
+              className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors border-b border-border hover:border-transparent pb-1"
+            >
+              View All Tests →
+            </Link>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {skills.map((skill, index) => {
               const Icon = skill.icon;
               return (
                 <motion.div
                   key={skill.id}
                   custom={index}
-                  variants={paperIn}
+                  variants={fadeUp}
                   initial="hidden"
                   whileInView="visible"
-                  viewport={{ once: true }}
-                  whileHover={{
-                    y: -6,
-                    rotate: 0,
-                    transition: { duration: 0.18 },
-                  }}
-                  className={`relative ${skill.paperColor} ${skill.rotation} shadow-[6px_6px_16px_rgba(0,0,0,0.1)] overflow-hidden group cursor-pointer`}
+                  viewport={{ once: true, margin: "-50px" }}
                 >
-                  <Link href={skill.path} className="block">
-                    {/* Image */}
-                    <div className="relative h-44 overflow-hidden">
-                      <ImageWithFallback
-                        src={skill.image}
-                        alt={skill.title}
-                        className="w-full h-full object-cover"
-                      />
-                      {/* White border photo effect */}
-                      <div className="absolute inset-2 border-4 border-white/50 pointer-events-none" />
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-5">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div
-                          className={`${skill.accentColor} p-2.5 rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,0.1)]`}
-                        >
-                          <Icon className="w-5 h-5 text-white" />
+                  <Link href={skill.path} className="block group">
+                    <div className="liquid-glass p-8 rounded-2xl h-full flex flex-col justify-between">
+                      <div>
+                        <div className="w-12 h-12 flex items-center justify-center rounded-full bg-accent/30 text-accent-blue mb-6 group-hover:scale-110 transition-transform duration-300">
+                          <Icon className="w-6 h-6" />
                         </div>
-                        <h3 className="text-2xl text-text-heading">
+                        <h3
+                          className={`text-3xl text-foreground mb-3 ${instrumentSerif.className}`}
+                        >
                           {skill.title}
                         </h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed mb-8">
+                          {skill.description}
+                        </p>
                       </div>
-                      <p className="text-text-secondary font-body mb-4 text-sm leading-relaxed">
-                        {skill.description}
-                      </p>
-
-                      {/* Paper button */}
-                      <div
-                        className={`w-full text-center py-2.5 ${skill.accentColor} text-white font-hand text-lg shadow-[3px_3px_0px_rgba(0,0,0,0.12)] group-hover:shadow-[1px_1px_0px_rgba(0,0,0,0.12)] group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-all duration-150`}
-                      >
-                        Start Test →
+                      <div className="flex items-center text-sm font-medium text-foreground opacity-50 group-hover:opacity-100 transition-opacity">
+                        Begin{" "}
+                        <span className="ml-2 transition-transform group-hover:translate-x-1">
+                          →
+                        </span>
                       </div>
                     </div>
                   </Link>
-
-                  {/* Tape decoration */}
-                  <div className="tape tape-yellow absolute -top-2 left-4 rotate-[-8deg] w-14" />
                 </motion.div>
               );
             })}
@@ -340,56 +223,38 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ====== CTA SECTION ====== */}
-      <section className="relative bg-paper-pink torn-top py-20 px-4 pt-28 overflow-hidden">
-        {/* Decorative shapes */}
-        <div className="absolute top-20 left-[5%] w-24 h-24 bg-yellow-200 rounded-full opacity-30 rotate-12" />
-        <div className="absolute bottom-12 right-[8%] w-16 h-16 bg-blue-200 rotate-45 opacity-25" />
-
-        <motion.div
-          className="max-w-4xl mx-auto text-center relative z-10"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Stacked paper layers */}
-          <div className="relative inline-block">
-            <div className="absolute inset-0 bg-paper-white shadow-[8px_8px_0px_rgba(0,0,0,0.08)] rotate-[2deg] rounded-sm" />
-            <div className="absolute inset-0 bg-paper-kraft shadow-[4px_4px_0px_rgba(0,0,0,0.06)] -rotate-[1deg] rounded-sm" />
-
-            <div className="relative bg-paper-white p-10 md:p-14 shadow-[6px_6px_16px_rgba(0,0,0,0.1)] rounded-sm">
-              <h2
-                className="text-4xl md:text-5xl mb-6 text-text-heading"
-                style={{ transform: "rotate(-1deg)" }}
-              >
-                Ready to Achieve Your Target Score? 🎯
-              </h2>
-              <p className="text-xl mb-8 text-text-secondary font-body max-w-xl mx-auto">
-                Join thousands of students who have improved their IELTS scores
-                with our platform
-              </p>
-              <Link
-                href="/reading"
-                className="paper-btn bg-accent-blue text-white rounded-sm text-xl"
-              >
-                Begin Your Journey <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
-          </div>
-        </motion.div>
+      {/* ====== CTA & FOOTER ====== */}
+      <section className="relative z-10 py-32 px-6 bg-background">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2
+            className={`text-5xl md:text-6xl mb-8 text-foreground ${instrumentSerif.className}`}
+          >
+            Ready to achieve 9.0 Overall?
+          </h2>
+          <p className="text-xl mb-12 text-muted-foreground max-w-xl mx-auto">
+            Join thousands of deep thinkers who have shattered their limits.
+          </p>
+          <Link
+            href="/reading"
+            className="inline-block liquid-glass rounded-full px-12 py-4 text-base text-foreground hover:scale-[1.03] transition-transform"
+          >
+            Start Your Journey
+          </Link>
+        </div>
       </section>
 
-      {/* ====== FOOTER ====== */}
-      <footer className="bg-paper-kraft py-8 px-4 text-center border-t-2 border-dashed border-amber-300/50">
-        <p className="font-hand text-text-secondary text-lg">
-          ✂️ Crafted with care by{" "}
-          <span className="text-text-heading">tritngyn</span> · IELTS Master ©
-          2026
-        </p>
+      <footer className="relative z-10 bg-background border-t border-border py-12 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div
+            className={`text-2xl text-foreground ${instrumentSerif.className}`}
+          >
+            IELTS Master<sup className="text-[10px]">®</sup>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            © 2026 IELTS Master. Built for focus.
+          </p>
+        </div>
       </footer>
     </div>
   );
-};
-
-export default Home;
+}

@@ -1,195 +1,246 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
-import { Headphones, FileText, Clock, ChevronRight } from "lucide-react";
+import { useState } from "react";
 import Link from "next/link";
+import { motion, Variants } from "framer-motion";
+import {
+  Headphones,
+  FileText,
+  Clock,
+  ChevronRight,
+  ChevronLeft,
+} from "lucide-react";
 import { IeltsListeningTest } from "@/types/listening";
+import { Instrument_Serif } from "next/font/google";
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const TESTS_PER_PAGE = 6;
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  }),
+};
 
 interface Props {
   tests: IeltsListeningTest[];
 }
 
-const cardIn: Variants = {
-  hidden: { opacity: 0, y: 16, rotate: -1 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    rotate: 0,
-    transition: { delay: i * 0.06, duration: 0.4, ease: "easeOut" },
-  }),
-};
-
 export default function ListeningTestsClient({ tests }: Props) {
+  const [page, setPage] = useState(1);
+
+  const mappedTests = tests.map((item) => {
+    const totalQuestions = item.parts.reduce((acc, part) => {
+      return (
+        acc +
+        part.questionGroups.reduce(
+          (gAcc, group) => gAcc + group.questions.length,
+          0,
+        )
+      );
+    }, 0);
+    return {
+      id: item.id,
+      title: item.title,
+      parts: item.parts.length,
+      questions: totalQuestions,
+      time: 30,
+    };
+  });
+
+  const totalPages = Math.ceil(mappedTests.length / TESTS_PER_PAGE) || 1;
+  const paginatedTests = mappedTests.slice(
+    (page - 1) * TESTS_PER_PAGE,
+    page * TESTS_PER_PAGE,
+  );
+
   const statCards = [
     {
       label: "Total Tests",
-      value: tests.length,
+      value: mappedTests.length,
       icon: FileText,
-      paper: "bg-purple-50",
-      rotation: "rotate-[0.5deg]",
     },
     {
       label: "Test Duration",
       value: "30 min",
       icon: Clock,
-      paper: "bg-pink-50",
-      rotation: "rotate-[-1deg]",
     },
     {
       label: "Questions per Test",
       value: "40",
       icon: Headphones,
-      paper: "bg-blue-50",
-      rotation: "rotate-[0.8deg]",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-paper-cream py-10 px-4">
+    <div className="min-h-screen bg-background pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header — paper strip */}
         <motion.div
-          className="mb-10 relative"
+          className="mb-16"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div
-            className="inline-block bg-paper-white p-6 pr-12 shadow-[6px_6px_16px_rgba(0,0,0,0.1)]"
-            style={{ transform: "rotate(-0.8deg)" }}
-          >
-            <div className="tape tape-pink absolute -top-2 left-6 rotate-[-10deg] w-16" />
-            <div className="flex items-center gap-3 mb-3">
-              <div className="bg-accent-purple p-2.5 rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,0.1)]">
-                <Headphones className="w-7 h-7 text-white" />
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="bg-black/5 border border-black/5 p-3 rounded-full">
+                  <Headphones className="w-6 h-6 text-foreground" />
+                </div>
+                <h1
+                  className={`text-4xl md:text-6xl text-foreground ${instrumentSerif.className}`}
+                >
+                  Listening Tests
+                </h1>
               </div>
-              <h1 className="text-4xl md:text-5xl text-text-heading">
-                Listening Tests
-              </h1>
+              <p className="text-muted-foreground text-lg max-w-2xl">
+                Official Cambridge IELTS Listening tests. Immerse yourself in a
+                distraction-free audio environment to sharpen your focus.
+              </p>
             </div>
-            <p className="text-text-secondary text-lg font-body pl-1">
-              Official Cambridge IELTS Listening tests — 4 sections, 40
-              questions each
-            </p>
           </div>
         </motion.div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {statCards.map((stat, index) => {
             const Icon = stat.icon;
             return (
               <motion.div
                 key={stat.label}
-                className={`${stat.paper} p-6 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] ${stat.rotation} transition-all duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_16px_rgba(0,0,0,0.12)]`}
+                className="liquid-glass p-8 rounded-2xl flex items-center justify-between"
                 custom={index}
-                variants={cardIn}
+                variants={fadeUp}
                 initial="hidden"
                 animate="visible"
               >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-text-secondary text-sm font-body mb-1">
-                      {stat.label}
-                    </p>
-                    <p className="text-3xl text-text-heading">{stat.value}</p>
-                  </div>
-                  <Icon className="w-12 h-12 text-accent-purple opacity-20" />
+                <div>
+                  <p className="text-muted-foreground text-sm mb-2">
+                    {stat.label}
+                  </p>
+                  <p
+                    className={`text-4xl text-foreground ${instrumentSerif.className}`}
+                  >
+                    {stat.value}
+                  </p>
+                </div>
+                <div className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center border border-black/5">
+                  <Icon className="w-5 h-5 text-muted-foreground" />
                 </div>
               </motion.div>
             );
           })}
         </div>
 
-        {/* Test List */}
-        <div className="space-y-4">
-          {tests.map((test, index) => {
-            // Count total questions
-            const totalQuestions = test.parts.reduce((acc, part) => {
-              return acc + part.questionGroups.reduce((gAcc, group) => gAcc + group.questions.length, 0);
-            }, 0);
-
-            return (
-              <motion.div
-                key={test.id}
-                custom={index}
-                variants={cardIn}
-                initial="hidden"
-                animate="visible"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {paginatedTests.map((test, index) => (
+            <motion.div
+              key={test.id}
+              custom={index}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+            >
+              <Link
+                href={`/listening/${encodeURIComponent(test.id)}`}
+                className="block liquid-glass p-6 md:p-8 rounded-2xl group transition-all"
               >
-                <Link href={`/listening/${encodeURIComponent(test.id)}`} className="block">
-                  <div
-                    className="block bg-paper-white p-6 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] group transition-all duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_16px_rgba(0,0,0,0.14)]"
-                    style={{
-                      transform: `rotate(${index % 2 === 0 ? "-0.3" : "0.3"}deg)`,
-                    }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-start gap-4 flex-1">
-                        <div className="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_rgba(0,0,0,0.06)]">
-                          <Headphones className="w-6 h-6 text-accent-purple" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-xl text-text-heading mb-2">
-                            {test.title}
-                          </h3>
-                          <div className="flex flex-wrap gap-3 text-sm">
-                            <span className="paper-tag bg-purple-100 text-purple-700">
-                              <FileText className="w-3.5 h-3.5 mr-1 inline" />
-                              {test.parts.length} sections
-                            </span>
-                            <span className="paper-tag bg-yellow-100 text-yellow-800">
-                              <Headphones className="w-3.5 h-3.5 mr-1 inline" />
-                              {totalQuestions} questions
-                            </span>
-                            <span className="paper-tag bg-green-100 text-green-700">
-                              <Clock className="w-3.5 h-3.5 mr-1 inline" />
-                              30 minutes
-                            </span>
-                          </div>
-                        </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-start gap-5 flex-1">
+                    <div className="w-12 h-12 bg-black/5 border border-black/5 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-black/10 group-hover:border-black/10 transition-colors">
+                      <Headphones className="w-5 h-5 text-foreground" />
+                    </div>
+                    <div className="flex-1">
+                      <h3
+                        className={`text-2xl text-foreground mb-3 ${instrumentSerif.className}`}
+                      >
+                        {test.title}
+                      </h3>
+                      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1.5">
+                          <FileText className="w-4 h-4 opacity-70" />
+                          {test.parts} sections
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Headphones className="w-4 h-4 opacity-70" />
+                          {test.questions} questions
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="w-4 h-4 opacity-70" />
+                          {test.time} mins
+                        </span>
                       </div>
-                      <ChevronRight className="w-6 h-6 text-gray-300 group-hover:text-accent-purple group-hover:translate-x-1 transition-all duration-150" />
                     </div>
                   </div>
-                </Link>
-              </motion.div>
-            );
-          })}
+                  <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
+                    <ChevronRight className="w-5 h-5 text-foreground" />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Information Section — kraft paper note */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-6 mt-16">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="flex items-center gap-2 px-6 py-3 rounded-full border border-black/10 text-foreground hover:bg-black/5 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Prev
+            </button>
+            <span className="text-muted-foreground text-sm">
+              Page <span className="text-foreground font-medium">{page}</span>{" "}
+              of {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="flex items-center gap-2 px-6 py-3 rounded-full border border-black/10 text-foreground hover:bg-black/5 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
         <motion.div
-          className="mt-10 relative bg-purple-50 p-8 shadow-[6px_6px_16px_rgba(0,0,0,0.1)] torn-bottom pb-14"
-          style={{ transform: "rotate(0.3deg)" }}
+          className="mt-24 liquid-glass p-8 md:p-12 rounded-2xl relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="tape tape-green absolute -top-2 right-8 rotate-[6deg] w-16" />
-          <h3 className="text-2xl text-text-heading mb-4">
-            🎧 About Listening Tests
+          {/* Subtle gradient glow inside the card */}
+          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-accent/20 rounded-full blur-[80px] pointer-events-none" />
+
+          <h3
+            className={`text-3xl text-foreground mb-6 ${instrumentSerif.className}`}
+          >
+            About Listening Tests
           </h3>
-          <div className="text-text-secondary font-body space-y-2 leading-relaxed">
+          <div className="text-muted-foreground space-y-3 leading-relaxed max-w-3xl">
             <p>
-              ✦ Each test consists of 4 sections with increasing difficulty
+              — Each test consists of 4 sections with increasing difficulty.
             </p>
-            <p>✦ You will hear the audio only once — listen carefully!</p>
+            <p>— You will hear the audio only once — listen carefully!</p>
             <p>
-              ✦ You have 30 minutes for the test plus 10 minutes to transfer
-              answers
-            </p>
-            <p>
-              ✦ Question types include multiple choice, form completion, map
-              labeling, and more
+              — You have 30 minutes for the test plus 10 minutes to transfer
+              answers.
             </p>
             <p>
-              ✦ Tests are from official Cambridge IELTS preparation materials
+              — Question types include multiple choice, form completion, map
+              labeling, and more.
             </p>
-            <p>
-              ✦ Make sure your audio is working properly before starting
-            </p>
+            <p>— Make sure your audio is working properly before starting.</p>
           </div>
         </motion.div>
       </div>

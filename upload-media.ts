@@ -28,6 +28,8 @@ function getMimeType(filePath: string) {
       return "image/png";
     case ".mp3":
       return "audio/mpeg";
+    case ".m4a":
+      return "audio/mp4";
     case ".svg":
       return "image/svg+xml";
     default:
@@ -47,7 +49,7 @@ function getAllMediaFiles(dirPath: string, arrayOfFiles: string[] = []) {
       arrayOfFiles = getAllMediaFiles(fullPath, arrayOfFiles);
     } else {
       const ext = path.extname(file).toLowerCase();
-      if ([".jpg", ".jpeg", ".png", ".mp3", ".svg"].includes(ext)) {
+      if ([".jpg", ".jpeg", ".png", ".mp3", ".m4a", ".svg"].includes(ext)) {
         arrayOfFiles.push(fullPath);
       }
     }
