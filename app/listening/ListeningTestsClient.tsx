@@ -53,6 +53,15 @@ export default function ListeningTestsClient({ tests }: Props) {
       questions: totalQuestions,
       time: 30,
     };
+  }).sort((a, b) => {
+    const numsA = [...(a.title || "").matchAll(/(\d+)/g)].map(m => parseInt(m[0]));
+    const numsB = [...(b.title || "").matchAll(/(\d+)/g)].map(m => parseInt(m[0]));
+    const camA = numsA[0] || 0;
+    const camB = numsB[0] || 0;
+    if (camA !== camB) return camB - camA;
+    const testA = numsA[1] || 0;
+    const testB = numsB[1] || 0;
+    return testA - testB;
   });
 
   const totalPages = Math.ceil(mappedTests.length / TESTS_PER_PAGE) || 1;

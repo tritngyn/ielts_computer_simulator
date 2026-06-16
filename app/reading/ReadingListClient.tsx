@@ -37,7 +37,16 @@ export default function ReadingListClient({ tests }: Props) {
     passages: item.passages.length,
     questions: item.passages.reduce((total, p) => total + p.questionGroups.reduce((sum, g) => sum + g.questions.length, 0), 0),
     time: 60,
-  }));
+  })).sort((a, b) => {
+    const numsA = [...(a.book || "").matchAll(/(\d+)/g)].map(m => parseInt(m[0]));
+    const numsB = [...(b.book || "").matchAll(/(\d+)/g)].map(m => parseInt(m[0]));
+    const camA = numsA[0] || 0;
+    const camB = numsB[0] || 0;
+    if (camA !== camB) return camB - camA;
+    const testA = numsA[1] || 0;
+    const testB = numsB[1] || 0;
+    return testA - testB;
+  });
 
   const totalPages = Math.ceil(mappedTests.length / TESTS_PER_PAGE);
   const paginatedTests = mappedTests.slice((page - 1) * TESTS_PER_PAGE, page * TESTS_PER_PAGE);

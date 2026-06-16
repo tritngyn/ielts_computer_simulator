@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -94,36 +94,14 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
             <button className="pb-3 border-b-2 border-foreground text-foreground font-semibold">
               Test Information
             </button>
-            {user ? (
-              <button 
-                onClick={() => router.push(`/reading/${testData.id}/take`)} 
-                className="pb-3 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Answers & Transcript
-              </button>
-            ) : (
-              <button 
-                onClick={() => router.push("/login")} 
-                className="pb-3 text-muted-foreground hover:text-foreground transition-colors"
-                title="Login to view"
-              >
-                Answers & Transcript
-              </button>
-            )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-muted-foreground text-sm mb-10">
+          <div className="flex flex-col gap-4 text-muted-foreground text-sm mb-10">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center">
                 <Clock className="w-4 h-4" />
               </div>
               <span>60 Minutes • {testData.passages.length} Sections • {totalQuestions} Questions</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center">
-                <Users className="w-4 h-4" />
-              </div>
-              <span>1,570,503 practitioners</span>
             </div>
           </div>
 

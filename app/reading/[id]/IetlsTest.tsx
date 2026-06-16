@@ -208,11 +208,11 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
     return (
       <div className="bg-background p-6 md:p-8 rounded-2xl border border-border shadow-sm">
         <div className="mb-6 pb-4 border-b border-border/50">
-          <p className="text-sm font-bold text-foreground/80 uppercase tracking-wider mb-2">
-            {group.type.replace(/_/g, " ")}
+          <p className="text-base font-bold text-foreground/90 uppercase tracking-wider mb-3">
+            Questions {group.questions.length > 1 ? `${group.questions[0]?.number} - ${group.questions[group.questions.length - 1]?.number}` : group.questions[0]?.number}
           </p>
           <div
-            className="text-sm text-muted-foreground italic border-l-4 border-foreground/30 pl-4 py-1 bg-black/[0.02]"
+            className="text-base text-foreground/80 font-medium italic border-l-4 border-foreground/30 pl-4 py-2 bg-black/[0.02]"
             dangerouslySetInnerHTML={{ __html: group.instructions }}
           />
         </div>
@@ -263,7 +263,80 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
 
         {group.type !== "GAP_FILL" && (
           <div className="space-y-5">
-            {group.questions.map((q) => {
+            {group.type === "MULTIPLE_CHOICE" && group.sharedOptions && group.sharedOptions.length > 0 ? (
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-3 items-center">
+                  <span className="font-bold text-foreground min-w-[24px]">
+                    {group.questions.length > 1
+                      ? `${group.questions[0].number}-${group.questions[group.questions.length - 1].number}.`
+                      : `${group.questions[0].number}.`}
+                  </span>
+                  {group.questions[0].text && (
+                    <div
+                      className="text-foreground/90 text-sm leading-relaxed flex-1"
+                      dangerouslySetInnerHTML={{ __html: group.questions[0].text }}
+                    />
+                  )}
+                </div>
+                
+                <div className="flex flex-col gap-3 ml-9 mt-1">
+                  {group.sharedOptions.map((opt, i) => {
+                    const val = String.fromCharCode(65 + i);
+                    const cleanOpt = opt.replace(/^[A-Z][\.\)\s]+/, "");
+                    
+                    const isSelected = group.questions.some(
+                      q => userAnswers[`passage_${currentPassage}_q${q.number}`] === val
+                    );
+                    
+                    return (
+                      <label
+                        key={i}
+                        className="flex items-start gap-3 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          value={val}
+                          checked={isSelected}
+                          onChange={(e) => {
+                            const checked = e.target.checked;
+                            const currentSelected = group.questions
+                              .map(q => userAnswers[`passage_${currentPassage}_q${q.number}`])
+                              .filter(Boolean);
+                            
+                            let newSelected;
+                            if (checked) {
+                              if (currentSelected.length < group.questions.length) {
+                                newSelected = [...currentSelected, val].sort();
+                              } else {
+                                newSelected = [...currentSelected.slice(1), val].sort();
+                              }
+                            } else {
+                              newSelected = currentSelected.filter(v => v !== val);
+                            }
+                            
+                            group.questions.forEach(q => {
+                              setAnswer(`passage_${currentPassage}_q${q.number}`, "");
+                            });
+                            newSelected.forEach((selectedVal, idx) => {
+                              const q = group.questions[idx];
+                              if (q) {
+                                setAnswer(`passage_${currentPassage}_q${q.number}`, selectedVal);
+                              }
+                            });
+                          }}
+                          className="mt-1 w-4 h-4 text-foreground focus:ring-foreground rounded border-border"
+                        />
+                        <div className="text-sm text-foreground/90 leading-relaxed flex gap-2">
+                          <span className="font-semibold">{val}.</span>
+                          <span dangerouslySetInnerHTML={{ __html: cleanOpt }} />
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+            group.questions.map((q) => {
               if (
                 group.type === "TRUE_FALSE_NOT_GIVEN" ||
                 group.type === "YES_NO_NOT_GIVEN"
@@ -419,7 +492,8 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                   </div>
                 </div>
               );
-            })}
+            })
+            )}
           </div>
         )}
       </div>
@@ -475,14 +549,6 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
         {/* Passage Column */}
         <div className={`w-full lg:w-1/2 bg-background p-5 md:p-8 lg:p-12 overflow-y-auto lg:border-r border-border custom-scrollbar ${mobileTab === 'passage' ? 'block' : 'hidden lg:block'}`}>
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-foreground font-serif">
-              {passage.title}
-            </h2>
-            {passage.subtitle && (
-              <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 italic">
-                {passage.subtitle}
-              </p>
-            )}
             <div
               className="prose prose-sm sm:prose-base prose-neutral max-w-none text-foreground/90 leading-relaxed"
               dangerouslySetInnerHTML={{ __html: passage.contentHTML }}
