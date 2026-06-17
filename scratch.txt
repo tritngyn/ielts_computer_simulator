@@ -21,10 +21,9 @@ interface Props {
   pastAttempt?: any; // The attempt data from DB
   currentAnswers?: Record<string, string>; // if passed from active test
   currentTimeTaken?: number;
-  onReview?: () => void;
 }
 
-export default function ListeningTestResultView({ testData, user, pastAttempt, currentAnswers, currentTimeTaken, onReview }: Props) {
+export default function ListeningTestResultView({ testData, user, pastAttempt, currentAnswers, currentTimeTaken }: Props) {
   const [activeTab, setActiveTab] = useState<number | "all">("all");
 
   const userAnswers = pastAttempt?.userAnswers || currentAnswers || {};
@@ -138,23 +137,24 @@ export default function ListeningTestResultView({ testData, user, pastAttempt, c
   else if (totalCorrect >= 1) bandScore = "1.0";
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] py-10 px-4 font-sans text-gray-900">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen bg-paper-cream py-10 px-4 font-body text-text-heading">
+      <div className="max-w-7xl mx-auto space-y-10">
         {/* Header Strip */}
-        <div className="bg-white p-6 shadow-sm border border-gray-200 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <Headphones className="w-7 h-7 text-blue-600" /> Kết quả thi: {testData.title}
+        <div
+          className="bg-paper-white p-6 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative torn-bottom"
+          style={{ transform: "rotate(-0.5deg)" }}
+        >
+          <div className="tape tape-blue absolute -top-2 left-6 rotate-[-5deg] w-16" />
+          <h1 className="text-3xl text-text-heading mb-4 flex items-center gap-2">
+            <Headphones className="w-8 h-8 text-blue-600" /> Kết quả thi: {testData.title}
           </h1>
           <div className="flex gap-4">
-            <button 
-              onClick={onReview}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold shadow-sm transition"
-            >
+            <button className="paper-btn bg-accent-blue text-white shadow-[2px_2px_0px_#1e40af] hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all">
               Xem chi tiết đáp án
             </button>
             <Link
               href={`/listening/${testData.id}`}
-              className="px-6 py-2 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 font-semibold shadow-sm transition flex items-center"
+              className="paper-btn bg-paper-kraft text-text-heading border border-gray-200 hover:-translate-y-0.5 transition-all"
             >
               Quay về trang đề thi
             </Link>
@@ -163,45 +163,62 @@ export default function ListeningTestResultView({ testData, user, pastAttempt, c
 
         {/* Summary Cards */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <div className="bg-white p-5 shadow-sm border border-gray-200 rounded-lg">
-            <p className="text-sm text-gray-500 mb-2 flex items-center gap-2">
+          <div
+            className="bg-paper-white p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative"
+            style={{ transform: "rotate(0.5deg)" }}
+          >
+            <div className="tape tape-yellow absolute -top-2 right-4 rotate-[8deg] w-12" />
+            <p className="text-sm text-text-secondary mb-2 flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4" /> Kết quả
             </p>
             <p className="text-2xl font-bold mb-4">
               {totalCorrect}/{totalQuestions}
             </p>
-            <p className="text-sm text-gray-500 mb-1">
+            <p className="text-sm text-text-secondary mb-1">
               Độ chính xác:{" "}
               <strong className="text-gray-800">{accuracy}%</strong>
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-text-secondary">
               Thời gian:{" "}
               <strong className="text-gray-800">{timeTakenFormatted}</strong>
             </p>
           </div>
 
-          <div className="bg-green-50 p-5 shadow-sm border border-green-100 rounded-lg flex flex-col items-center justify-center text-center">
+          <div
+            className="bg-green-50 p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative flex flex-col items-center justify-center text-center"
+            style={{ transform: "rotate(-1deg)" }}
+          >
             <CheckCircle2 className="w-10 h-10 text-green-500 mb-2" />
             <p className="text-green-700 font-bold mb-1">Trả lời đúng</p>
             <p className="text-2xl font-bold text-green-800">{totalCorrect}</p>
             <p className="text-sm text-green-600">câu hỏi</p>
           </div>
 
-          <div className="bg-red-50 p-5 shadow-sm border border-red-100 rounded-lg flex flex-col items-center justify-center text-center">
+          <div
+            className="bg-red-50 p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative flex flex-col items-center justify-center text-center"
+            style={{ transform: "rotate(0.5deg)" }}
+          >
             <XCircle className="w-10 h-10 text-red-500 mb-2" />
             <p className="text-red-700 font-bold mb-1">Trả lời sai</p>
             <p className="text-2xl font-bold text-red-800">{totalIncorrect}</p>
             <p className="text-sm text-red-600">câu hỏi</p>
           </div>
 
-          <div className="bg-gray-50 p-5 shadow-sm border border-gray-200 rounded-lg flex flex-col items-center justify-center text-center">
+          <div
+            className="bg-gray-50 p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative flex flex-col items-center justify-center text-center"
+            style={{ transform: "rotate(-0.5deg)" }}
+          >
             <MinusCircle className="w-10 h-10 text-gray-400 mb-2" />
             <p className="text-gray-600 font-bold mb-1">Bỏ qua</p>
             <p className="text-2xl font-bold text-gray-800">{totalSkipped}</p>
             <p className="text-sm text-gray-500">câu hỏi</p>
           </div>
 
-          <div className="bg-blue-50 p-5 shadow-sm border border-blue-100 rounded-lg flex flex-col items-center justify-center text-center">
+          <div
+            className="bg-blue-50 p-5 shadow-[4px_4px_12px_rgba(0,0,0,0.08)] relative flex flex-col items-center justify-center text-center"
+            style={{ transform: "rotate(1deg)" }}
+          >
+            <div className="tape tape-pink absolute -top-2 left-4 rotate-[-10deg] w-12" />
             <Flag className="w-10 h-10 text-blue-500 mb-2" />
             <p className="text-blue-700 font-bold mb-1">Điểm</p>
             <p className="text-4xl font-bold text-blue-800">{bandScore}</p>
@@ -209,8 +226,8 @@ export default function ListeningTestResultView({ testData, user, pastAttempt, c
         </div>
 
         {/* Detailed Analysis Section */}
-        <div className="bg-white shadow-sm border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-6 border-b border-gray-200 pb-2">
+        <div className="bg-paper-white shadow-[6px_6px_16px_rgba(0,0,0,0.08)] p-6">
+          <h2 className="text-2xl text-text-heading mb-6 border-b border-gray-200 pb-2">
             Phân tích chi tiết
           </h2>
 
@@ -303,8 +320,8 @@ export default function ListeningTestResultView({ testData, user, pastAttempt, c
         </div>
 
         {/* Answers List */}
-        <div className="bg-white shadow-sm border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Đáp án chi tiết</h2>
+        <div className="bg-paper-white shadow-[6px_6px_16px_rgba(0,0,0,0.08)] p-6">
+          <h2 className="text-2xl text-text-heading mb-4">Đáp án chi tiết</h2>
           <div className="bg-green-50 text-green-800 p-4 rounded-md mb-8 text-sm flex gap-3 items-start border border-green-200">
             <span className="text-xl">💡</span>
             <p>
@@ -384,3 +401,4 @@ export default function ListeningTestResultView({ testData, user, pastAttempt, c
     </div>
   );
 }
+

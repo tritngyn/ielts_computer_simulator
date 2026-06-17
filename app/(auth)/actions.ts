@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import prisma from "@/lib/prisma";
 
@@ -115,9 +116,13 @@ export async function logout() {
 
 export async function signInWithOAuth(provider: "google") {
   const supabase = await createClient();
+  const headersList = await headers();
+  const origin = headersList.get("origin");
   
   // The redirect callback URL should point to your callback route
-  const redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`;
+  // If origin is present (called from browser), use it. Otherwise fallback to env variable or localhost
+  const baseUrl = origin || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const redirectUrl = `${baseUrl}/auth/callback`;
   
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,

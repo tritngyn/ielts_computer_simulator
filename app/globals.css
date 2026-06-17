@@ -112,3 +112,35 @@ body {
 .force-css-reload-1 {
   display: block;
 }
+
+/* ============================================================
+   TRANSCRIPT HIGHLIGHTS
+   ============================================================ */
+.transcript-dialogue strong, .transcript-dialogue b {
+  background-color: #fffae6; /* Màu vàng highlight nhẹ */
+  color: #d97706; /* Màu cam đậm */
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+  border-bottom: 2px solid #fbbf24;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.transcript-dialogue strong:hover, .transcript-dialogue b:hover {
+  background-color: #fef3c7; /* Hiệu ứng hover nổi bật */
+}
+
+/* Cross-highlight interaction from Test -> Transcript or Transcript -> Test */
+.transcript-dialogue strong.is-highlighted, .transcript-dialogue b.is-highlighted {
+  background-color: #fde68a; /* Vàng đậm hơn khi cross-highlight */
+  border-bottom-color: #f59e0b;
+}
+
+.test-question-highlighted {
+  background-color: #eff6ff;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  padding: 4px;
+  margin: -4px;
+}

@@ -11,10 +11,12 @@ import {
   Volume1,
   VolumeX,
   HelpCircle,
+  MessageSquare,
 } from "lucide-react";
 import { IeltsListeningTest, IeltsListeningQuestion } from "@/types/listening";
 import { getSupabaseMediaUrl } from "@/utils/storage";
 import { useHistoryStore } from "@/store/useHistoryStore";
+import TranscriptView from "./components/TranscriptView";
 
 const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({
   html,
@@ -51,6 +53,20 @@ export default function ListeningTest({ testData, user }: Props) {
   const [currentPartIndex, setCurrentPartIndex] = useState(0);
   const currentPart = testData.parts[currentPartIndex];
 
+  // Transcript State
+  const currentTranscriptPart = testData.transcript?.parts?.find(
+    (p) => p.partNumber === currentPart.partNumber
+  );
+  // Default to hidden, only shown in review mode
+  const [showTranscript, setShowTranscript] = useState(false);
+
+  // Update showTranscript if a part has no transcript
+  useEffect(() => {
+    if (!currentTranscriptPart) {
+      setShowTranscript(false);
+    }
+  }, [currentTranscriptPart]);
+
   // Audio State
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -62,10 +78,10 @@ export default function ListeningTest({ testData, user }: Props) {
   // Answers & Submission State
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isReviewMode, setIsReviewMode] = useState(false);
 
   // Time remaining for test (e.g., 30 mins)
   const [timeLeft, setTimeLeft] = useState(30 * 60);
-
 
   useEffect(() => {
     if (isSubmitted) return;
@@ -155,6 +171,7 @@ export default function ListeningTest({ testData, user }: Props) {
   const processGapFillHTML = (
     rawHtml: string,
     questions: IeltsListeningQuestion[],
+    isReviewMode: boolean
   ) => {
     if (!rawHtml || !questions || questions.length === 0) return rawHtml;
 
@@ -169,7 +186,8 @@ export default function ListeningTest({ testData, user }: Props) {
       const qId =
         questions.find((q) => q.number.toString() === qNum.toString())?.id ||
         "";
-      return `<strong class="ml-1 mr-2 text-blue-700">${qNum}</strong> ${middleText} <input type="text" data-qid="${qId}" class="gap-input border-b-2 border-gray-400 bg-transparent inline-block w-32 px-2 py-1 text-center font-semibold text-gray-800 focus:outline-none focus:border-blue-600 transition-colors" />`;
+      const reviewClass = isReviewMode ? 'text-gray-800 bg-gray-100' : 'text-gray-800';
+      return `<strong class="ml-1 mr-2 text-blue-700">${qNum}</strong> ${middleText} <input type="text" data-qid="${qId}" class="gap-input border-b-2 border-gray-400 bg-transparent inline-block w-32 px-2 py-1 text-center font-semibold ${reviewClass} focus:outline-none focus:border-blue-600 transition-colors" />`;
     });
 
     html = html.replace(/(<input[^>]*>)\\s*\\.\\s*\\.\\s*/g, "$1. ");
@@ -219,13 +237,17 @@ export default function ListeningTest({ testData, user }: Props) {
     };
   }, [handleAnswerChange]);
 
-  if (isSubmitted) {
+  if (isSubmitted && !isReviewMode) {
     return (
       <ListeningTestResultView 
         testData={testData} 
         user={user} 
         currentAnswers={answers} 
         currentTimeTaken={30 * 60 - timeLeft} 
+        onReview={() => {
+          setIsReviewMode(true);
+          setShowTranscript(!!testData.transcript);
+        }}
       />
     );
   }
@@ -309,7 +331,7 @@ export default function ListeningTest({ testData, user }: Props) {
           </div>
         </div>
 
-        {/* Right: Time and Help */}
+        {/* Right: Time, Transcript Toggle and Help */}
         <div className="flex items-center gap-4 ml-6">
           <div className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-md border border-gray-200">
             <Clock size={18} className="text-gray-500" />
@@ -317,6 +339,19 @@ export default function ListeningTest({ testData, user }: Props) {
               {formatTime(timeLeft)}
             </span>
           </div>
+          {isReviewMode && currentTranscriptPart && (
+            <button
+              onClick={() => setShowTranscript(!showTranscript)}
+              className={`px-3 py-1.5 text-sm rounded-md transition flex items-center gap-2 ${
+                showTranscript
+                  ? "bg-blue-100 text-blue-700 font-semibold"
+                  : "text-gray-600 hover:bg-gray-100"
+              }`}
+            >
+              <MessageSquare size={16} />
+              Transcript
+            </button>
+          )}
           <button className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition flex items-center gap-2">
             <HelpCircle size={16} /> Help
           </button>
@@ -324,9 +359,17 @@ export default function ListeningTest({ testData, user }: Props) {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col overflow-hidden relative">
+      <main className="flex-1 flex overflow-hidden relative">
+        {/* Transcript Area */}
+        {showTranscript && currentTranscriptPart && (
+          <TranscriptView
+            partData={currentTranscriptPart}
+            currentTime={currentTime}
+          />
+        )}
+        
         {/* Questions Area (Using Reading Test Question Column Style) */}
-        <div className="flex-1 overflow-y-auto bg-[#f8fafc] p-8 scroll-smooth pb-32">
+        <div className={`flex-1 overflow-y-auto bg-[#f8fafc] p-8 scroll-smooth pb-32 ${showTranscript ? "border-l border-gray-200 shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)] relative z-10" : ""}`}>
           <div className="max-w-2xl mx-auto space-y-8">
             {currentPart.questionGroups.map((group, gIdx) => {
               const hasInlineGaps =
@@ -340,12 +383,11 @@ export default function ListeningTest({ testData, user }: Props) {
                 >
                   {/* Instruction Box (Matches Reading Test) */}
                   <div className="mb-6 pb-4 border-b border-gray-100">
-                    <p className="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-2">
-                      Questions {group.questions[0]?.number} -{" "}
-                      {group.questions[group.questions.length - 1]?.number}
+                    <p className="text-base font-bold text-gray-900 uppercase tracking-wider mb-3">
+                      Questions {group.questions.length > 1 ? `${group.questions[0]?.number} - ${group.questions[group.questions.length - 1]?.number}` : group.questions[0]?.number}
                     </p>
                     <div
-                      className="text-sm text-gray-600 italic border-l-4 border-blue-500 pl-3 py-1 bg-blue-50/50"
+                      className="text-base text-gray-700 font-medium italic border-l-4 border-blue-500 pl-4 py-2 bg-blue-50/50"
                       dangerouslySetInnerHTML={{ __html: group.instructions }}
                     />
                   </div>
@@ -368,6 +410,7 @@ export default function ListeningTest({ testData, user }: Props) {
                           ? processGapFillHTML(
                               processHTML(group.groupContentHTML),
                               group.questions,
+                              isReviewMode
                             )
                           : processHTML(group.groupContentHTML)
                       }
@@ -453,7 +496,7 @@ export default function ListeningTest({ testData, user }: Props) {
                         </div>
                       ) : (
                       group.questions.map((q) => (
-                        <div key={q.id} className="flex flex-col gap-3">
+                        <div key={q.id} className="flex flex-col gap-3 transition-colors duration-200 p-1 -m-1 rounded-sm" data-qnum={q.number}>
                           <div className="flex gap-3 items-center">
                             <span className="font-bold text-gray-700 min-w-[24px]">
                               {q.number}.
@@ -482,13 +525,13 @@ export default function ListeningTest({ testData, user }: Props) {
                                           key={i}
                                           type="text"
                                           value={answers[q.id || ""] || ""}
-                                          onChange={(e) =>
+                                          onChange={(e) => {
                                             handleAnswerChange(
                                               q.id || "",
                                               e.target.value,
                                             )
-                                          }
-                                          className="border-b-2 border-gray-400 bg-transparent inline-block w-32 px-2 py-1 mx-1 text-center font-semibold text-gray-800 focus:outline-none focus:border-blue-600 transition-colors"
+                                          }}
+                                          className={`border-b-2 border-gray-400 bg-transparent inline-block w-32 px-2 py-1 mx-1 text-center font-semibold focus:outline-none focus:border-blue-600 transition-colors ${isReviewMode ? 'text-gray-800 bg-gray-100' : 'text-gray-800'}`}
                                         />
                                       );
                                     }
@@ -514,16 +557,16 @@ export default function ListeningTest({ testData, user }: Props) {
                               ) && (
                                 <div className="flex-1 mt-0 mb-2 font-medium">
                                   <input
-                                    className="w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                    className={`w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${isReviewMode ? 'bg-gray-100 text-gray-800' : ''}`}
                                     placeholder="Your answer"
                                     type="text"
                                     value={answers[q.id || ""] || ""}
-                                    onChange={(e) =>
+                                    onChange={(e) => {
                                       handleAnswerChange(
                                         q.id || "",
                                         e.target.value,
                                       )
-                                    }
+                                    }}
                                   />
                                 </div>
                               )}
@@ -551,12 +594,12 @@ export default function ListeningTest({ testData, user }: Props) {
                                         name={`q_${q.id}`}
                                         value={val}
                                         checked={answers[q.id || ""] === val}
-                                        onChange={(e) =>
+                                        onChange={(e) => {
                                           handleAnswerChange(
                                             q.id || "",
                                             e.target.value,
                                           )
-                                        }
+                                        }}
                                         className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500"
                                       />
                                       <div className="text-sm text-gray-700 leading-relaxed flex gap-2">
@@ -582,14 +625,14 @@ export default function ListeningTest({ testData, user }: Props) {
                             <div className="ml-9">
                               {group.sharedOptions ? (
                                 <select
-                                  className="w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                  className={`w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${isReviewMode ? 'bg-gray-100 text-gray-800' : ''}`}
                                   value={answers[q.id || ""] || ""}
-                                  onChange={(e) =>
+                                  onChange={(e) => {
                                     handleAnswerChange(
                                       q.id || "",
                                       e.target.value,
                                     )
-                                  }
+                                  }}
                                 >
                                   <option value="" disabled>
                                     Select...
@@ -606,16 +649,16 @@ export default function ListeningTest({ testData, user }: Props) {
                                 </select>
                               ) : (
                                 <input
-                                  className="w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                  className={`w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${isReviewMode ? 'bg-gray-100 text-gray-800' : ''}`}
                                   placeholder="Your answer"
                                   type="text"
                                   value={answers[q.id || ""] || ""}
-                                  onChange={(e) =>
+                                  onChange={(e) => {
                                     handleAnswerChange(
                                       q.id || "",
                                       e.target.value,
                                     )
-                                  }
+                                  }}
                                 />
                               )}
                             </div>
@@ -685,56 +728,65 @@ export default function ListeningTest({ testData, user }: Props) {
             )}{" "}
             answered
           </span>
-          <button
-            onClick={() => {
-              if (!isSubmitted) {
-                let score = 0;
-                let totalQ = 0;
-                testData.parts.forEach((p) => {
-                  p.questionGroups.forEach((group) => {
-                    group.questions.forEach((q) => {
-                      totalQ++;
-                      const userAnswer = answers[q.id || ""]?.trim().toLowerCase();
-                      const correctAnswers =
-                        testData.answers[q.number.toString()] || [];
-                      if (
-                        userAnswer &&
-                        correctAnswers.some(
-                          (ans) => ans.toLowerCase() === userAnswer,
-                        )
-                      ) {
-                        score++;
-                      }
+          {isReviewMode ? (
+            <button
+              onClick={() => setIsReviewMode(false)}
+              className="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 font-semibold shadow-sm transition"
+            >
+              Quay lại kết quả
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                if (!isSubmitted) {
+                  let score = 0;
+                  let totalQ = 0;
+                  testData.parts.forEach((p) => {
+                    p.questionGroups.forEach((group) => {
+                      group.questions.forEach((q) => {
+                        totalQ++;
+                        const userAnswer = answers[q.id || ""]?.trim().toLowerCase();
+                        const correctAnswers =
+                          testData.answers[q.number.toString()] || [];
+                        if (
+                          userAnswer &&
+                          correctAnswers.some(
+                            (ans) => ans.toLowerCase() === userAnswer,
+                          )
+                        ) {
+                          score++;
+                        }
+                      });
                     });
                   });
-                });
 
-                // Save to DB
-                import("@/lib/actions/attempt.actions").then(({ saveTestAttempt }) => {
-                  saveTestAttempt({
+                  // Save to DB
+                  import("@/lib/actions/attempt.actions").then(({ saveTestAttempt }) => {
+                    saveTestAttempt({
+                      testId: testData.id,
+                      score,
+                      totalQuestions: totalQ,
+                      timeTakenSeconds: 30 * 60 - timeLeft,
+                      mode: "Full test",
+                      userAnswers: answers,
+                    }).catch(console.error);
+                  });
+
+                  useHistoryStore.getState().addAttempt({
                     testId: testData.id,
                     score,
                     totalQuestions: totalQ,
                     timeTakenSeconds: 30 * 60 - timeLeft,
                     mode: "Full test",
-                    userAnswers: answers,
-                  }).catch(console.error);
-                });
-
-                useHistoryStore.getState().addAttempt({
-                  testId: testData.id,
-                  score,
-                  totalQuestions: totalQ,
-                  timeTakenSeconds: 30 * 60 - timeLeft,
-                  mode: "Full test",
-                });
-                setIsSubmitted(true);
-              }
-            }}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold shadow-sm transition"
-          >
-            Submit Test
-          </button>
+                  });
+                  setIsSubmitted(true);
+                }
+              }}
+              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold shadow-sm transition"
+            >
+              Submit Test
+            </button>
+          )}
         </div>
       </footer>
     </div>

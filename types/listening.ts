@@ -21,10 +21,28 @@ export interface IeltsListeningPart {
   questionGroups: IeltsListeningQuestionGroup[];
 }
 
+export interface DialogueLine {
+  speaker: string | null;
+  text: string;
+  startTime?: number; // In seconds (optional, for auto-scroll sync)
+  endTime?: number; // In seconds
+}
+
+export interface TranscriptPart {
+  partNumber: number;
+  dialogues: DialogueLine[];
+}
+
+export interface ListeningTranscript {
+  testCode: string;
+  parts: TranscriptPart[];
+}
+
 export interface IeltsListeningTest {
   id: string;
   testCode?: string;
   title: string;
   parts: IeltsListeningPart[];
   answers: Record<string, string[]>;
+  transcript?: ListeningTranscript;
 }
