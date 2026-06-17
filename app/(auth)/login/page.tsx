@@ -44,10 +44,8 @@ export default function LoginPage() {
         console.error("[LOGIN] Lỗi đồng bộ Prisma:", err);
       }
       
-      console.log("[LOGIN] Đang chờ 5 giây trước khi chuyển hướng để bạn xem log...");
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 5000);
+      console.log("[LOGIN] Đăng nhập thành công, chuyển hướng về trang chủ...");
+      window.location.href = "/";
     }
   }
 

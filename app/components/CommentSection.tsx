@@ -15,7 +15,6 @@ interface CommentType {
   user: {
     fullName: string | null;
     avatarUrl: string | null;
-    email: string;
   } | null;
 }
 
@@ -84,16 +83,13 @@ export default function CommentSection({ testId, user }: CommentSectionProps) {
   };
 
   return (
-    <div
-      className="bg-paper-white shadow-[6px_6px_16px_rgba(0,0,0,0.08)] p-8 relative mt-8"
-      style={{ transform: "rotate(-0.2deg)" }}
-    >
-      <div className="tape tape-pink absolute -top-2 right-1/4 rotate-[4deg] w-24" />
-
-      <div className="flex items-center gap-2 mb-8 border-b border-gray-100 pb-4">
-        <MessageSquare className="w-6 h-6 text-accent-blue" />
-        <h2 className="text-2xl font-bold">Bình luận</h2>
-        <span className="bg-gray-100 text-gray-600 text-sm py-0.5 px-3 rounded-full font-bold">
+    <div className="relative mt-2">
+      <div className="flex items-center gap-3 mb-8 border-b border-border pb-4">
+        <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center">
+          <MessageSquare className="w-5 h-5 text-foreground/70" />
+        </div>
+        <h2 className="text-2xl font-display text-foreground">Comments</h2>
+        <span className="bg-black/5 text-foreground/70 text-xs py-1 px-3 rounded-full font-semibold border border-black/5">
           {comments.length}
         </span>
       </div>
@@ -108,17 +104,17 @@ export default function CommentSection({ testId, user }: CommentSectionProps) {
                 width={48}
                 height={48}
                 unoptimized
-                className="w-12 h-12 rounded-full border-2 border-accent-blue object-cover shrink-0"
+                className="w-12 h-12 rounded-full border border-border object-cover shrink-0"
               />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold shrink-0 shadow-[2px_2px_0px_rgba(0,0,0,0.05)] border border-blue-200 text-xl">
+              <div className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center text-foreground font-semibold shrink-0 border border-black/5 text-lg">
                 {getInitial(user.user_metadata?.full_name || user.email || "")}
               </div>
             )}
             <div className="flex-1">
               <textarea
-                className="w-full bg-gray-50 border border-gray-200 rounded-sm p-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition-colors min-h-[100px] resize-y shadow-inner"
-                placeholder="Viết bình luận của bạn về đề thi này..."
+                className="w-full bg-background border border-border rounded-xl p-4 text-sm focus:border-foreground focus:ring-1 focus:ring-foreground outline-none transition-colors min-h-[100px] resize-y"
+                placeholder="Write your comment here..."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
               ></textarea>
@@ -126,18 +122,18 @@ export default function CommentSection({ testId, user }: CommentSectionProps) {
                 <button
                   onClick={handleSubmit}
                   disabled={isSubmitting || !newComment.trim()}
-                  className="paper-btn bg-accent-blue text-white shadow-[3px_3px_0px_#1e40af] text-sm py-2.5 px-8 hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-foreground text-background hover:bg-foreground/90 transition-colors px-6 py-2.5 rounded-full font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Đang gửi..." : "Gửi bình luận"}
+                  {isSubmitting ? "Submitting..." : "Post Comment"}
                 </button>
               </div>
             </div>
           </>
         ) : (
-          <div className="w-full text-center py-8 bg-gray-50 border border-dashed border-gray-300 rounded-lg">
-            <p className="text-gray-600 mb-4">Bạn cần đăng nhập để gửi bình luận.</p>
-            <Link href="/login" className="inline-block paper-btn bg-accent-blue text-white shadow-[3px_3px_0px_#1e40af] px-6 py-2">
-              Đăng nhập ngay
+          <div className="w-full text-center py-10 bg-black/5 border border-black/5 rounded-2xl">
+            <p className="text-muted-foreground mb-4">You need to sign in to post a comment.</p>
+            <Link href="/login" className="inline-block bg-foreground text-background hover:bg-foreground/90 transition-colors px-8 py-3 rounded-full font-medium text-sm">
+              Sign In
             </Link>
           </div>
         )}
@@ -145,44 +141,40 @@ export default function CommentSection({ testId, user }: CommentSectionProps) {
 
       <div className="space-y-6">
         {isLoading ? (
-          <div className="text-center py-4 text-gray-500">Đang tải bình luận...</div>
+          <div className="text-center py-4 text-muted-foreground text-sm">Loading comments...</div>
         ) : comments.length === 0 ? (
-          <div className="text-center py-8 text-gray-400 italic">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</div>
+          <div className="text-center py-10 bg-black/[0.02] rounded-2xl border border-black/5 text-muted-foreground text-sm">No comments yet. Be the first to share your thoughts!</div>
         ) : (
           comments.map((comment) => (
-            <div key={comment.id} className="flex gap-4">
+            <div key={comment.id} className="flex gap-4 group">
               {comment.user?.avatarUrl ? (
                 <Image 
                   src={comment.user.avatarUrl} 
                   alt="Profile" 
-                  width={48}
-                  height={48}
+                  width={40}
+                  height={40}
                   unoptimized
-                  className="w-12 h-12 rounded-full border border-gray-200 object-cover shrink-0"
+                  className="w-10 h-10 rounded-full border border-border object-cover shrink-0"
                 />
               ) : (
-                <div className="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-pink-700 font-bold shrink-0 text-lg">
+                <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center text-foreground font-medium shrink-0 border border-black/5 text-sm">
                   {getInitial(comment.user?.fullName || comment.authorName)}
                 </div>
               )}
               <div className="flex-1">
-                <div className="bg-gray-50 p-5 rounded-lg rounded-tl-none border border-gray-200 shadow-sm">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-bold text-gray-800">
+                <div className="bg-black/[0.02] p-4 rounded-2xl rounded-tl-sm border border-black/5">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="font-semibold text-foreground text-sm">
                       {comment.user?.fullName || comment.authorName}
                     </span>
-                    <span className="text-xs text-gray-400 font-medium">
+                    <span className="text-xs text-muted-foreground">
                       {timeSince(comment.createdAt)}
                     </span>
                   </div>
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                  <p className="text-foreground/80 text-sm leading-relaxed whitespace-pre-wrap">
                     {comment.content}
                   </p>
                 </div>
-                {/* <div className="flex gap-4 mt-2 ml-2 text-xs font-bold text-gray-500 uppercase tracking-wide">
-                  <button className="hover:text-blue-600 transition-colors">Thích</button>
-                  <button className="hover:text-blue-600 transition-colors">Phản hồi</button>
-                </div> */}
               </div>
             </div>
           ))

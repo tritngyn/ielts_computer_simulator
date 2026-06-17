@@ -1,7 +1,15 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import { User, Clock, Award, BookOpen, Target, Calendar, History } from "lucide-react";
+import {
+  User,
+  Clock,
+  Award,
+  BookOpen,
+  Target,
+  Calendar,
+  History,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -16,7 +24,7 @@ export default async function ProfilePage() {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  
+
   const user = session?.user || null;
 
   if (!user) {
@@ -34,22 +42,32 @@ export default async function ProfilePage() {
     },
   });
 
-  const displayName = dbUser?.fullName || user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
+  const displayName =
+    dbUser?.fullName ||
+    user.user_metadata?.full_name ||
+    user.email?.split("@")[0] ||
+    "User";
   const email = dbUser?.email || user.email;
   const avatar = dbUser?.avatarUrl || user.user_metadata?.avatar_url || null;
   const attempts = dbUser?.attempts || [];
-  
+
   // Calculate some stats
   const totalTests = attempts.length;
-  const avgScore = totalTests > 0 
-    ? Math.round(attempts.reduce((acc, curr) => acc + curr.score, 0) / totalTests * 10) / 10 
-    : 0;
+  const avgScore =
+    totalTests > 0
+      ? Math.round(
+          (attempts.reduce((acc, curr) => acc + curr.score, 0) / totalTests) *
+            10,
+        ) / 10
+      : 0;
 
   return (
-    <div className="min-h-screen pt-12 pb-24 px-4 sm:px-6 max-w-5xl mx-auto">
-      <div className="flex items-center gap-3 mb-10">
-        <User className="w-8 h-8 text-accent-blue" />
-        <h1 className="text-4xl text-text-heading">Hồ Sơ Của Bạn</h1>
+    <div className="min-h-screen bg-background pt-12 pb-24 px-4 sm:px-6 max-w-5xl mx-auto font-body">
+      <div className="flex items-center gap-4 mb-10 pl-2">
+        <div className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center">
+          <User className="w-6 h-6 text-foreground" />
+        </div>
+        <h1 className="text-4xl text-foreground font-display">Profile</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -66,62 +84,81 @@ export default async function ProfilePage() {
 
         {/* Right Column: History */}
         <div className="md:col-span-2 space-y-6">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="text-2xl text-text-heading flex items-center gap-2">
-              <History className="w-6 h-6 text-accent-orange" />
+          <div className="flex items-center justify-between mb-4 px-2">
+            <h2 className="text-2xl text-foreground font-display flex items-center gap-3">
+              <History className="w-6 h-6 text-foreground/70" />
               Lịch sử làm bài gần đây
             </h2>
           </div>
 
           {attempts.length === 0 ? (
-            <div className="paper-card p-10 text-center flex flex-col items-center justify-center bg-paper-white/50 border-2 border-dashed border-amber-200">
-              <Target className="w-12 h-12 text-amber-300 mb-4 opacity-50" />
-              <p className="text-lg text-text-secondary mb-4 font-body">Bạn chưa làm bài test nào.</p>
-              <Link href="/" className="paper-btn bg-accent-blue text-white hover:-rotate-1">
+            <div className="liquid-glass p-12 text-center flex flex-col items-center justify-center rounded-3xl border border-black/5">
+              <div className="w-16 h-16 bg-black/5 rounded-full flex items-center justify-center mb-6">
+                <Target className="w-8 h-8 text-muted-foreground" />
+              </div>
+              <p className="text-lg text-muted-foreground mb-6 font-medium">
+                Bạn chưa làm bài test nào.
+              </p>
+              <Link
+                href="/"
+                className="bg-foreground text-background hover:bg-foreground/90 transition-colors px-8 py-3 rounded-full font-medium"
+              >
                 Bắt đầu luyện tập ngay
               </Link>
             </div>
           ) : (
             <div className="space-y-4">
               {attempts.map((attempt) => (
-                <div key={attempt.id} className="paper-card-sm p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-paper-kraft p-3 rounded-full group-hover:rotate-12 transition-transform">
-                      <BookOpen className="w-6 h-6 text-text-main" />
+                <div
+                  key={attempt.id}
+                  className="liquid-glass p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-6 group hover:border-black/10 transition-colors"
+                >
+                  <div className="flex items-start gap-5">
+                    <div className="w-12 h-12 bg-black/5 rounded-full flex items-center justify-center shrink-0">
+                      <BookOpen className="w-5 h-5 text-foreground/70" />
                     </div>
                     <div>
-                      <h3 className="text-xl text-text-heading font-hand group-hover:text-accent-blue transition-colors">
+                      <h3 className="text-xl text-foreground font-semibold group-hover:text-black/80 transition-colors mb-2">
                         {attempt.test.title}
                       </h3>
-                      <div className="flex flex-wrap items-center gap-3 text-sm text-text-secondary mt-1 font-body">
-                        <span className="flex items-center gap-1">
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1.5 bg-black/5 px-2.5 py-1 rounded-md">
                           <Calendar className="w-3.5 h-3.5" />
-                          {new Date(attempt.createdAt).toLocaleDateString("vi-VN", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                          })}
+                          {new Date(attempt.createdAt).toLocaleDateString(
+                            "vi-VN",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            },
+                          )}
                         </span>
-                        <span className="flex items-center gap-1">
+                        <span className="flex items-center gap-1.5 bg-black/5 px-2.5 py-1 rounded-md">
                           <Clock className="w-3.5 h-3.5" />
-                          {Math.floor(attempt.timeTakenSeconds / 60)}:{(attempt.timeTakenSeconds % 60).toString().padStart(2, '0')}
+                          {Math.floor(attempt.timeTakenSeconds / 60)}:
+                          {(attempt.timeTakenSeconds % 60)
+                            .toString()
+                            .padStart(2, "0")}
                         </span>
-                        <span className="paper-tag bg-amber-100 text-amber-800 scale-90 origin-left">
+                        <span className="bg-black/5 text-foreground/80 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider rounded-md">
                           {attempt.mode}
                         </span>
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-1">
-                    <div className="text-2xl font-bold font-hand text-accent-green">
-                      {attempt.score} <span className="text-sm text-text-secondary font-normal font-body">/ {attempt.totalQuestions}</span>
+
+                  <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-2 shrink-0">
+                    <div className="text-2xl font-bold text-foreground">
+                      {attempt.score}{" "}
+                      <span className="text-sm text-muted-foreground font-medium">
+                        / {attempt.totalQuestions}
+                      </span>
                     </div>
-                    <Link 
+                    <Link
                       href={`/${attempt.test.type.toLowerCase()}/${attempt.testId}/result/${attempt.id}`}
-                      className="text-xs font-bold text-accent-blue hover:underline bg-blue-50 px-2 py-1 rounded"
+                      className="text-sm font-semibold text-foreground/70 hover:text-foreground hover:bg-black/5 px-3 py-1.5 rounded-full transition-colors"
                     >
-                      Xem chi tiết
+                      Xem chi tiết →
                     </Link>
                   </div>
                 </div>

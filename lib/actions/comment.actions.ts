@@ -13,7 +13,6 @@ export async function getCommentsByTestId(testId: string) {
           select: {
             fullName: true,
             avatarUrl: true,
-            email: true,
           },
         },
       },
