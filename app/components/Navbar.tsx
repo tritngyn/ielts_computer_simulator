@@ -52,6 +52,7 @@ const Navbar = ({ user }: NavbarProps) => {
   // The Homepage has its own transparent navbar if we want, but we can also use this global one
   // Since we redesigned the Homepage to be integrated, let's use the global one but make it transparent.
   const isHome = pathname === "/";
+  const isDarkBg = isHome && !scrolled;
 
   return (
     <nav
@@ -64,7 +65,7 @@ const Navbar = ({ user }: NavbarProps) => {
           {/* Logo */}
           <Link
             href="/"
-            className="text-3xl tracking-tight text-foreground font-display hover:opacity-80 transition-opacity"
+            className={`text-3xl tracking-tight font-display hover:opacity-80 transition-opacity ${isDarkBg ? 'text-white' : 'text-foreground'}`}
           >
             IELTS Master<sup className="text-xs">®</sup>
           </Link>
@@ -83,8 +84,8 @@ const Navbar = ({ user }: NavbarProps) => {
                   href={link.href}
                   className={`text-sm transition-colors ${
                     isActive
-                      ? "text-foreground font-medium"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? (isDarkBg ? "text-white font-semibold" : "text-foreground font-medium")
+                      : (isDarkBg ? "text-white/70 hover:text-white" : "text-muted-foreground hover:text-foreground")
                   }`}
                 >
                   {link.label}
@@ -92,7 +93,7 @@ const Navbar = ({ user }: NavbarProps) => {
               );
             })}
 
-            <div className="w-px h-4 bg-border mx-2 hidden lg:block" />
+            <div className={`w-px h-4 mx-2 hidden lg:block ${isDarkBg ? 'bg-white/20' : 'bg-border'}`} />
 
             {user ? (
               <div className="flex items-center gap-4">
@@ -111,7 +112,7 @@ const Navbar = ({ user }: NavbarProps) => {
                       className="w-8 h-8 rounded-full border border-border object-cover group-hover:border-foreground transition-colors"
                     />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-secondary text-foreground flex items-center justify-center border border-border group-hover:border-foreground transition-colors">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-colors ${isDarkBg ? 'bg-white/10 text-white border-white/20 group-hover:border-white' : 'bg-secondary text-foreground border-border group-hover:border-foreground'}`}>
                       <User className="w-4 h-4" />
                     </div>
                   )}
@@ -121,7 +122,7 @@ const Navbar = ({ user }: NavbarProps) => {
                     await logout();
                     window.location.href = "/login";
                   }}
-                  className="text-muted-foreground hover:text-red-400 transition-colors"
+                  className={`transition-colors ${isDarkBg ? 'text-white/70 hover:text-red-400' : 'text-muted-foreground hover:text-red-400'}`}
                   title="Logout"
                 >
                   <LogOut className="w-4 h-4" />
@@ -130,7 +131,7 @@ const Navbar = ({ user }: NavbarProps) => {
             ) : (
               <Link
                 href="/login"
-                className="liquid-glass rounded-full px-6 py-2 text-sm text-foreground hover:scale-[1.03]"
+                className={`rounded-full px-6 py-2 text-sm hover:scale-[1.03] transition-transform ${isDarkBg ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'liquid-glass text-foreground'}`}
               >
                 Sign In
               </Link>
@@ -140,7 +141,7 @@ const Navbar = ({ user }: NavbarProps) => {
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-foreground"
+            className={`md:hidden p-2 ${isDarkBg ? 'text-white' : 'text-foreground'}`}
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

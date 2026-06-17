@@ -7,12 +7,6 @@ import {
   Mic,
   Headphones,
   PenTool,
-  Sparkles,
-  Target,
-  TrendingUp,
-  Zap,
-  Star,
-  MessageCircle,
 } from "lucide-react";
 
 const skills = [
@@ -46,14 +40,6 @@ const skills = [
   },
 ];
 
-const features = [
-  { icon: Sparkles, text: "AI-powered feedback & precise scoring" },
-  { icon: Target, text: "Realistic CBT exam simulations" },
-  { icon: TrendingUp, text: "Progress analytics over time" },
-  { icon: Zap, text: "Expert strategies & insights" },
-  { icon: Star, text: "Comprehensive 4-skill mastery" },
-  { icon: MessageCircle, text: "24/7 AI tutor guidance" },
-];
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -106,47 +92,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ====== FEATURES SECTION ====== */}
-      <section className="relative z-10 py-32 px-6 bg-background">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2
-              className="text-4xl md:text-5xl mb-4 text-foreground font-display"
-            >
-              Tools for Deep Thinkers
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-              Everything you need to ace the IELTS exam, refined into a
-              distraction-free digital space.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              const isEven = index % 2 === 0;
-              return (
-                <motion.div
-                  key={index}
-                  className={`p-10 liquid-glass rounded-3xl group cursor-default ${!isEven ? 'md:mt-16' : ''}`}
-                  custom={index}
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                >
-                  <div className="mb-6 w-12 h-12 flex items-center justify-center rounded-full bg-black/5 border border-black/5 group-hover:bg-black/10 group-hover:border-black/10 transition-colors">
-                    <Icon className="w-6 h-6 text-foreground" />
-                  </div>
-                  <p className="text-lg text-foreground/90 leading-relaxed font-medium">
-                    {feature.text}
-                  </p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* ====== SKILLS SECTION ====== */}
       <section className="relative z-10 py-32 px-6 bg-secondary/30">
@@ -213,25 +159,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ====== CTA & FOOTER ====== */}
-      <section className="relative z-10 py-32 px-6 bg-background">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2
-            className="text-5xl md:text-6xl mb-8 text-foreground font-display"
-          >
-            Ready to achieve 9.0 Overall?
-          </h2>
-          <p className="text-xl mb-12 text-muted-foreground max-w-xl mx-auto">
-            Join thousands of deep thinkers who have shattered their limits.
-          </p>
-          <Link
-            href="/reading"
-            className="btn-primary"
-          >
-            Start Your Journey
-          </Link>
-        </div>
-      </section>
+
 
       <footer className="relative z-10 bg-background border-t border-border py-12 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
@@ -241,7 +169,7 @@ export default function Home() {
             IELTS Master<sup className="text-[10px]">®</sup>
           </div>
           <p className="text-sm text-muted-foreground">
-            © 2026 IELTS Master. Built for focus.
+            © 2026 IELTS Master. Built by Triet Nguyen.
           </p>
         </div>
       </footer>
