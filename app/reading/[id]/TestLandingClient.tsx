@@ -28,6 +28,7 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
   const resetTestStore = useTestStore((state) => state.reset);
 
   const [isMounted, setIsMounted] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsMounted(true), 0);
@@ -47,6 +48,8 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
       router.push("/login");
       return;
     }
+    if (isNavigating) return;
+    setIsNavigating(true);
     resetTestStore();
     router.push(`/reading/${testData.id}/take`);
   };
@@ -103,10 +106,11 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <button
               onClick={startTest}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 transition-colors px-10 py-4 rounded-full font-medium"
+              disabled={!isMounted || isNavigating}
+              className={`w-full sm:w-auto flex items-center justify-center gap-2 bg-foreground text-background transition-colors px-10 py-4 rounded-full font-medium ${!isMounted || isNavigating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-foreground/90'}`}
             >
               <Play className="w-5 h-5 fill-background" />
-              Start Practice
+              {isNavigating ? "Starting..." : "Start Practice"}
             </button>
             {!user && (
               <span className="text-red-500 text-sm font-medium">
