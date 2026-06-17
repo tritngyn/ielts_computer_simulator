@@ -100,7 +100,7 @@ export default function ListeningTestLandingClient({ testData, user, dbAttempts 
             </button>
             {user ? (
               <button 
-                onClick={() => router.push(`/listening/${encodeURIComponent(testData.id)}/take`)} 
+                onClick={() => router.push(`/listening/${encodeURIComponent(testData.id)}/take?mode=transcript`)} 
                 className="pb-3 text-muted-foreground hover:text-foreground transition-colors"
               >
                 Answers & Transcript

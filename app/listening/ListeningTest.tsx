@@ -37,6 +37,7 @@ import ListeningTestResultView from "./ListeningTestResultView";
 interface Props {
   testData: IeltsListeningTest;
   user?: SupabaseUser | null;
+  initialMode?: "take" | "transcript";
 }
 
 const formatTime = (time: number) => {
@@ -46,7 +47,7 @@ const formatTime = (time: number) => {
   return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 };
 
-export default function ListeningTest({ testData, user }: Props) {
+export default function ListeningTest({ testData, user, initialMode = "take" }: Props) {
   const router = useRouter();
 
   // Navigation State
@@ -57,8 +58,8 @@ export default function ListeningTest({ testData, user }: Props) {
   const currentTranscriptPart = testData.transcript?.parts?.find(
     (p) => p.partNumber === currentPart.partNumber
   );
-  // Default to hidden, only shown in review mode
-  const [showTranscript, setShowTranscript] = useState(false);
+  // Default to hidden, only shown in review mode or transcript mode
+  const [showTranscript, setShowTranscript] = useState(initialMode === "transcript");
 
   // Update showTranscript if a part has no transcript
   useEffect(() => {
@@ -78,7 +79,7 @@ export default function ListeningTest({ testData, user }: Props) {
   // Answers & Submission State
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isReviewMode, setIsReviewMode] = useState(false);
+  const [isReviewMode, setIsReviewMode] = useState(initialMode === "transcript");
 
   // Time remaining for test (e.g., 30 mins)
   const [timeLeft, setTimeLeft] = useState(30 * 60);
@@ -729,12 +730,21 @@ export default function ListeningTest({ testData, user }: Props) {
             answered
           </span>
           {isReviewMode ? (
-            <button
-              onClick={() => setIsReviewMode(false)}
-              className="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 font-semibold shadow-sm transition"
-            >
-              Quay lại kết quả
-            </button>
+            isSubmitted ? (
+              <button
+                onClick={() => setIsReviewMode(false)}
+                className="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 font-semibold shadow-sm transition"
+              >
+                Quay lại kết quả
+              </button>
+            ) : (
+              <button
+                onClick={() => router.push(`/listening/${encodeURIComponent(testData.id)}`)}
+                className="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 font-semibold shadow-sm transition"
+              >
+                Thoát
+              </button>
+            )
           ) : (
             <button
               onClick={() => {

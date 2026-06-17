@@ -5,11 +5,15 @@ import { createClient } from "@/utils/supabase/server";
 
 interface PageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function TakeListeningTestPage({ params }: PageProps) {
+export default async function TakeListeningTestPage({ params, searchParams }: PageProps) {
   const { id } = await params;
   const decodedId = decodeURIComponent(id);
+
+  const resolvedSearchParams = await searchParams;
+  const isTranscriptMode = resolvedSearchParams.mode === "transcript";
 
   const testData = await getListeningTestById(decodedId);
 
@@ -24,5 +28,5 @@ export default async function TakeListeningTestPage({ params }: PageProps) {
     redirect("/login");
   }
 
-  return <ListeningTest testData={testData} user={user} />;
+  return <ListeningTest testData={testData} user={user} initialMode={isTranscriptMode ? "transcript" : "take"} />;
 }

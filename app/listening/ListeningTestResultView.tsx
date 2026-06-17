@@ -255,10 +255,40 @@ export default function ListeningTestResultView({ testData, user, pastAttempt, c
                 </tr>
               </thead>
               <tbody>
-                {(activeTab === "all"
-                  ? partStats.flatMap((p) => p.groups)
-                  : partStats[activeTab as number].groups
-                ).map((g, idx) => {
+                {(() => {
+                  const groupsToRender = activeTab === "all"
+                    ? partStats.flatMap((p) => p.groups)
+                    : partStats[activeTab as number].groups;
+                  
+                  type AggregatedGroup = typeof groupsToRender[0];
+                  const aggregatedMap = new Map<string, AggregatedGroup>();
+                  
+                  groupsToRender.forEach(g => {
+                    if (!aggregatedMap.has(g.type)) {
+                      aggregatedMap.set(g.type, {
+                        type: g.type,
+                        correct: 0,
+                        incorrect: 0,
+                        skipped: 0,
+                        total: 0,
+                        questions: []
+                      });
+                    }
+                    const agg = aggregatedMap.get(g.type)!;
+                    agg.correct += g.correct;
+                    agg.incorrect += g.incorrect;
+                    agg.skipped += g.skipped;
+                    agg.total += g.total;
+                    agg.questions.push(...g.questions);
+                  });
+                  
+                  const aggregatedGroups = Array.from(aggregatedMap.values());
+                  
+                  aggregatedGroups.forEach(agg => {
+                    agg.questions.sort((a, b) => a.number - b.number);
+                  });
+
+                  return aggregatedGroups.map((g, idx) => {
                   const gAccuracy =
                     g.total > 0
                       ? ((g.correct / g.total) * 100).toFixed(1)
@@ -296,7 +326,8 @@ export default function ListeningTestResultView({ testData, user, pastAttempt, c
                       </td>
                     </tr>
                   );
-                })}
+                  });
+                })()}
               </tbody>
             </table>
           </div>
