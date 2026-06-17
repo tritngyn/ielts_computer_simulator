@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Instrument_Serif, Inter } from "next/font/google";
 import { motion, Variants } from "framer-motion";
 import {
   BookOpen,
@@ -15,16 +14,6 @@ import {
   Star,
   MessageCircle,
 } from "lucide-react";
-
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const inter = Inter({
-  weight: ["400", "500"],
-  subsets: ["latin"],
-});
 
 const skills = [
   {
@@ -77,7 +66,7 @@ const fadeUp: Variants = {
 
 export default function Home() {
   return (
-    <div className={`${inter.className} min-h-screen relative`}>
+    <div className="font-sans min-h-screen relative">
       {/* ====== HERO SECTION ====== */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Video Background */}
@@ -95,7 +84,7 @@ export default function Home() {
 
         <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-20">
           <h1
-            className={`text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-5xl font-normal  text-foreground ${instrumentSerif.className}`}
+            className="text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-5xl font-normal text-foreground font-display"
           >
             Master your{" "}
             <em className="not-italic text-muted-foreground">language.</em>
@@ -110,7 +99,7 @@ export default function Home() {
           </p>
           <Link
             href="/reading"
-            className="liquid-glass rounded-full px-12 py-4 text-base text-foreground mt-12 hover:scale-[1.03] cursor-pointer transition-transform "
+            className="btn-primary mt-12"
           >
             Take a Free Test
           </Link>
@@ -122,7 +111,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2
-              className={`text-4xl md:text-5xl mb-4 text-foreground ${instrumentSerif.className}`}
+              className="text-4xl md:text-5xl mb-4 text-foreground font-display"
             >
               Tools for Deep Thinkers
             </h2>
@@ -132,13 +121,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {features.map((feature, index) => {
               const Icon = feature.icon;
+              const isEven = index % 2 === 0;
               return (
                 <motion.div
                   key={index}
-                  className="p-8 liquid-glass rounded-2xl group cursor-default"
+                  className={`p-10 liquid-glass rounded-3xl group cursor-default ${!isEven ? 'md:mt-16' : ''}`}
                   custom={index}
                   variants={fadeUp}
                   initial="hidden"
@@ -164,7 +154,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="max-w-xl">
               <h2
-                className={`text-4xl md:text-5xl mb-4 text-foreground ${instrumentSerif.className}`}
+                className="text-4xl md:text-5xl mb-4 text-foreground font-display"
               >
                 Conquer Your Test
               </h2>
@@ -200,7 +190,7 @@ export default function Home() {
                           <Icon className="w-6 h-6" />
                         </div>
                         <h3
-                          className={`text-3xl text-foreground mb-3 ${instrumentSerif.className}`}
+                          className="text-3xl text-foreground mb-3 font-display"
                         >
                           {skill.title}
                         </h3>
@@ -227,7 +217,7 @@ export default function Home() {
       <section className="relative z-10 py-32 px-6 bg-background">
         <div className="max-w-4xl mx-auto text-center">
           <h2
-            className={`text-5xl md:text-6xl mb-8 text-foreground ${instrumentSerif.className}`}
+            className="text-5xl md:text-6xl mb-8 text-foreground font-display"
           >
             Ready to achieve 9.0 Overall?
           </h2>
@@ -236,7 +226,7 @@ export default function Home() {
           </p>
           <Link
             href="/reading"
-            className="inline-block liquid-glass rounded-full px-12 py-4 text-base text-foreground hover:scale-[1.03] transition-transform"
+            className="btn-primary"
           >
             Start Your Journey
           </Link>
@@ -246,7 +236,7 @@ export default function Home() {
       <footer className="relative z-10 bg-background border-t border-border py-12 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div
-            className={`text-2xl text-foreground ${instrumentSerif.className}`}
+            className="text-2xl text-foreground font-display"
           >
             IELTS Master<sup className="text-[10px]">®</sup>
           </div>

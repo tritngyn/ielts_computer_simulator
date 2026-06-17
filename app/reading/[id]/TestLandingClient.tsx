@@ -15,12 +15,7 @@ import { IeltsReadingTest } from "@/types/ielts";
 import { useTestStore } from "@/store/useTestScore";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import CommentSection from "@/app/components/CommentSection";
-import { Instrument_Serif } from "next/font/google";
 
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-});
 
 interface Props {
   testData: IeltsReadingTest;
@@ -84,7 +79,7 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
           </div>
 
           <div className="flex items-center gap-4 mb-8">
-            <h1 className={`text-4xl md:text-5xl text-foreground ${instrumentSerif.className}`}>
+            <h1 className="text-4xl md:text-5xl text-foreground font-display">
               {testData.title}
             </h1>
             <CheckCircle2 className="w-8 h-8 text-green-600 shrink-0" />
@@ -128,7 +123,7 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h2 className={`text-3xl text-foreground mb-8 ${instrumentSerif.className}`}>Your Results</h2>
+          <h2 className="text-3xl text-foreground mb-8 font-display">Your Results</h2>
 
           {!user ? (
             <div className="text-center py-16 bg-black/5 rounded-2xl border border-black/5">

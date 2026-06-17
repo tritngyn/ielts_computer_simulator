@@ -28,7 +28,7 @@ const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({
 }) {
   return (
     <div
-      className="mb-6 prose prose-sm max-w-none text-foreground bg-background p-5 rounded-xl border border-border/60 shadow-sm"
+      className="mb-6 prose prose-base max-w-none text-foreground bg-background p-5 rounded-xl border border-border/60 shadow-sm"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -197,8 +197,8 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
           type="text"
           value={userAnswers[`passage_${currentPassage}_q${qNumber}`] || ""}
           onChange={(e) => handleAnswerChange(qNumber, e.target.value)}
-          className="flex-1 px-4 py-2.5 border rounded-lg text-sm bg-background border-border focus:border-foreground focus:ring-1 focus:ring-foreground transition-colors outline-none"
-          placeholder="Your answer"
+          className="flex-1 px-4 py-2.5 border rounded-lg text-base bg-background border-border focus:border-foreground focus:ring-1 focus:ring-foreground transition-colors outline-none"
+          placeholder="Type answer..."
         />
       </div>
     );
@@ -219,7 +219,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
 
         {group.sharedOptions && group.type !== "MULTIPLE_CHOICE" && (
           <div className="mb-8 p-5 bg-black/[0.02] rounded-xl border border-border/50">
-            <ul className="flex flex-col gap-3 text-sm text-foreground/90">
+            <ul className="flex flex-col gap-3 text-base text-foreground/90">
               {group.sharedOptions.map((opt, i) => {
                 const match = opt.trim().match(/^(TRUE|FALSE|NOT GIVEN|YES|NO)(?:\s+(.*))?/i);
                 if (match) {
@@ -273,7 +273,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                   </span>
                   {group.questions[0].text && (
                     <div
-                      className="text-foreground/90 text-sm leading-relaxed flex-1"
+                      className="text-foreground/90 text-base leading-relaxed flex-1"
                       dangerouslySetInnerHTML={{ __html: group.questions[0].text }}
                     />
                   )}
@@ -326,7 +326,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                           }}
                           className="mt-1 w-4 h-4 text-foreground focus:ring-foreground rounded border-border"
                         />
-                        <div className="text-sm text-foreground/90 leading-relaxed flex gap-2">
+                        <div className="text-base text-foreground/90 leading-relaxed flex gap-2">
                           <span className="font-semibold">{val}.</span>
                           <span dangerouslySetInnerHTML={{ __html: cleanOpt }} />
                         </div>
@@ -353,7 +353,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                         {q.number}.
                       </span>
                       <div
-                        className="text-foreground/90 text-sm leading-relaxed"
+                        className="text-foreground/90 text-base leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: q.text }}
                       />
                     </div>
@@ -377,7 +377,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                             }
                             className="w-4 h-4 text-foreground focus:ring-foreground border-border"
                           />
-                          <span className="text-sm font-medium text-foreground/90">{opt}</span>
+                          <span className="text-base font-medium text-foreground/90">{opt}</span>
                         </label>
                       ))}
                     </div>
@@ -394,7 +394,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                           {q.number}.
                         </span>
                         <div
-                          className="text-foreground/90 text-sm leading-relaxed"
+                          className="text-foreground/90 text-base leading-relaxed"
                           dangerouslySetInnerHTML={{ __html: q.text }}
                         />
                       </div>
@@ -422,7 +422,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                                 }
                                 className="mt-1 w-4 h-4 text-foreground focus:ring-foreground border-border"
                               />
-                              <div className="text-sm text-foreground/90 leading-relaxed flex gap-2">
+                              <div className="text-base text-foreground/90 leading-relaxed flex gap-2">
                                 <span className="font-semibold">{letter}.</span>
                                 <span dangerouslySetInnerHTML={{ __html: cleanOpt }} />
                               </div>
@@ -444,7 +444,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                         {q.number}.
                       </span>
                       <div
-                        className="text-foreground/90 text-sm flex-1"
+                        className="text-foreground/90 text-base flex-1"
                         dangerouslySetInnerHTML={{ __html: q.text }}
                       />
                       <div className="flex flex-wrap gap-4">
@@ -467,7 +467,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                               }
                               className="w-4 h-4 text-foreground focus:ring-foreground border-border"
                             />
-                            <span className="text-sm font-medium">{opt}</span>
+                            <span className="text-base font-medium">{opt}</span>
                           </label>
                         ))}
                       </div>
@@ -483,7 +483,7 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
                     {q.number}.
                   </span>
                   {q.text && (
-                    <span className="text-foreground/90 text-sm flex-1">
+                    <span className="text-foreground/90 text-base flex-1">
                       {q.text}
                     </span>
                   )}

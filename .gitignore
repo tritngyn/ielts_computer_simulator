@@ -42,3 +42,6 @@ next-env.d.ts
 
 # impeccable
 impeccable/
+
+# Agents and skills
+.agents/

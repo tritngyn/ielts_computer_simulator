@@ -25,7 +25,7 @@ const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({
 }) {
   return (
     <div
-      className="mb-6 prose prose-sm max-w-none text-gray-800 bg-white p-4 rounded border border-gray-100"
+      className="mb-6 prose prose-base max-w-none text-gray-800 bg-white p-4 rounded border border-gray-100"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -371,7 +371,7 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
         
         {/* Questions Area (Using Reading Test Question Column Style) */}
         <div className={`flex-1 overflow-y-auto bg-[#f8fafc] p-8 scroll-smooth pb-32 ${showTranscript ? "border-l border-gray-200 shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)] relative z-10" : ""}`}>
-          <div className="max-w-2xl mx-auto space-y-8">
+          <div className="max-w-4xl mx-auto space-y-8">
             {currentPart.questionGroups.map((group, gIdx) => {
               const hasInlineGaps =
                 group.groupContentHTML &&
@@ -395,7 +395,7 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
 
                   {group.sharedOptions && group.type !== "MULTIPLE_CHOICE" && (
                     <div className="mb-6 p-4 bg-gray-50 rounded-md border border-gray-200">
-                      <ul className="flex flex-col gap-3 text-sm text-gray-700">
+                      <ul className="flex flex-col gap-3 text-base text-gray-700">
                         {group.sharedOptions.map((opt, i) => (
                           <li key={i}>{opt}</li>
                         ))}
@@ -431,7 +431,7 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
                             </span>
                             {group.questions[0].text && (
                               <div
-                                className="text-gray-800 text-sm leading-relaxed flex-1"
+                                className="text-gray-800 text-base leading-relaxed flex-1"
                                 dangerouslySetInnerHTML={{ __html: group.questions[0].text }}
                               />
                             )}
@@ -486,7 +486,7 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
                                     }}
                                     className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500 rounded border-gray-300"
                                   />
-                                  <div className="text-sm text-gray-700 leading-relaxed flex gap-2">
+                                  <div className="text-base text-gray-700 leading-relaxed flex gap-2">
                                     <span className="font-semibold">{val}.</span>
                                     <span dangerouslySetInnerHTML={{ __html: cleanOpt }} />
                                   </div>
@@ -510,13 +510,13 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
                               if (parts.length === 1) {
                                 return (
                                   <div
-                                    className="text-gray-800 text-sm leading-relaxed flex-1"
+                                    className="text-gray-800 text-base leading-relaxed flex-1"
                                     dangerouslySetInnerHTML={{ __html: q.text }}
                                   />
                                 );
                               }
                               return (
-                                <div className="text-gray-800 text-sm leading-relaxed flex-1 leading-8">
+                                <div className="text-gray-800 text-base leading-relaxed flex-1 leading-8">
                                   {parts.map((part, i) => {
                                     if (
                                       part.match(/^(_{2,}|\.{2,}|\u2026+)$/)
@@ -558,7 +558,7 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
                               ) && (
                                 <div className="flex-1 mt-0 mb-2 font-medium">
                                   <input
-                                    className={`w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${isReviewMode ? 'bg-gray-100 text-gray-800' : ''}`}
+                                    className={`w-full max-w-sm px-3 py-2 border rounded text-base bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${isReviewMode ? 'bg-gray-100 text-gray-800' : ''}`}
                                     placeholder="Your answer"
                                     type="text"
                                     value={answers[q.id || ""] || ""}
@@ -603,7 +603,7 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
                                         }}
                                         className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500"
                                       />
-                                      <div className="text-sm text-gray-700 leading-relaxed flex gap-2">
+                                      <div className="text-base text-gray-700 leading-relaxed flex gap-2">
                                         <span className="font-semibold">
                                           {val}.
                                         </span>
@@ -626,7 +626,7 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
                             <div className="ml-9">
                               {group.sharedOptions ? (
                                 <select
-                                  className={`w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${isReviewMode ? 'bg-gray-100 text-gray-800' : ''}`}
+                                  className={`w-full max-w-sm px-3 py-2 border rounded text-base bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${isReviewMode ? 'bg-gray-100 text-gray-800' : ''}`}
                                   value={answers[q.id || ""] || ""}
                                   onChange={(e) => {
                                     handleAnswerChange(
@@ -650,7 +650,7 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
                                 </select>
                               ) : (
                                 <input
-                                  className={`w-full max-w-sm px-3 py-2 border rounded text-sm bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${isReviewMode ? 'bg-gray-100 text-gray-800' : ''}`}
+                                  className={`w-full max-w-sm px-3 py-2 border rounded text-base bg-white border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${isReviewMode ? 'bg-gray-100 text-gray-800' : ''}`}
                                   placeholder="Your answer"
                                   type="text"
                                   value={answers[q.id || ""] || ""}

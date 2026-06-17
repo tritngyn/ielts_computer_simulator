@@ -17,12 +17,7 @@ import {
 } from "lucide-react";
 import { logout } from "../(auth)/actions";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
-import { Instrument_Serif } from "next/font/google";
 
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-});
 
 interface NavbarProps {
   user: SupabaseUser | null;
@@ -69,7 +64,7 @@ const Navbar = ({ user }: NavbarProps) => {
           {/* Logo */}
           <Link
             href="/"
-            className={`text-3xl tracking-tight text-foreground ${instrumentSerif.className} hover:opacity-80 transition-opacity`}
+            className="text-3xl tracking-tight text-foreground font-display hover:opacity-80 transition-opacity"
           >
             IELTS Master<sup className="text-xs">®</sup>
           </Link>

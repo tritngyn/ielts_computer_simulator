@@ -11,12 +11,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { IeltsListeningTest } from "@/types/listening";
-import { Instrument_Serif } from "next/font/google";
 
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-});
 
 const TESTS_PER_PAGE = 6;
 
@@ -104,7 +99,7 @@ export default function ListeningTestsClient({ tests }: Props) {
                   <Headphones className="w-6 h-6 text-foreground" />
                 </div>
                 <h1
-                  className={`text-4xl md:text-6xl text-foreground ${instrumentSerif.className}`}
+                  className="text-4xl md:text-6xl text-foreground font-display"
                 >
                   Listening Tests
                 </h1>
@@ -134,7 +129,7 @@ export default function ListeningTestsClient({ tests }: Props) {
                     {stat.label}
                   </p>
                   <p
-                    className={`text-4xl text-foreground ${instrumentSerif.className}`}
+                    className="text-4xl text-foreground font-display"
                   >
                     {stat.value}
                   </p>
@@ -167,7 +162,7 @@ export default function ListeningTestsClient({ tests }: Props) {
                     </div>
                     <div className="flex-1">
                       <h3
-                        className={`text-2xl text-foreground mb-3 ${instrumentSerif.className}`}
+                        className="text-2xl text-foreground mb-3 font-display"
                       >
                         {test.title}
                       </h3>
@@ -232,7 +227,7 @@ export default function ListeningTestsClient({ tests }: Props) {
           <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-accent/20 rounded-full blur-[80px] pointer-events-none" />
 
           <h3
-            className={`text-3xl text-foreground mb-6 ${instrumentSerif.className}`}
+            className="text-3xl text-foreground mb-6 font-display"
           >
             About Listening Tests
           </h3>

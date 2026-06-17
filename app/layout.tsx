@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Patrick_Hand, Nunito } from "next/font/google";
+import { Instrument_Serif, Geist } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
-const patrickHand = Patrick_Hand({
+const instrumentSerif = Instrument_Serif({
   weight: "400",
-  variable: "--font-hand",
+  variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
 });
 
-const nunito = Nunito({
-  variable: "--font-body",
+const geist = Geist({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -47,7 +47,7 @@ export default async function RootLayout({
     <html lang="en">
       <body
         suppressHydrationWarning
-        className={`${patrickHand.variable} ${nunito.variable} antialiased force-css-reload-1`}
+        className={`${instrumentSerif.variable} ${geist.variable} font-sans antialiased force-css-reload-1`}
       >
         <Navbar user={user} />
         {children}

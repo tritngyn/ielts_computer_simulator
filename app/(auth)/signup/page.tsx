@@ -4,12 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { UserPlus, ArrowRight } from "lucide-react";
-import { Instrument_Serif } from "next/font/google";
 
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-});
 import { signInWithOAuth, syncUser } from "../actions";
 import { createClient } from "@/utils/supabase/client";
 
@@ -58,7 +53,7 @@ export default function SignupPage() {
             <div className="inline-flex items-center justify-center w-14 h-14 bg-black/5 rounded-full mb-6 border border-black/5">
               <UserPlus className="w-6 h-6 text-foreground" />
             </div>
-            <h2 className={`text-4xl text-foreground mb-3 ${instrumentSerif.className}`}>Create Account</h2>
+            <h2 className="text-4xl text-foreground mb-3 font-display">Create Account</h2>
             <p className="text-muted-foreground text-sm">Join IELTS Master today</p>
           </div>
 
