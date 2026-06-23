@@ -51,7 +51,9 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
     if (isNavigating) return;
     setIsNavigating(true);
     resetTestStore();
-    router.push(`/reading/${testData.id}/take`);
+    setTimeout(() => {
+      router.push(`/reading/${encodeURIComponent(testData.id)}/take`);
+    }, 50);
   };
 
   const formatTime = (seconds: number) => {

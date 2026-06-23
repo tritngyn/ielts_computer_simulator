@@ -1,18 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import {
-  User,
-  Clock,
-  Award,
-  BookOpen,
-  Target,
-  Calendar,
-  History,
-} from "lucide-react";
+import { User, Clock, BookOpen, Target, Calendar, History } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-
 export const metadata = {
   title: "Profile | IELTS Master",
 };
