@@ -1,0 +1,17 @@
+name: Supabase Keep Alive Bot
+
+on:
+  schedule:
+    # Chạy vào lúc 00:00 UTC (tương đương 07:00 sáng giờ Việt Nam) mỗi ngày
+    - cron: "0 0 * * *"
+  # Dòng này cho phép bạn bấm nút chạy thử thủ công (Run workflow) trên GitHub Actions
+  workflow_dispatch:
+
+jobs:
+  ping-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gọi API đánh thức Supabase
+        # THAY THẾ đường dẫn bên dưới bằng URL thực tế của bạn
+        run: |
+          curl -s -X GET "https://ielts-computer-simulator-cl7t.vercel.app//api/keep-alive"

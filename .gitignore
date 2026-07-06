@@ -20,6 +20,9 @@
 # production
 /build
 
+#data 
+/data
+
 # misc
 .DS_Store
 *.pem
@@ -45,3 +48,4 @@ impeccable/
 
 # Agents and skills
 .agents/
+
