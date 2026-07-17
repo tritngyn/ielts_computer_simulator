@@ -11,7 +11,8 @@ jobs:
   ping-api:
     runs-on: ubuntu-latest
     steps:
-      - name: Gọi API đánh thức Supabase
-        # THAY THẾ đường dẫn bên dưới bằng URL thực tế của bạn
+      - name: Gọi trực tiếp API đánh thức Supabase
         run: |
-          curl -s -X GET "https://ielts-computer-simulator-cl7t.vercel.app//api/keep-alive"
+          curl -s -f -X GET '${{ secrets.SUPABASE_URL }}/rest/v1/User?select=*&limit=1' \
+          -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
