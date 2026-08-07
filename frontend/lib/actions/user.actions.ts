@@ -1,15 +1,16 @@
 "use server";
 
-import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export async function updateProfile(formData: FormData) {
   try {
     const supabase = await createClient();
     const { data: { session }, error: authError } = await supabase.auth.getSession();
 
-    if (authError || !session?.user) {
+    if (authError || !session?.user || !session?.access_token) {
       return { success: false, error: "Unauthorized" };
     }
 
@@ -47,18 +48,23 @@ export async function updateProfile(formData: FormData) {
       avatarUrl = publicUrl;
     }
 
-    // Update the user record in Prisma Database
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        ...(fullName !== null && { fullName }),
-        ...(avatarUrl && { avatarUrl }),
+    // Call NestJS API to update the profile in the database
+    const payload: any = {};
+    if (fullName !== null) payload.fullName = fullName;
+    if (avatarUrl) payload.avatarUrl = avatarUrl;
+
+    const response = await fetch(`${API_URL}/users/profile`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
       },
+      body: JSON.stringify(payload),
     });
 
-    // Note: We are primarily updating the Prisma Database here since our app 
-    // reads user info from `dbUser`. We could optionally also update Supabase Auth 
-    // metadata (`supabase.auth.updateUser`) but it's not strictly necessary.
+    if (!response.ok) {
+      throw new Error("Failed to update profile via API");
+    }
 
     revalidatePath("/profile");
     return { success: true };
@@ -68,3 +74,4 @@ export async function updateProfile(formData: FormData) {
     return { success: false, error: "An unexpected error occurred." };
   }
 }
+

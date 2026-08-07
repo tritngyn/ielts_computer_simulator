@@ -1,17 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
 
-export async function saveTestAttempt({
-  testId,
-  score,
-  totalQuestions,
-  timeTakenSeconds,
-  mode,
-  userAnswers,
-}: {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+export async function saveTestAttempt(data: {
   testId: string;
   score: number;
   totalQuestions: number;
@@ -20,28 +14,31 @@ export async function saveTestAttempt({
   userAnswers?: Record<string, string>;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { session } } = await supabase.auth.getSession();
 
-  if (!user) {
+  if (!session?.access_token) {
     throw new Error("You must be logged in to save an attempt.");
   }
 
   try {
-    const attempt = await prisma.attempt.create({
-      data: {
-        testId,
-        userId: user.id,
-        score,
-        totalQuestions,
-        timeTakenSeconds,
-        mode,
-        userAnswers: userAnswers || undefined,
+    const response = await fetch(`${API_URL}/attempts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
       },
+      body: JSON.stringify(data),
     });
+
+    if (!response.ok) {
+      throw new Error("Failed to save attempt");
+    }
+
+    const result = await response.json();
     
-    revalidatePath(`/reading/${testId}`);
+    revalidatePath(`/reading/${data.testId}`);
     revalidatePath(`/profile`);
-    return { success: true, attempt };
+    return result;
   } catch (error) {
     console.error("Failed to save test attempt:", error);
     return { error: "Failed to save attempt." };
@@ -50,21 +47,23 @@ export async function saveTestAttempt({
 
 export async function getUserAttempts(testId?: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { session } } = await supabase.auth.getSession();
 
-  if (!user) {
+  if (!session?.access_token) {
     return [];
   }
 
   try {
-    const whereClause = testId ? { userId: user.id, testId } : { userId: user.id };
-    
-    const attempts = await prisma.attempt.findMany({
-      where: whereClause,
-      orderBy: { createdAt: "desc" },
+    const url = testId ? `${API_URL}/attempts?testId=${testId}` : `${API_URL}/attempts`;
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      cache: 'no-store'
     });
-    
-    return attempts;
+
+    if (!response.ok) return [];
+    return response.json();
   } catch (error) {
     console.error("Failed to get user attempts:", error);
     return [];
@@ -73,25 +72,22 @@ export async function getUserAttempts(testId?: string) {
 
 export async function getAttemptById(attemptId: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { session } } = await supabase.auth.getSession();
 
-  if (!user) {
+  if (!session?.access_token) {
     return null;
   }
 
   try {
-    const attempt = await prisma.attempt.findUnique({
-      where: { id: attemptId },
-      include: {
-        test: true, // we might need test info
-      }
+    const response = await fetch(`${API_URL}/attempts/${attemptId}`, {
+      headers: {
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      cache: 'no-store'
     });
 
-    // Make sure the attempt belongs to the user
-    if (attempt && attempt.userId === user.id) {
-      return attempt;
-    }
-    return null;
+    if (!response.ok) return null;
+    return response.json();
   } catch (error) {
     console.error("Failed to get attempt:", error);
     return null;

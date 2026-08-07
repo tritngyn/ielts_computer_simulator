@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import prisma from "@/lib/prisma";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -12,26 +13,17 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
     
-    if (!error && data.user) {
-      // Sync user to Prisma database
-      const user = data.user;
+    if (!error && data.session?.access_token) {
+      // Sync user to Backend
       try {
-        await prisma.user.upsert({
-          where: { id: user.id },
-          update: {
-            email: user.email!,
-            avatarUrl: user.user_metadata?.avatar_url || null,
-            fullName: user.user_metadata?.full_name || null,
-          },
-          create: {
-            id: user.id,
-            email: user.email!,
-            avatarUrl: user.user_metadata?.avatar_url || null,
-            fullName: user.user_metadata?.full_name || null,
-          },
+        await fetch(`${API_URL}/users/sync`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${data.session.access_token}`
+          }
         });
       } catch (err) {
-        console.error("Error syncing user to Prisma:", err);
+        console.error("Error syncing user to Backend:", err);
       }
 
       const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
@@ -51,3 +43,4 @@ export async function GET(request: Request) {
   // return the user to an error page with instructions
   return NextResponse.redirect(`${origin}/auth/auth-code-error`);
 }
+

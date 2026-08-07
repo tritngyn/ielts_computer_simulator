@@ -4,27 +4,31 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
-import prisma from "@/lib/prisma";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+async function syncUserWithBackend(token: string) {
+  try {
+    const res = await fetch(`${API_URL}/users/sync`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    if (!res.ok) {
+      console.error("Failed to sync user with backend API");
+    }
+  } catch (err) {
+    console.error("Backend API sync error:", err);
+  }
+}
 
 export async function syncUser() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { session } } = await supabase.auth.getSession();
 
-  if (user) {
-    try {
-      await prisma.user.upsert({
-        where: { id: user.id },
-        update: { email: user.email! },
-        create: {
-          id: user.id,
-          email: user.email!,
-          avatarUrl: user.user_metadata?.avatar_url || null,
-          fullName: user.user_metadata?.full_name || null,
-        },
-      });
-    } catch (err) {
-      console.error("Prisma sync error:", err);
-    }
+  if (session?.access_token) {
+    await syncUserWithBackend(session.access_token);
   }
 }
 
@@ -39,26 +43,13 @@ export async function login(formData: FormData) {
     password,
   });
   
-  console.log("Login action result:", { success: !error, error: error?.message, user: data?.user?.id });
-
   if (error) {
     return { error: error.message };
   }
 
-  // Sync user to Prisma on login
-  if (data?.user) {
-    try {
-      await prisma.user.upsert({
-        where: { id: data.user.id },
-        update: {},
-        create: {
-          id: data.user.id,
-          email: data.user.email!,
-        },
-      });
-    } catch (err) {
-      console.error("Prisma sync error on login:", err);
-    }
+  // Sync user to Backend on login
+  if (data?.session?.access_token) {
+    await syncUserWithBackend(data.session.access_token);
   }
 
   revalidatePath("/", "layout");
@@ -80,20 +71,9 @@ export async function signup(formData: FormData) {
   if (error) {
     return { error: error.message };
   }
-  // Sync user to Prisma on signup
-  if (data?.user) {
-    try {
-      await prisma.user.upsert({
-        where: { id: data.user.id },
-        update: {},
-        create: {
-          id: data.user.id,
-          email: data.user.email!,
-        },
-      });
-    } catch (err) {
-      console.error("Prisma sync error on signup:", err);
-    }
+  // Sync user to Backend on signup
+  if (data?.session?.access_token) {
+    await syncUserWithBackend(data.session.access_token);
   }
 
   revalidatePath("/", "layout");

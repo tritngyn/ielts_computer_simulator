@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma";
 import { User, Clock, BookOpen, Target, Calendar, History } from "lucide-react";
 import Link from "next/link";
 export const metadata = {
@@ -8,6 +7,8 @@ export const metadata = {
 };
 
 import ProfileCard from "./ProfileCard";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -17,20 +18,25 @@ export default async function ProfilePage() {
 
   const user = session?.user || null;
 
-  if (!user) {
+  if (!user || !session?.access_token) {
     redirect("/login");
   }
 
-  const dbUser = await prisma.user.findUnique({
-    where: { id: user.id },
-    include: {
-      attempts: {
-        include: { test: true },
-        orderBy: { createdAt: "desc" },
-        take: 10,
+  // Fetch from NestJS API
+  let dbUser = null;
+  try {
+    const res = await fetch(`${API_URL}/users/profile`, {
+      headers: {
+        'Authorization': `Bearer ${session.access_token}`
       },
-    },
-  });
+      cache: 'no-store'
+    });
+    if (res.ok) {
+      dbUser = await res.json();
+    }
+  } catch (error) {
+    console.error("Failed to fetch profile from API", error);
+  }
 
   const displayName =
     dbUser?.fullName ||
