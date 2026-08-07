@@ -11,8 +11,8 @@ jobs:
   ping-api:
     runs-on: ubuntu-latest
     steps:
-      - name: Gọi trực tiếp API đánh thức Supabase
+      - name: Đánh thức Supabase bằng Service Role
         run: |
           curl -s -f -X GET '${{ secrets.SUPABASE_URL }}/rest/v1/User?select=*&limit=1' \
-          -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-          -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
+          -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}"
