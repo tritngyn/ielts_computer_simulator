@@ -10,6 +10,27 @@ import ProfileCard from "./ProfileCard";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
+interface AttemptSummary {
+  id: string;
+  testId: string;
+  score: number;
+  totalQuestions: number;
+  timeTakenSeconds: number;
+  mode: string;
+  createdAt: string;
+  test: {
+    title: string;
+    type: string;
+  };
+}
+
+interface ProfileResponse {
+  email: string;
+  fullName: string | null;
+  avatarUrl: string | null;
+  attempts: AttemptSummary[];
+}
+
 export default async function ProfilePage() {
   const supabase = await createClient();
   const {
@@ -23,7 +44,7 @@ export default async function ProfilePage() {
   }
 
   // Fetch from NestJS API
-  let dbUser = null;
+  let dbUser: ProfileResponse | null = null;
   try {
     const res = await fetch(`${API_URL}/users/profile`, {
       headers: {
@@ -32,7 +53,7 @@ export default async function ProfilePage() {
       cache: 'no-store'
     });
     if (res.ok) {
-      dbUser = await res.json();
+      dbUser = (await res.json()) as ProfileResponse;
     }
   } catch (error) {
     console.error("Failed to fetch profile from API", error);
@@ -45,7 +66,7 @@ export default async function ProfilePage() {
     "User";
   const email = dbUser?.email || user.email;
   const avatar = dbUser?.avatarUrl || user.user_metadata?.avatar_url || null;
-  const attempts = dbUser?.attempts || [];
+  const attempts: AttemptSummary[] = dbUser?.attempts ?? [];
 
   // Calculate some stats
   const totalTests = attempts.length;
