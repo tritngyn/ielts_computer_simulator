@@ -122,3 +122,10 @@ The current production-hardening roadmap and task acceptance criteria are mainta
 ## Deployment principle
 
 CI should install and build once. Production should start the already-built artifact instead of running dependency installation or compilation during every application startup. Database changes will use committed Prisma migrations and a release-stage `prisma migrate deploy` command after Phase P1.6 is completed.
+
+The frontend is deployed from `frontend/` by Vercel. The backend is packaged as
+a non-root container from `backend/` and deployed by a Google Cloud Build
+repository trigger to Google Cloud Run in Singapore. See
+[`docs/GOOGLE_CLOUD_RUN_BACKEND_DEPLOYMENT.md`](docs/GOOGLE_CLOUD_RUN_BACKEND_DEPLOYMENT.md)
+for repository boundaries, one-time cloud setup, secrets, health checks and
+rollback procedure.

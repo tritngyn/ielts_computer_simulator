@@ -9,7 +9,7 @@ Nâng IELTS Computer Simulator từ MVP thành một hệ thống:
 
 - An toàn và đáng tin cậy cho user thật.
 - Có kiến trúc backend rõ ràng, dễ mở rộng và dễ kiểm thử.
-- Có quy trình deploy lặp lại được trên Vercel và Azure.
+- Có quy trình deploy lặp lại được trên Vercel và Google Cloud Run.
 - Thể hiện tư duy engineering tốt trong mắt nhà tuyển dụng.
 - Giúp người xây project hiểu bản chất backend, không chỉ sao chép code.
 
@@ -55,7 +55,7 @@ Quy trình cho mỗi task:
 - Auth: Supabase Auth; frontend chuyển access token bằng Bearer header.
 - Database: Supabase PostgreSQL.
 - ORM: Prisma ở backend.
-- Deployment dự kiến: Vercel cho frontend, Azure App Service cho backend.
+- Deployment: Vercel cho frontend, Google Cloud Run cho backend container.
 
 ### Điểm tốt
 
@@ -804,6 +804,15 @@ Consequences/trade-offs:
 - **Why chosen:** Linh hoạt và tránh over-engineering trong MVP.
 - **Consequences/trade-offs:** Query sâu khó hơn; validation phải làm ở application/import boundary.
 
+### D-004 — Cloud Run cho NestJS backend
+
+- **Date:** 2026-08-31
+- **Decision:** Deploy NestJS dưới dạng Docker container trên Google Cloud Run; giữ frontend trên Vercel và database/auth trên Supabase.
+- **Context:** Azure for Students đã hết hạn; owner vẫn muốn giữ NestJS để học backend và xây application boundary độc lập.
+- **Alternatives considered:** Next.js full-stack trên Vercel, Cloudflare Workers, AWS Lambda, AWS App Runner, Render Free và VPS.
+- **Why chosen:** Giữ nguyên Node/NestJS runtime, hỗ trợ container portable, scale-to-zero, revision rollback, IAM và CI/CD phù hợp mục tiêu học production backend.
+- **Consequences/trade-offs:** Có cold start khi min instances bằng 0; cần Google Cloud billing, Artifact Registry, Secret Manager và quyền IAM cho Cloud Build; outbound traffic tới Supabase có thể phát sinh chi phí.
+
 # 10. Progress Log
 
 Ghi mỗi phiên làm việc theo mẫu:
@@ -837,6 +846,15 @@ Ghi mỗi phiên làm việc theo mẫu:
 - **Remaining risk:** Quality gate lint chưa xanh; backend chủ yếu còn formatting, untyped request và DTO debt. Frontend còn explicit `any`, render mutation và hygiene warnings. Đây là debt đã tồn tại trước P0.1 và được lên lịch xử lý theo P0.2/P1.2.
 - **Next recommended task:** `P0.2 — Remove stale architecture artifacts` sau khi owner duyệt scope cụ thể.
 
+## 2026-08-31 — Cloud Run deployment foundation
+
+- **Scope approved:** Giữ Next.js frontend trên Vercel và NestJS backend độc lập; thay hướng Azure bằng Google Cloud Run container với scale-to-zero, bounded scaling, Secret Manager, health endpoints và CORS production. Deployment backend được đơn giản hóa thành GitHub repository kết nối trực tiếp với Google Cloud Build.
+- **Files changed:** Backend Docker assets, production bootstrap/config validation, health module, env template, root README và Cloud Run deployment documentation; workflow GitHub Actions/OIDC được bỏ để tránh deployment trùng.
+- **Tests run:** Backend targeted lint và typecheck pass; 2 Jest suites/4 tests pass; production build chạy lặp lại hai lần và đều phát `dist/main.js`; local smoke test trả HTTP 200 cho `/health/live` và `/health/ready` với kết nối Supabase thành công. Docker engine không có trên máy nên container build sẽ được xác minh bởi Cloud Build.
+- **Result:** Repository có deployment foundation reproducible và ranh giới monorepo rõ ràng: Vercel build `frontend/`, Cloud Build build `backend/`.
+- **Remaining risk:** Chưa có committed Prisma migration baseline; chưa có remote container-build evidence; cold-start và Supabase connection behavior cần đo sau lần deploy đầu tiên.
+- **Next recommended task:** Đặt Vercel Root Directory thành `frontend`, kết nối GitHub trong Cloud Run với `backend/Dockerfile`, rồi xác minh lần deploy đầu tiên.
+
 # 11. Portfolio evidence checklist
 
 - [ ] Root README đúng với code thực tế.
@@ -867,7 +885,7 @@ Ghi mỗi phiên làm việc theo mẫu:
 
 - Chọn test database local/container hay Supabase test project?
 - Chọn error monitoring và logging destination nào?
-- Backend deploy bằng source artifact hay Docker?
+- Backend deploy bằng Docker container trên Google Cloud Run; image được tag bằng Git commit SHA.
 
 ## Trước Phase 3
 

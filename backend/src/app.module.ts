@@ -8,10 +8,16 @@ import { AttemptsModule } from './attempts/attempts.module';
 import { CommentsModule } from './comments/comments.module';
 import { UsersModule } from './users/users.module';
 
+import { AuthModule } from './auth/auth.module';
+import { HealthModule } from './health/health.module';
+import { validateEnvironment } from './config/environment.validation';
+
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, validate: validateEnvironment }),
     PrismaModule,
+    AuthModule,
+    HealthModule,
     TestsModule,
     AttemptsModule,
     CommentsModule,
