@@ -252,7 +252,7 @@ pretend it did not run.
 | 2026-09-02 | M1 | `3b7687b` | Backend/frontend lint and typecheck pass; 7 unit tests pass; both production builds pass |
 | 2026-09-02 | M2-A | `7a702d5` | Baseline SQL matches the current schema diff; no production execution |
 | 2026-09-02 | M2-B | `808b848` | Seed typecheck and lint pass; deterministic demo uses upsert |
-| 2026-09-02 | M2-C | pending commit | Backup, drift, restore, baseline-registration, and rollback runbook added |
+| 2026-09-02 | M2-C | `8d3f675` | Backup, drift, restore, baseline-registration, and rollback runbook added |
 
 ## Definition of Done
 
