@@ -7,12 +7,13 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export async function getCommentsByTestId(testId: string) {
   try {
-    const response = await fetch(`${API_URL}/comments/test/${testId}`, {
+    const response = await fetch(`${API_URL}/api/v1/comments/test/${encodeURIComponent(testId)}`, {
       cache: 'no-store'
     });
     
     if (!response.ok) return [];
-    return response.json();
+    const result = await response.json();
+    return result.data;
   } catch (error) {
     console.error("Failed to get comments:", error);
     return [];
@@ -28,7 +29,7 @@ export async function createComment(testId: string, content: string) {
   }
 
   try {
-    const response = await fetch(`${API_URL}/comments`, {
+    const response = await fetch(`${API_URL}/api/v1/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

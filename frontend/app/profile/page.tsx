@@ -46,7 +46,7 @@ export default async function ProfilePage() {
   // Fetch from NestJS API
   let dbUser: ProfileResponse | null = null;
   try {
-    const res = await fetch(`${API_URL}/users/profile`, {
+    const res = await fetch(`${API_URL}/api/v1/users/profile`, {
       headers: {
         'Authorization': `Bearer ${session.access_token}`
       },

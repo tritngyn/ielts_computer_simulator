@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     if (!error && data.session?.access_token) {
       // Sync user to Backend
       try {
-        await fetch(`${API_URL}/users/sync`, {
+        await fetch(`${API_URL}/api/v1/users/sync`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${data.session.access_token}`

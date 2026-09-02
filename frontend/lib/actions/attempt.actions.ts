@@ -21,7 +21,7 @@ export async function saveTestAttempt(data: {
   }
 
   try {
-    const response = await fetch(`${API_URL}/attempts`, {
+    const response = await fetch(`${API_URL}/api/v1/attempts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +54,9 @@ export async function getUserAttempts(testId?: string) {
   }
 
   try {
-    const url = testId ? `${API_URL}/attempts?testId=${testId}` : `${API_URL}/attempts`;
+    const url = testId
+      ? `${API_URL}/api/v1/attempts?testId=${encodeURIComponent(testId)}`
+      : `${API_URL}/api/v1/attempts`;
     const response = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${session.access_token}`
@@ -63,7 +65,8 @@ export async function getUserAttempts(testId?: string) {
     });
 
     if (!response.ok) return [];
-    return response.json();
+    const result = await response.json();
+    return result.data;
   } catch (error) {
     console.error("Failed to get user attempts:", error);
     return [];
@@ -79,7 +82,7 @@ export async function getAttemptById(attemptId: string) {
   }
 
   try {
-    const response = await fetch(`${API_URL}/attempts/${attemptId}`, {
+    const response = await fetch(`${API_URL}/api/v1/attempts/${encodeURIComponent(attemptId)}`, {
       headers: {
         'Authorization': `Bearer ${session.access_token}`
       },

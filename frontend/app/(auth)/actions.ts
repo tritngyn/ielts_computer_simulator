@@ -9,7 +9,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 async function syncUserWithBackend(token: string) {
   try {
-    const res = await fetch(`${API_URL}/users/sync`, {
+    const res = await fetch(`${API_URL}/api/v1/users/sync`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`

@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Injectable()
 export class TestsService {
@@ -10,7 +11,7 @@ export class TestsService {
       where: { type: 'READING' },
       orderBy: { createdAt: 'desc' },
     });
-    return tests.map(t => t.content);
+    return tests.map((t) => t.content);
   }
 
   async getReadingTestById(id: string) {
@@ -26,7 +27,26 @@ export class TestsService {
       where: { type: 'LISTENING' },
       orderBy: { createdAt: 'desc' },
     });
-    return tests.map(t => t.content);
+    return tests.map((t) => t.content);
+  }
+
+  async getAllTestsPage(type: string, query: PaginationQueryDto) {
+    const tests = await this.prisma.test.findMany({
+      where: { type },
+      orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+      take: query.limit + 1,
+      ...(query.cursor ? { cursor: { id: query.cursor }, skip: 1 } : {}),
+      select: { id: true, content: true },
+    });
+    const hasNextPage = tests.length > query.limit;
+    const page = hasNextPage ? tests.slice(0, query.limit) : tests;
+    return {
+      data: page.map((test) => test.content),
+      pageInfo: {
+        hasNextPage,
+        endCursor: page.at(-1)?.id ?? null,
+      },
+    };
   }
 
   async getListeningTestById(id: string) {

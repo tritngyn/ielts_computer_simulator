@@ -1,37 +1,39 @@
 import {
+  Body,
   Controller,
-  Post,
   Get,
   Param,
-  Body,
+  Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { AttemptsService } from './attempts.service';
 import { SupabaseGuard } from '../auth/supabase.guard';
 import { CurrentUser } from '../common/auth/current-user.decorator';
 import type { SupabaseJwtClaims } from '../common/auth/supabase-user';
+import { AttemptsService } from './attempts.service';
+import { AttemptQueryDto } from './dto/attempt-query.dto';
 import { SaveAttemptDto } from './dto/save-attempt.dto';
 
-@Controller('attempts')
+@Controller('api/v1/attempts')
 @UseGuards(SupabaseGuard)
-export class AttemptsController {
+export class AttemptsV1Controller {
   constructor(private readonly attemptsService: AttemptsService) {}
 
   @Post()
-  saveTestAttempt(
+  async saveTestAttempt(
     @CurrentUser() user: SupabaseJwtClaims,
     @Body() body: SaveAttemptDto,
   ) {
-    return this.attemptsService.saveTestAttempt(user.sub, body);
+    const result = await this.attemptsService.saveTestAttempt(user.sub, body);
+    return result.attempt;
   }
 
   @Get()
   getUserAttempts(
     @CurrentUser() user: SupabaseJwtClaims,
-    @Query('testId') testId?: string,
+    @Query() query: AttemptQueryDto,
   ) {
-    return this.attemptsService.getUserAttempts(user.sub, testId);
+    return this.attemptsService.getUserAttemptsPage(user.sub, query);
   }
 
   @Get(':id')

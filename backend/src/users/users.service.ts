@@ -1,5 +1,10 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import type { SupabaseUserMetadata } from '../common/auth/supabase-user';
 
 @Injectable()
 export class UsersService {
@@ -23,7 +28,15 @@ export class UsersService {
     return user;
   }
 
-  async syncUser(userId: string, email: string, userMetadata: any) {
+  async syncUser(
+    userId: string,
+    email?: string,
+    userMetadata?: SupabaseUserMetadata,
+  ) {
+    if (!email)
+      throw new InternalServerErrorException(
+        'Authenticated token has no email claim',
+      );
     try {
       const user = await this.prisma.user.upsert({
         where: { id: userId },
@@ -36,7 +49,7 @@ export class UsersService {
         },
       });
       return { success: true, user };
-    } catch (error) {
+    } catch {
       throw new InternalServerErrorException('Failed to sync user');
     }
   }
@@ -51,9 +64,8 @@ export class UsersService {
         },
       });
       return { success: true, user: updatedUser };
-    } catch (error) {
+    } catch {
       throw new InternalServerErrorException('Failed to update profile');
     }
   }
 }
-

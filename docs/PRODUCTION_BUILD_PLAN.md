@@ -56,14 +56,27 @@ Acceptance criteria:
   explain the delivery path without relying on chat history.
 - Documentation contains no Singapore-region or direct-source execution claims.
 
-### M1 — Request foundation and API v1 — TODO
+### M1 — Request foundation and API v1 — DONE
 
-- [ ] Add global DTO validation with whitelist and rejection of unknown fields.
-- [ ] Replace untyped request bodies with validated DTOs.
-- [ ] Add `/api/v1`; keep legacy routes for one transition release.
-- [ ] Standardize errors as `{ error: { code, message, details?, requestId } }`.
-- [ ] Standardize collections as `{ data, pageInfo }` with cursor pagination.
-- [ ] Add Helmet, explicit CORS allowlist, request IDs, and a basic quality gate.
+- [x] Add global DTO validation with whitelist and rejection of unknown fields.
+- [x] Replace untyped request bodies with validated DTOs.
+- [x] Add `/api/v1`; keep legacy routes for one transition release.
+- [x] Standardize errors as `{ error: { code, message, details?, requestId } }`.
+- [x] Standardize collections as `{ data, pageInfo }` with cursor pagination.
+- [x] Add Helmet, explicit CORS allowlist, request IDs, and a basic quality gate.
+
+Implementation notes:
+
+- V1 controllers were added beside unchanged legacy controllers so old deployed
+  frontend revisions do not fail immediately.
+- The active frontend now calls `/api/v1` and unwraps collection envelopes.
+- Attempt, comment, and profile request bodies use validated DTOs; unknown fields
+  are rejected globally.
+- Request IDs are returned in response headers and error envelopes. HTTP logs
+  contain method, path, status, and duration without logging bodies or tokens.
+- GitHub Actions now runs lint, typecheck, unit tests, and both production builds.
+- Client-owned score fields intentionally remain in M1 for compatibility. M3 is
+  the security boundary change that removes them and moves grading to NestJS.
 
 Acceptance criteria:
 
@@ -222,7 +235,8 @@ pretend it did not run.
 
 | Date | Stage | Commit/revision | Evidence |
 | --- | --- | --- | --- |
-| 2026-09-02 | M0 | pending commit | Documentation rewritten; GCP inventory pending Cloud Shell |
+| 2026-09-02 | M0 | `e9d8897` | Documentation rewritten; GCP inventory pending Cloud Shell |
+| 2026-09-02 | M1 | pending commit | Backend/frontend lint and typecheck pass; 7 unit tests pass; both production builds pass |
 
 ## Definition of Done
 

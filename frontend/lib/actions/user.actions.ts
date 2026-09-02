@@ -53,7 +53,7 @@ export async function updateProfile(formData: FormData) {
     if (fullName !== null) payload.fullName = fullName;
     if (avatarUrl) payload.avatarUrl = avatarUrl;
 
-    const response = await fetch(`${API_URL}/users/profile`, {
+    const response = await fetch(`${API_URL}/api/v1/users/profile`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
