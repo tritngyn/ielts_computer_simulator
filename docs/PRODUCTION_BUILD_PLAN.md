@@ -87,7 +87,7 @@ Acceptance criteria:
 ### M2 — Prisma migration baseline and data safety — BLOCKED
 
 - [ ] Export a logical backup of the current Supabase database.
-- [ ] Compare the live schema with `prisma/schema.prisma` and resolve drift.
+- [ ] Compare the live schema with the immutable M2 baseline snapshot and resolve drift.
 - [x] Generate and review an initial baseline migration.
 - [ ] Prove the history can create a new empty test database.
 - [ ] Mark the baseline applied on the existing production database.
@@ -112,22 +112,38 @@ Acceptance criteria:
 - Production rows are unchanged by the baseline operation.
 - `_prisma_migrations` records the reviewed baseline.
 
-### M3 — Server-owned grading — TODO
+### M3 — Server-owned grading — BLOCKED
 
-- [ ] Separate public test content from the private answer key with an
+- [x] Separate public test content from the private answer key with an
       expand-migrate-contract rollout.
-- [ ] Backfill existing JSON without losing production data.
-- [ ] Ensure public test APIs never serialize an answer key.
-- [ ] Accept only test ID, answers, mode, and elapsed time on submission.
-- [ ] Calculate score and total questions inside NestJS.
-- [ ] Add idempotent submission handling.
-- [ ] Update the frontend to trust the server result, then remove the legacy flow.
+- [x] Commit a reviewed backfill from legacy JSON to the separated columns.
+- [ ] Apply and verify the backfill on production after backup and baseline registration.
+- [x] Ensure public test APIs never serialize an answer key.
+- [x] Accept only test ID, answers, mode, and elapsed time on v1 submission.
+- [x] Calculate score and total questions inside NestJS.
+- [x] Add idempotent submission handling with race recovery and ownership checks.
+- [x] Update the active frontend to trust the server result.
+- [ ] Remove the legacy submission route after one verified production release.
+
+Implementation notes:
+
+- `bce4a7d` added the nullable expand columns, indexes, and data backfill while
+  preserving legacy `Test.content` for revision rollback.
+- `a720072` moved grading into NestJS, rejected client-owned scores in v1, and
+  kept a one-release legacy controller whose submitted score is ignored.
+- `99cc08d` removed browser-side grading and added visible submit progress,
+  errors, and stable retry keys for Reading and Listening.
+- `ec6afd7`, `2b33bf6`, and `8aa03e8` cover grading rules, malformed keys,
+  DTO boundaries, answer-key disclosure, and idempotency races.
+- Production activation is blocked on M2 backup/restore evidence, baseline
+  registration, M3 migration execution, and an ordered backend/frontend release.
 
 Acceptance criteria:
 
 - Sending client-controlled `score`, `totalQuestions`, or `userId` is rejected.
 - The same idempotency key cannot create duplicate attempts.
-- Reading test data never reveals the private answer key.
+- Public Reading and Listening test data never reveals the private answer key.
+- Backend lint, typecheck, 23 unit tests, and both production builds pass.
 
 ### M4 — Authentication and authorization — TODO
 
@@ -243,6 +259,7 @@ pretend it did not run.
 | ADR-004 | Keep `backend/Dockerfile` | Connect Repository still builds and runs a container image |
 | ADR-005 | Server owns grading | Prevent clients from choosing persisted scores |
 | ADR-006 | Implement and review one stage per commit | Credible, reviewable Git history |
+| ADR-007 | Apply the additive M3 schema before deploying readers/writers | Old revisions remain compatible and new revisions never query absent columns |
 
 ## Evidence log
 
@@ -253,6 +270,11 @@ pretend it did not run.
 | 2026-09-02 | M2-A | `7a702d5` | Baseline SQL matches the current schema diff; no production execution |
 | 2026-09-02 | M2-B | `808b848` | Seed typecheck and lint pass; deterministic demo uses upsert |
 | 2026-09-02 | M2-C | `8d3f675` | Backup, drift, restore, baseline-registration, and rollback runbook added |
+| 2026-09-02 | M3-A | `bce4a7d` | Expand migration and legacy JSON backfill committed; not run on production |
+| 2026-09-02 | M3-B | `a720072` | NestJS owns grading and idempotent attempt persistence |
+| 2026-09-02 | M3-C | `99cc08d` | Reading and Listening consume server-graded attempt results |
+| 2026-09-02 | M3-D | `ec6afd7`, `2b33bf6`, `8aa03e8` | 23 tests cover grading, DTO security, disclosure, and idempotency |
+| 2026-09-02 | M3 readiness | `e8f3245` | Frontend lint debt removed so the repository quality gate passes |
 
 ## Definition of Done
 
