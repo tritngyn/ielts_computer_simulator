@@ -24,6 +24,8 @@ npm test -- --runInBand
 npm run test:e2e -- --runInBand
 npm run build
 npm run start:prod
+npm run prisma:migrate:status
+npm run prisma:seed
 ```
 
 ## Database workflow
@@ -39,6 +41,10 @@ npx prisma migrate deploy
 Do not use `prisma db push` as a production release mechanism. Do not run
 migrations during NestJS startup. The existing Supabase database must be backed
 up, checked for drift, and baselined before automated migrations are enabled.
+
+Keep local variables only in `backend/.env`; a second `prisma/.env` conflicts
+with Prisma CLI loading. See the complete
+[migration runbook](../docs/DATABASE_MIGRATIONS.md) before touching production.
 
 ## API and health
 

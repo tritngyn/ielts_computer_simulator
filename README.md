@@ -52,6 +52,7 @@ docs/       Production tracker, deployment runbook, and system design notes
 - [Backend production tracker](docs/PRODUCTION_BUILD_PLAN.md)
 - [Cloud Run deployment runbook](docs/GOOGLE_CLOUD_RUN_BACKEND_DEPLOYMENT.md)
 - [Cloud Run learning notes](docs/CLOUD_RUN_LEARNING_NOTES.md)
+- [Prisma migration runbook](docs/DATABASE_MIGRATIONS.md)
 - [System-design notes](docs/backend-system-design/01-system-design-foundations.md)
 
 The production tracker is the source of truth for stage status, acceptance

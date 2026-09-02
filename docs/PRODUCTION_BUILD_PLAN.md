@@ -84,14 +84,27 @@ Acceptance criteria:
 - Legacy clients remain usable during the documented transition window.
 - Lint, typecheck, tests, and build pass before this stage is committed.
 
-### M2 — Prisma migration baseline and data safety — TODO
+### M2 — Prisma migration baseline and data safety — BLOCKED
 
 - [ ] Export a logical backup of the current Supabase database.
 - [ ] Compare the live schema with `prisma/schema.prisma` and resolve drift.
-- [ ] Generate and review an initial baseline migration.
+- [x] Generate and review an initial baseline migration.
 - [ ] Prove the history can create a new empty test database.
 - [ ] Mark the baseline applied on the existing production database.
-- [ ] Consolidate seed scripts into one idempotent seed command.
+- [x] Consolidate seed scripts into one idempotent seed command.
+
+Implementation notes:
+
+- `7a702d5` added a baseline that exactly represents the current Prisma schema;
+  it has not been executed against production.
+- `808b848` replaced three scripts that depended on an absent `backend/data`
+  directory with one deterministic `upsert` seed and a safe demo test.
+- The local machine has no Docker/PostgreSQL runtime, so empty-database migration
+  and restore verification must be executed by the user before production activation.
+- Prisma found duplicate ignored environment files at `backend/.env` and
+  `backend/prisma/.env`. Consolidate them locally without exposing their values.
+- The remaining unchecked tasks require production database access and are
+  intentionally blocked pending backup evidence and explicit approval.
 
 Acceptance criteria:
 
@@ -236,7 +249,10 @@ pretend it did not run.
 | Date | Stage | Commit/revision | Evidence |
 | --- | --- | --- | --- |
 | 2026-09-02 | M0 | `e9d8897` | Documentation rewritten; GCP inventory pending Cloud Shell |
-| 2026-09-02 | M1 | pending commit | Backend/frontend lint and typecheck pass; 7 unit tests pass; both production builds pass |
+| 2026-09-02 | M1 | `3b7687b` | Backend/frontend lint and typecheck pass; 7 unit tests pass; both production builds pass |
+| 2026-09-02 | M2-A | `7a702d5` | Baseline SQL matches the current schema diff; no production execution |
+| 2026-09-02 | M2-B | `808b848` | Seed typecheck and lint pass; deterministic demo uses upsert |
+| 2026-09-02 | M2-C | pending commit | Backup, drift, restore, baseline-registration, and rollback runbook added |
 
 ## Definition of Done
 
