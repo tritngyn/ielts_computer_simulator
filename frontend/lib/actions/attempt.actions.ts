@@ -2,22 +2,24 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
+import type { GradedAttempt } from "@/types/attempt";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export async function saveTestAttempt(data: {
   testId: string;
-  score: number;
-  totalQuestions: number;
   timeTakenSeconds: number;
-  mode: string;
-  userAnswers?: Record<string, string>;
-}) {
+  mode: 'practice' | 'simulation';
+  userAnswers: Record<string, string>;
+}, idempotencyKey: string): Promise<
+  | { ok: true; attempt: GradedAttempt }
+  | { ok: false; error: string }
+> {
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session?.access_token) {
-    throw new Error("You must be logged in to save an attempt.");
+    return { ok: false, error: "You must be logged in to save an attempt." };
   }
 
   try {
@@ -25,23 +27,26 @@ export async function saveTestAttempt(data: {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
+        'Authorization': `Bearer ${session.access_token}`,
+        'Idempotency-Key': idempotencyKey,
       },
       body: JSON.stringify(data),
     });
 
+    const result = await response.json() as GradedAttempt & {
+      error?: { message?: string };
+    };
     if (!response.ok) {
-      throw new Error("Failed to save attempt");
+      throw new Error(result?.error?.message || "Failed to save attempt");
     }
-
-    const result = await response.json();
     
     revalidatePath(`/reading/${data.testId}`);
     revalidatePath(`/profile`);
-    return result;
+    return { ok: true, attempt: result };
   } catch (error) {
-    console.error("Failed to save test attempt:", error);
-    return { error: "Failed to save attempt." };
+    const message = error instanceof Error ? error.message : "Failed to save attempt.";
+    console.error("Failed to save test attempt:", message);
+    return { ok: false, error: message };
   }
 }
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Clock, HelpCircle, BookOpen } from "lucide-react";
 import { useTestStore } from "@/store/useTestScore";
@@ -12,6 +12,8 @@ import {
 } from "@/types/ielts";
 import dynamic from "next/dynamic";
 import SkeletonLoader from "@/app/components/SkeletonLoader";
+import type { GradedAttempt } from "@/types/attempt";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const TestResultView = dynamic(() => import("./TestResultView"), {
   ssr: false,
@@ -36,14 +38,16 @@ const StaticHTMLRenderer = React.memo(function StaticHTMLRenderer({
 
 interface IELTSTestProps {
   testData: IeltsReadingTest;
-  user?: any;
+  user?: SupabaseUser | null;
 }
-
-import { useState } from "react";
 
 const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
+  const [gradedAttempt, setGradedAttempt] = useState<GradedAttempt | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const idempotencyKeyRef = useRef<string | null>(null);
   const [mobileTab, setMobileTab] = useState<'passage' | 'questions'>('passage');
 
   useEffect(() => {
@@ -187,7 +191,13 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
   }
 
   if (isSubmitted) {
-    return <TestResultView testData={testData} user={user} />;
+    return (
+      <TestResultView
+        testData={testData}
+        user={user}
+        pastAttempt={gradedAttempt}
+      />
+    );
   }
 
   const renderInput = (qNumber: number) => {
@@ -603,63 +613,54 @@ const IELTSTest: React.FC<IELTSTestProps> = ({ testData, user }) => {
           </span>
           <button
             onClick={async () => {
-              if (!isSubmitted) {
-                // Calculate and save to history on first submit
-                let score = 0;
-                let totalQ = 0;
-                testData.passages.forEach((p, pIndex) => {
-                  p.questionGroups.forEach((group) => {
-                    group.questions.forEach((q) => {
-                      totalQ++;
-                      const userAnswer = userAnswers[
-                        `passage_${pIndex}_q${q.number}`
-                      ]
-                        ?.trim()
-                        .toLowerCase();
-                      const correctAnswers =
-                        testData.answers[q.number.toString()] || [];
-                      if (
-                        userAnswer &&
-                        correctAnswers.some(
-                          (ans) => ans.toLowerCase() === userAnswer,
-                        )
-                      ) {
-                        score++;
-                      }
-                    });
-                  });
-                });
-
-                try {
-                  const { saveTestAttempt } = await import("@/lib/actions/attempt.actions");
-                  await saveTestAttempt({
+              if (isSubmitted || isSubmitting) return;
+              setIsSubmitting(true);
+              setSubmitError(null);
+              try {
+                const { saveTestAttempt } = await import(
+                  "@/lib/actions/attempt.actions"
+                );
+                const idempotencyKey =
+                  idempotencyKeyRef.current ?? crypto.randomUUID();
+                idempotencyKeyRef.current = idempotencyKey;
+                const result = await saveTestAttempt(
+                  {
                     testId: testData.id,
-                    score,
-                    totalQuestions: totalQ,
                     timeTakenSeconds: 3600 - timeLeft,
-                    mode: "Full test",
-                    userAnswers, // Add userAnswers to DB
-                  });
-                } catch (e) {
-                  console.error("Failed to save attempt to DB", e);
+                    mode: "simulation",
+                    userAnswers,
+                  },
+                  idempotencyKey,
+                );
+                if (!result.ok) {
+                  setSubmitError(result.error);
+                  return;
                 }
 
-                // Keep local store for optimistic updates or backward compatibility
+                const attempt = result.attempt;
+                setGradedAttempt(attempt);
                 useHistoryStore.getState().addAttempt({
                   testId: testData.id,
-                  score,
-                  totalQuestions: totalQ,
-                  timeTakenSeconds: 3600 - timeLeft,
-                  mode: "Full test",
+                  score: attempt.score,
+                  totalQuestions: attempt.totalQuestions,
+                  timeTakenSeconds: attempt.timeTakenSeconds,
+                  mode: attempt.mode,
                 });
-                
                 submit();
+              } finally {
+                setIsSubmitting(false);
               }
             }}
-            className="px-4 sm:px-8 py-2 sm:py-3 text-sm sm:text-base bg-foreground text-background rounded-full hover:bg-foreground/90 font-semibold shadow-md transition-all active:scale-95 whitespace-nowrap"
+            disabled={isSubmitting}
+            className="px-4 sm:px-8 py-2 sm:py-3 text-sm sm:text-base bg-foreground text-background rounded-full hover:bg-foreground/90 font-semibold shadow-md transition-all active:scale-95 whitespace-nowrap disabled:cursor-wait disabled:opacity-60"
           >
-            Submit Test
+            {isSubmitting ? "Đang chấm bài..." : "Submit Test"}
           </button>
+          {submitError && (
+            <p className="max-w-64 text-sm text-red-600" role="alert">
+              {submitError}
+            </p>
+          )}
         </div>
       </footer>
     </div>

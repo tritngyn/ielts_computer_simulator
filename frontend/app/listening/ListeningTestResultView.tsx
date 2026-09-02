@@ -7,18 +7,17 @@ import {
   XCircle,
   MinusCircle,
   Flag,
-  MessageSquare,
   Headphones,
 } from "lucide-react";
 import { IeltsListeningTest } from "@/types/listening";
 import CommentSection from "@/app/components/CommentSection";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
-import { useHistoryStore } from "@/store/useHistoryStore"; // If listening store is same
+import type { GradedAttempt, QuestionStatus } from "@/types/attempt";
 
 interface Props {
   testData: IeltsListeningTest;
   user?: SupabaseUser | null;
-  pastAttempt?: any; // The attempt data from DB
+  pastAttempt?: GradedAttempt | null;
   currentAnswers?: Record<string, string>; // if passed from active test
   currentTimeTaken?: number;
   onReview?: () => void;
@@ -29,6 +28,7 @@ export default function ListeningTestResultView({ testData, user, pastAttempt, c
 
   const userAnswers = pastAttempt?.userAnswers || currentAnswers || {};
   const timeTakenSeconds = pastAttempt ? pastAttempt.timeTakenSeconds : (currentTimeTaken || 0);
+  const gradingResults = pastAttempt?.gradingDetails?.questionResults ?? {};
 
   const timeTakenFormatted = `${Math.floor(timeTakenSeconds / 60)
     .toString()
@@ -51,31 +51,19 @@ export default function ListeningTestResultView({ testData, user, pastAttempt, c
       let gSkipped = 0;
 
       const questionDetails = group.questions.map((q) => {
-        const userAnswer = userAnswers[q.id || ""]?.trim() || "";
-        const correctAnswers = testData.answers[q.number.toString()] || [];
+        const resultKey = q.id || q.number.toString();
+        const userAnswer = userAnswers[resultKey]?.trim() || "";
+        const result = gradingResults[resultKey];
+        const status: QuestionStatus = result?.status ?? "skipped";
 
-        let status: "correct" | "incorrect" | "skipped" = "skipped";
-
-        if (!userAnswer) {
-          status = "skipped";
-          gSkipped++;
-        } else {
-          const isCorrect = correctAnswers.some(
-            (ans) => ans.toLowerCase() === userAnswer.toLowerCase(),
-          );
-          if (isCorrect) {
-            status = "correct";
-            gCorrect++;
-          } else {
-            status = "incorrect";
-            gIncorrect++;
-          }
-        }
+        if (status === "correct") gCorrect++;
+        else if (status === "incorrect") gIncorrect++;
+        else gSkipped++;
 
         return {
           number: q.number,
           userAnswer: userAnswer || "chưa trả lời",
-          acceptedAnswers: correctAnswers,
+          acceptedAnswers: result?.acceptedAnswers ?? [],
           status,
         };
       });

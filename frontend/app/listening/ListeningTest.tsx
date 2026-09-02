@@ -14,6 +14,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { IeltsListeningTest, IeltsListeningQuestion } from "@/types/listening";
+import type { GradedAttempt } from "@/types/attempt";
 import { getSupabaseMediaUrl } from "@/utils/storage";
 import { useHistoryStore } from "@/store/useHistoryStore";
 import TranscriptView from "./components/TranscriptView";
@@ -80,6 +81,10 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isReviewMode, setIsReviewMode] = useState(initialMode === "transcript");
+  const [gradedAttempt, setGradedAttempt] = useState<GradedAttempt | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const idempotencyKeyRef = useRef<string | null>(null);
 
   // Time remaining for test (e.g., 30 mins)
   const [timeLeft, setTimeLeft] = useState(30 * 60);
@@ -243,8 +248,7 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
       <ListeningTestResultView 
         testData={testData} 
         user={user} 
-        currentAnswers={answers} 
-        currentTimeTaken={30 * 60 - timeLeft} 
+        pastAttempt={gradedAttempt}
         onReview={() => {
           setIsReviewMode(true);
           setShowTranscript(!!testData.transcript);
@@ -747,55 +751,65 @@ export default function ListeningTest({ testData, user, initialMode = "take" }: 
             )
           ) : (
             <button
-              onClick={() => {
-                if (!isSubmitted) {
-                  let score = 0;
-                  let totalQ = 0;
-                  testData.parts.forEach((p) => {
-                    p.questionGroups.forEach((group) => {
-                      group.questions.forEach((q) => {
-                        totalQ++;
-                        const userAnswer = answers[q.id || ""]?.trim().toLowerCase();
-                        const correctAnswers =
-                          testData.answers[q.number.toString()] || [];
-                        if (
-                          userAnswer &&
-                          correctAnswers.some(
-                            (ans) => ans.toLowerCase() === userAnswer,
-                          )
-                        ) {
-                          score++;
-                        }
-                      });
-                    });
-                  });
+              disabled={isSubmitting || isSubmitted}
+              onClick={async () => {
+                if (isSubmitting || isSubmitted) return;
 
-                  // Save to DB
-                  import("@/lib/actions/attempt.actions").then(({ saveTestAttempt }) => {
-                    saveTestAttempt({
+                setIsSubmitting(true);
+                setSubmitError(null);
+
+                try {
+                  const { saveTestAttempt } = await import(
+                    "@/lib/actions/attempt.actions"
+                  );
+                  const idempotencyKey =
+                    idempotencyKeyRef.current ?? crypto.randomUUID();
+                  idempotencyKeyRef.current = idempotencyKey;
+                  const result = await saveTestAttempt(
+                    {
                       testId: testData.id,
-                      score,
-                      totalQuestions: totalQ,
                       timeTakenSeconds: 30 * 60 - timeLeft,
-                      mode: "Full test",
+                      mode: "simulation",
                       userAnswers: answers,
-                    }).catch(console.error);
-                  });
+                    },
+                    idempotencyKey,
+                  );
+
+                  if (!result.ok) {
+                    setSubmitError(result.error);
+                    return;
+                  }
+
+                  const attempt = result.attempt;
 
                   useHistoryStore.getState().addAttempt({
                     testId: testData.id,
-                    score,
-                    totalQuestions: totalQ,
-                    timeTakenSeconds: 30 * 60 - timeLeft,
+                    score: attempt.score,
+                    totalQuestions: attempt.totalQuestions,
+                    timeTakenSeconds: attempt.timeTakenSeconds,
                     mode: "Full test",
                   });
+                  setGradedAttempt(attempt);
                   setIsSubmitted(true);
+                } catch (error) {
+                  setSubmitError(
+                    error instanceof Error
+                      ? error.message
+                      : "Không thể chấm bài. Vui lòng thử lại.",
+                  );
+                } finally {
+                  setIsSubmitting(false);
                 }
               }}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold shadow-sm transition"
+              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed font-semibold shadow-sm transition"
             >
-              Submit Test
+              {isSubmitting ? "Đang chấm bài..." : "Submit Test"}
             </button>
+          )}
+          {submitError && !isReviewMode && (
+            <p className="text-sm font-medium text-red-600" role="alert">
+              {submitError}
+            </p>
           )}
         </div>
       </footer>

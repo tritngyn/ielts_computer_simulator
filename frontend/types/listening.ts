@@ -43,6 +43,7 @@ export interface IeltsListeningTest {
   testCode?: string;
   title: string;
   parts: IeltsListeningPart[];
-  answers: Record<string, string[]>;
+  /** Private answer keys are returned only inside an owned graded attempt. */
+  answers?: never;
   transcript?: ListeningTranscript;
 }

@@ -27,5 +27,6 @@ export interface IeltsReadingTest {
   testCode?: string;
   title: string;
   passages: IeltsPassage[];
-  answers: Record<string, string[]>;
+  /** Private answer keys are returned only inside an owned graded attempt. */
+  answers?: never;
 }

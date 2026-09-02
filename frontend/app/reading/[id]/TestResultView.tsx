@@ -7,17 +7,17 @@ import {
   XCircle,
   MinusCircle,
   Flag,
-  MessageSquare,
 } from "lucide-react";
 import { IeltsReadingTest } from "@/types/ielts";
 import { useTestStore } from "@/store/useTestScore";
 import CommentSection from "@/app/components/CommentSection";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
+import type { GradedAttempt, QuestionStatus } from "@/types/attempt";
 
 interface Props {
   testData: IeltsReadingTest;
   user?: SupabaseUser | null;
-  pastAttempt?: any; // The attempt data from DB
+  pastAttempt?: GradedAttempt | null;
 }
 
 export default function TestResultView({ testData, user, pastAttempt }: Props) {
@@ -26,6 +26,7 @@ export default function TestResultView({ testData, user, pastAttempt }: Props) {
   // Use past attempt data if provided, otherwise use current store data
   const userAnswers = pastAttempt?.userAnswers || storeAnswers;
   const timeTakenSeconds = pastAttempt ? pastAttempt.timeTakenSeconds : (3600 - timeLeft);
+  const gradingResults = pastAttempt?.gradingDetails?.questionResults ?? {};
 
   const [activeTab, setActiveTab] = useState<number | "all">("all");
 
@@ -54,30 +55,18 @@ export default function TestResultView({ testData, user, pastAttempt }: Props) {
       const questionDetails = group.questions.map((q) => {
         const userAnswer =
           userAnswers[`passage_${pIndex}_q${q.number}`]?.trim() || "";
-        const correctAnswers = testData.answers[q.number.toString()] || [];
+        const resultKey = `passage_${pIndex}_q${q.number}`;
+        const result = gradingResults[resultKey];
+        const status: QuestionStatus = result?.status ?? "skipped";
 
-        let status: "correct" | "incorrect" | "skipped" = "skipped";
-
-        if (!userAnswer) {
-          status = "skipped";
-          gSkipped++;
-        } else {
-          const isCorrect = correctAnswers.some(
-            (ans) => ans.toLowerCase() === userAnswer.toLowerCase(),
-          );
-          if (isCorrect) {
-            status = "correct";
-            gCorrect++;
-          } else {
-            status = "incorrect";
-            gIncorrect++;
-          }
-        }
+        if (status === "correct") gCorrect++;
+        else if (status === "incorrect") gIncorrect++;
+        else gSkipped++;
 
         return {
           number: q.number,
           userAnswer: userAnswer || "chưa trả lời",
-          acceptedAnswers: correctAnswers,
+          acceptedAnswers: result?.acceptedAnswers ?? [],
           status,
         };
       });
