@@ -15,7 +15,11 @@ export class UsersService {
       where: { id: userId },
       include: {
         attempts: {
-          include: { test: true },
+          include: {
+            test: {
+              select: { id: true, title: true, testCode: true, type: true },
+            },
+          },
           orderBy: { createdAt: 'desc' },
           take: 10,
         },

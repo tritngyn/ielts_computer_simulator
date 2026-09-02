@@ -37,6 +37,8 @@ const demoReadingTest = {
   },
 } satisfies Prisma.JsonObject;
 
+const { answers: demoAnswerKey, ...demoPublicContent } = demoReadingTest;
+
 async function main(): Promise<void> {
   await prisma.test.upsert({
     where: { id: demoReadingTest.id },
@@ -45,6 +47,8 @@ async function main(): Promise<void> {
       testCode: demoReadingTest.testCode,
       type: 'READING',
       content: demoReadingTest,
+      publicContent: demoPublicContent,
+      answerKey: demoAnswerKey,
     },
     create: {
       id: demoReadingTest.id,
@@ -52,6 +56,8 @@ async function main(): Promise<void> {
       testCode: demoReadingTest.testCode,
       type: 'READING',
       content: demoReadingTest,
+      publicContent: demoPublicContent,
+      answerKey: demoAnswerKey,
     },
   });
 

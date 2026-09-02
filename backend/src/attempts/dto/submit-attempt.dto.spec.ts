@@ -1,29 +1,27 @@
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import { SaveAttemptDto } from './save-attempt.dto';
+import { SubmitAttemptDto } from './submit-attempt.dto';
 
-describe('SaveAttemptDto validation', () => {
+describe('SubmitAttemptDto validation', () => {
   const pipe = new ValidationPipe({
     transform: true,
     whitelist: true,
     forbidNonWhitelisted: true,
   });
 
-  const metadata = { type: 'body' as const, metatype: SaveAttemptDto };
+  const metadata = { type: 'body' as const, metatype: SubmitAttemptDto };
 
   it('accepts a valid attempt payload', async () => {
     const result: unknown = await pipe.transform(
       {
         testId: 'reading-1',
-        score: 30,
-        totalQuestions: 40,
         timeTakenSeconds: 1800,
-        mode: 'Full test',
+        mode: 'simulation',
         userAnswers: { q1: 'answer' },
       },
       metadata,
     );
 
-    expect(result).toBeInstanceOf(SaveAttemptDto);
+    expect(result).toBeInstanceOf(SubmitAttemptDto);
   });
 
   it('rejects unknown client fields', async () => {
@@ -31,10 +29,8 @@ describe('SaveAttemptDto validation', () => {
       pipe.transform(
         {
           testId: 'reading-1',
-          score: 30,
-          totalQuestions: 40,
           timeTakenSeconds: 1800,
-          mode: 'Full test',
+          mode: 'simulation',
           userId: 'another-user',
         },
         metadata,
@@ -47,10 +43,8 @@ describe('SaveAttemptDto validation', () => {
       pipe.transform(
         {
           testId: 'reading-1',
-          score: -1,
-          totalQuestions: 0,
           timeTakenSeconds: -2,
-          mode: 'Full test',
+          mode: 'simulation',
         },
         metadata,
       ),

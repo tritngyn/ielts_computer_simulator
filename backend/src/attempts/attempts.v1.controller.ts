@@ -1,18 +1,21 @@
 import {
   Body,
+  BadRequestException,
   Controller,
   Get,
+  Headers,
   Param,
   Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { isUUID } from 'class-validator';
 import { SupabaseGuard } from '../auth/supabase.guard';
 import { CurrentUser } from '../common/auth/current-user.decorator';
 import type { SupabaseJwtClaims } from '../common/auth/supabase-user';
 import { AttemptsService } from './attempts.service';
 import { AttemptQueryDto } from './dto/attempt-query.dto';
-import { SaveAttemptDto } from './dto/save-attempt.dto';
+import { SubmitAttemptDto } from './dto/submit-attempt.dto';
 
 @Controller('api/v1/attempts')
 @UseGuards(SupabaseGuard)
@@ -22,10 +25,14 @@ export class AttemptsV1Controller {
   @Post()
   async saveTestAttempt(
     @CurrentUser() user: SupabaseJwtClaims,
-    @Body() body: SaveAttemptDto,
+    @Body() body: SubmitAttemptDto,
+    @Headers('idempotency-key')
+    idempotencyKey: string,
   ) {
-    const result = await this.attemptsService.saveTestAttempt(user.sub, body);
-    return result.attempt;
+    if (!idempotencyKey || !isUUID(idempotencyKey, '4')) {
+      throw new BadRequestException('Idempotency-Key must be a UUID v4');
+    }
+    return this.attemptsService.saveTestAttempt(user.sub, body, idempotencyKey);
   }
 
   @Get()
