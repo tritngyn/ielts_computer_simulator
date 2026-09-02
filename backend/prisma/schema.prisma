@@ -9,61 +9,72 @@ datasource db {
 }
 
 model Test {
-  id        String   @id
-  title     String
-  testCode  String?
-  type      String   @default("READING")
+  id            String  @id
+  title         String
+  testCode      String?
+  type          String  @default("READING")
   // Store the complex nested IELTS structure (passages, questionGroups, questions)
   // as a JSONB object to maintain flexibility and avoid over-engineering relational tables
-  content   Json
-  
-  attempts  Attempt[]
-  comments  Comment[]
+  // Kept temporarily so the previous Cloud Run revision remains compatible
+  // during the expand-migrate-contract rollout.
+  content       Json
+  publicContent Json?
+  answerKey     Json?
+
+  attempts Attempt[]
+  comments Comment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model User {
-  id        String   @id // Corresponds to Supabase auth.users.id
-  email     String   @unique
+  id        String  @id // Corresponds to Supabase auth.users.id
+  email     String  @unique
   fullName  String?
   avatarUrl String?
 
-  attempts  Attempt[]
-  comments  Comment[]
+  attempts Attempt[]
+  comments Comment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Attempt {
-  id               String   @id @default(uuid())
-  testId           String
-  test             Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
-  
-  userId           String?
-  user             User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  
+  id     String @id @default(uuid())
+  testId String
+  test   Test   @relation(fields: [testId], references: [id], onDelete: Cascade)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
   score            Int
   totalQuestions   Int
   timeTakenSeconds Int
-  mode             String   // e.g., "Full test", "Luyện tập"
-  userAnswers      Json?    // Added to store detailed answers
-  
-  createdAt        DateTime @default(now())
+  mode             String // e.g., "Full test", "Luyện tập"
+  userAnswers      Json? // Added to store detailed answers
+  gradingDetails   Json?
+  idempotencyKey   String? @unique
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([testId, createdAt])
 }
 
 model Comment {
-  id         String   @id @default(uuid())
-  testId     String
-  test       Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
-  
-  userId     String?
-  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  
+  id     String @id @default(uuid())
+  testId String
+  test   Test   @relation(fields: [testId], references: [id], onDelete: Cascade)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
   authorName String
   content    String
-  
-  createdAt  DateTime @default(now())
+
+  createdAt DateTime @default(now())
+
+  @@index([testId, createdAt])
 }
