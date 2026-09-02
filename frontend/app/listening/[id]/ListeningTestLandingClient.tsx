@@ -13,8 +13,8 @@ import {
   Play
 } from "lucide-react";
 import { IeltsListeningTest } from "@/types/listening";
-import { useHistoryStore } from "@/store/useHistoryStore";
 import { useTestStore } from "@/store/useTestScore";
+import type { AttemptSummary } from "@/types/attempt";
 
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import CommentSection from "@/app/components/CommentSection";
@@ -23,7 +23,7 @@ import CommentSection from "@/app/components/CommentSection";
 interface Props {
   testData: IeltsListeningTest;
   user: SupabaseUser | null;
-  dbAttempts: any[];
+  dbAttempts: AttemptSummary[];
 }
 
 export default function ListeningTestLandingClient({ testData, user, dbAttempts }: Props) {
@@ -210,7 +210,7 @@ export default function ListeningTestLandingClient({ testData, user, dbAttempts 
           ) : (
             <div className="text-center py-16 bg-black/5 rounded-2xl border border-black/5">
               <FileText className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
-              <p className="text-muted-foreground">You haven't attempted this test yet.</p>
+              <p className="text-muted-foreground">You haven&apos;t attempted this test yet.</p>
             </div>
           )}
         </motion.div>

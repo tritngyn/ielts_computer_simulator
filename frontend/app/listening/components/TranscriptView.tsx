@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { DialogueLine, TranscriptPart } from "@/types/listening";
+import { TranscriptPart } from "@/types/listening";
 
 interface TranscriptViewProps {
   partData: TranscriptPart;
@@ -81,10 +81,16 @@ export default function TranscriptView({ partData, currentTime }: TranscriptView
     );
   }
 
-  // To alternate bubbles, we keep track of the first speaker and assign them 'left', and the other 'right'.
-  // Narrators (null speaker) are centered.
-  const speakerSides: Record<string, "left" | "right"> = {};
-  let leftSpeakerAssigned = false;
+  const speakers = Array.from(
+    new Set(
+      partData.dialogues
+        .map((dialogue) => dialogue.speaker)
+        .filter((speaker): speaker is string => Boolean(speaker)),
+    ),
+  );
+  const speakerSides = Object.fromEntries(
+    speakers.map((speaker, index) => [speaker, index === 0 ? "left" : "right"]),
+  ) as Record<string, "left" | "right">;
 
   return (
     <div
@@ -113,11 +119,6 @@ export default function TranscriptView({ partData, currentTime }: TranscriptView
                 />
               </div>
             );
-          }
-
-          if (!speakerSides[dialogue.speaker!]) {
-            speakerSides[dialogue.speaker!] = leftSpeakerAssigned ? "right" : "left";
-            leftSpeakerAssigned = true;
           }
 
           const side = speakerSides[dialogue.speaker!];

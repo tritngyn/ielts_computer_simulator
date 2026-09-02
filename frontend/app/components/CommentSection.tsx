@@ -2,21 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { MessageSquare } from "lucide-react";
-import { getCommentsByTestId, createComment } from "@/lib/actions/comment.actions";
+import {
+  getCommentsByTestId,
+  createComment,
+  type CommentResponse,
+} from "@/lib/actions/comment.actions";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import Link from "next/link";
 import Image from "next/image";
-
-interface CommentType {
-  id: string;
-  authorName: string;
-  content: string;
-  createdAt: Date;
-  user: {
-    fullName: string | null;
-    avatarUrl: string | null;
-  } | null;
-}
 
 interface CommentSectionProps {
   testId: string;
@@ -24,7 +17,7 @@ interface CommentSectionProps {
 }
 
 export default function CommentSection({ testId, user }: CommentSectionProps) {
-  const [comments, setComments] = useState<CommentType[]>([]);
+  const [comments, setComments] = useState<CommentResponse[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +26,7 @@ export default function CommentSection({ testId, user }: CommentSectionProps) {
     const fetchComments = async () => {
       try {
         const fetchedComments = await getCommentsByTestId(testId);
-        setComments(fetchedComments as any);
+        setComments(fetchedComments);
       } catch (error) {
         console.error("Error fetching comments:", error);
       } finally {
@@ -52,7 +45,7 @@ export default function CommentSection({ testId, user }: CommentSectionProps) {
       if (result.success && result.comment) {
         // Fetch comments again to get the populated user relation, or manually optimistically update
         const fetchedComments = await getCommentsByTestId(testId);
-        setComments(fetchedComments as any);
+        setComments(fetchedComments);
         setNewComment("");
       }
     } catch (error) {

@@ -28,7 +28,7 @@ export async function updateProfile(formData: FormData) {
       const filePath = `${fileName}`;
 
       // Upload to Supabase Storage
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from("avatars")
         .upload(filePath, avatarFile, {
           upsert: true,
@@ -49,7 +49,7 @@ export async function updateProfile(formData: FormData) {
     }
 
     // Call NestJS API to update the profile in the database
-    const payload: any = {};
+    const payload: { fullName?: string; avatarUrl?: string } = {};
     if (fullName !== null) payload.fullName = fullName;
     if (avatarUrl) payload.avatarUrl = avatarUrl;
 

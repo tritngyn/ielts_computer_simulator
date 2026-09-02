@@ -1,8 +1,6 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 
-import { NextResponse } from "next/server";
-
 export async function proxy(request: NextRequest) {
   // Đã bật lại middleware/proxy của Supabase để session hoạt động chính xác
   return await updateSession(request);

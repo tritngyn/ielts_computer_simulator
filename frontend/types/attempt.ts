@@ -20,3 +20,12 @@ export interface GradedAttempt {
     questionResults?: Record<string, QuestionResult>;
   };
 }
+
+export interface AttemptSummary {
+  id: string;
+  score: number;
+  totalQuestions: number;
+  timeTakenSeconds: number;
+  mode: string;
+  createdAt: string;
+}

@@ -7,7 +7,7 @@ export async function GET() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("profiles") // Đổi tên bảng theo DB của bạn nếu cần
     .select("id")
     .limit(1);

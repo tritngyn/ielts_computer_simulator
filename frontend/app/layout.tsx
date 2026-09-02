@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Geist } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
 const instrumentSerif = Instrument_Serif({
@@ -29,16 +28,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const allCookies = cookieStore.getAll();
-
-  // Force hot reload for CSS theme change
-
   const supabase = await createClient();
 
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
 
 

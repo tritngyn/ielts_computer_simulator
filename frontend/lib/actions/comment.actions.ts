@@ -5,7 +5,18 @@ import { createClient } from "@/utils/supabase/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
-export async function getCommentsByTestId(testId: string) {
+export interface CommentResponse {
+  id: string;
+  authorName: string;
+  content: string;
+  createdAt: string;
+  user: {
+    fullName: string | null;
+    avatarUrl: string | null;
+  } | null;
+}
+
+export async function getCommentsByTestId(testId: string): Promise<CommentResponse[]> {
   try {
     const response = await fetch(`${API_URL}/api/v1/comments/test/${encodeURIComponent(testId)}`, {
       cache: 'no-store'
@@ -13,7 +24,7 @@ export async function getCommentsByTestId(testId: string) {
     
     if (!response.ok) return [];
     const result = await response.json();
-    return result.data;
+    return Array.isArray(result.data) ? result.data as CommentResponse[] : [];
   } catch (error) {
     console.error("Failed to get comments:", error);
     return [];

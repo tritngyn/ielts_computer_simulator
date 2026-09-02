@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Clock,
-  Users,
   CheckCircle2,
   FileText,
   Play,
 } from "lucide-react";
 import { IeltsReadingTest } from "@/types/ielts";
+import type { AttemptSummary } from "@/types/attempt";
 import { useTestStore } from "@/store/useTestScore";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import CommentSection from "@/app/components/CommentSection";
@@ -20,7 +20,7 @@ import CommentSection from "@/app/components/CommentSection";
 interface Props {
   testData: IeltsReadingTest;
   user: SupabaseUser | null;
-  dbAttempts: any[];
+  dbAttempts: AttemptSummary[];
 }
 
 export default function TestLandingClient({ testData, user, dbAttempts }: Props) {
@@ -184,7 +184,7 @@ export default function TestLandingClient({ testData, user, dbAttempts }: Props)
           ) : (
             <div className="text-center py-16 bg-black/5 rounded-2xl border border-black/5">
               <FileText className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
-              <p className="text-muted-foreground">You haven't attempted this test yet.</p>
+              <p className="text-muted-foreground">You haven&apos;t attempted this test yet.</p>
             </div>
           )}
         </motion.div>

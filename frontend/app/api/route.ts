@@ -8,7 +8,7 @@ export async function GET() {
     const fileContent = await fs.readFile(filePath, "utf-8");
     const data = JSON.parse(fileContent);
     return NextResponse.json(data);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Không thể đọc tệp" }, { status: 500 });
   }
 }
