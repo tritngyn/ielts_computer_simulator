@@ -1,154 +1,124 @@
-# Deploy the NestJS backend to Google Cloud Run
+# Google Cloud Run backend runbook
 
-The repository contains two independently deployed applications:
+Operational runbook for the NestJS service `ai-eo-api` in project
+`ieltsbackend-507207`.
+
+## Deployment model
 
 ```text
-GitHub repository
-  |-- frontend/** -> Vercel -> Next.js
-  `-- backend/**  -> Cloud Build -> Cloud Run -> NestJS
+push to main
+  -> Cloud Run Connect Repository trigger
+  -> Cloud Build checks out GitHub
+  -> Cloud Build builds backend/Dockerfile with backend/ as context
+  -> image is pushed to Artifact Registry
+  -> Cloud Run creates an immutable revision
 ```
 
-Both platforms may receive the same GitHub push. Their configured root/build
-directories decide which application they build. Cloud Run does not replace or
-interfere with the existing Vercel project.
+Connect Repository is the entry point, but the deployed artifact is still a
+container image. Keep `backend/Dockerfile` and `backend/.dockerignore`.
 
-For explanations of the concepts and design choices used here, read
-[`CLOUD_RUN_LEARNING_NOTES.md`](CLOUD_RUN_LEARNING_NOTES.md).
-
-## 1. Vercel boundary
-
-In the existing Vercel project, open **Settings -> Build and Deployment** and
-set:
+## Service configuration
 
 | Setting | Value |
 | --- | --- |
-| Root Directory | `frontend` |
-| Framework Preset | Next.js |
-| Production Branch | `main` |
-| Build Command | Framework default (`next build`) |
-| Output Directory | Framework default |
-
-Enable the option to skip unaffected deployments for the Root Directory if it
-is available. If Vercel still builds on backend-only commits, configure the
-Ignored Build Step to build only when the current `frontend` directory changed.
-This optimization is optional: with Root Directory set to `frontend`, Vercel
-cannot accidentally run or publish the NestJS backend.
-
-Do not create a second Vercel project for `backend`.
-
-## 2. Connect GitHub to Cloud Run
-
-In Google Cloud Console:
-
-1. Open **Cloud Run -> Services**.
-2. Choose **Connect repository** or **Continuously deploy from a repository**.
-3. Select **Cloud Build** and connect GitHub when prompted.
-4. Select repository `tritngyn/ielts_computer_simulator`.
-5. Select branch `^main$`.
-6. Choose **Dockerfile** as the build type.
-7. Set the source/Dockerfile location to `backend/Dockerfile`. The directory
-   containing that Dockerfile, `backend`, must be the Docker build context.
-8. Continue to the Cloud Run service configuration.
-
-Use these initial service values:
-
-| Setting | Value |
-| --- | --- |
-| Service name | `ai-eo-api` |
-| Region | `asia-southeast1` (Singapore) |
-| Authentication | Allow public access |
+| Project | `ieltsbackend-507207` |
+| Service | `ai-eo-api` |
+| Region | `asia-northeast1` (Tokyo) |
 | Container port | `8080` |
-| CPU | 1 vCPU |
-| Memory | 512 MiB |
-| Minimum instances | 0 |
-| Maximum instances | 3 |
-| Concurrency | 40 |
-| Request timeout | 60 seconds |
-| Runtime service account | `ai-eo-runtime@ieltsbackend-507207.iam.gserviceaccount.com` |
+| Ingress/auth at Cloud Run | Public invocation |
+| Minimum instances | `0` |
+| Maximum instances | `3` |
+| Memory | `512 MiB` initially; adjust from metrics |
 
-Public Cloud Run invocation only makes the API reachable from the website.
-Protected NestJS routes still verify Supabase JWTs.
+Public Cloud Run invocation does not make protected NestJS routes anonymous.
+Those routes must still verify Supabase JWTs and ownership.
 
-Google creates and owns the Cloud Build trigger. Accept only the IAM grants the
-Console explicitly requires for building an image and deploying this service.
-The Cloud Build identity does not need permission to read application secrets.
+## Repository connection
 
-## 3. Runtime configuration and secrets
+- Repository: `tritngyn/ielts_computer_simulator`
+- Branch regex: `^main$`
+- Dockerfile: `/backend/Dockerfile`
+- Build context: `/backend`
+- Include filter when supported: `backend/**`
 
-Add these normal environment variables to the Cloud Run service:
+Vercel independently builds only `frontend/`. The same Git push may trigger both
+platforms without mixing their runtime artifacts.
 
-| Variable | Value |
+## Runtime configuration
+
+Normal variables:
+
+```text
+NODE_ENV=production
+ALLOWED_ORIGINS=https://ielts-simulator.vercel.app
+```
+
+Secret Manager mappings currently required by the deployed backend:
+
+| Environment variable | Secret resource |
 | --- | --- |
-| `NODE_ENV` | `production` |
-| `ALLOWED_ORIGINS` | `https://ielts-simulator.vercel.app` |
+| `DATABASE_URL` | `ai-eo-database-url` |
+| `DIRECT_URL` | `ai-eo-direct-url` |
+| `SUPABASE_JWT_SECRET` | `ai-eo-supabase-jwt-secret` during the legacy JWT stage |
 
-Map these existing Secret Manager resources to environment variables:
+M4 will replace the shared JWT secret with `SUPABASE_URL` plus JWKS verification.
+Do not remove the secret mapping before the new revision and Supabase signing-key
+mode have been verified together.
 
-| Environment variable | Secret | Version |
-| --- | --- | --- |
-| `DATABASE_URL` | `ai-eo-database-url` | `latest` |
-| `DIRECT_URL` | `ai-eo-direct-url` | `latest` |
-| `SUPABASE_JWT_SECRET` | `ai-eo-supabase-jwt-secret` | `latest` |
+The runtime service account needs Secret Manager access only to secrets consumed
+by the application. Cloud Build does not need to read application secrets.
 
-The runtime service account must have **Secret Manager Secret Accessor** for
-these three secrets. The running API uses the pooled database URL. The direct
-URL is reserved for controlled Prisma migrations.
+## Verification
 
-## 4. Avoid duplicate deployments
+After a deployment:
 
-The repository intentionally does not contain a GitHub Actions workflow that
-deploys Cloud Run. The Google-managed Cloud Build trigger is the single backend
-deployment path:
-
-```text
-push to main -> Cloud Build trigger -> Docker build -> new Cloud Run revision
+```bash
+curl -fsS https://<service-url>/health/live
+curl -fsS https://<service-url>/health/ready
 ```
 
-If a Workload Identity pool or deploy service account was created while trying
-the previous GitHub Actions approach, it is not required by this flow. Keep it
-temporarily until the first Cloud Build deployment succeeds; remove unused IAM
-resources later as a separate, explicitly reviewed cleanup task.
+Then verify one public test route and one authenticated route from the production
+Vercel application. Record the commit SHA, image digest, revision, and health
+result in `PRODUCTION_BUILD_PLAN.md`.
 
-After the trigger is created, open **Edit repo settings** in Cloud Run or edit
-the trigger in Cloud Build and add an included-files filter for `backend/**` if
-the generated trigger supports it. Without this optimization, frontend-only
-pushes can rebuild the same backend; they do not change which code Cloud Run
-runs.
+## Cloud inventory
 
-## 5. Connect the frontend to the API
+Run in Google Cloud Shell before changing or deleting resources:
 
-After the first successful deployment, copy the Cloud Run service URL and add
-this Vercel Production environment variable:
+```bash
+gcloud run services describe ai-eo-api \
+  --project=ieltsbackend-507207 \
+  --region=asia-northeast1 \
+  --format='yaml(status.url,status.latestReadyRevisionName,spec.template.spec.serviceAccountName,spec.template.spec.containers[0].image)'
 
-```text
-NEXT_PUBLIC_API_URL=https://<cloud-run-service-url>
+gcloud builds triggers list --project=ieltsbackend-507207
+gcloud artifacts repositories list --project=ieltsbackend-507207
+gcloud iam service-accounts list --project=ieltsbackend-507207
+gcloud iam workload-identity-pools list \
+  --project=ieltsbackend-507207 \
+  --location=global
 ```
 
-Redeploy the frontend after changing an environment variable. Add explicit
-Vercel preview origins to `ALLOWED_ORIGINS` only when previews need production
-API access. Do not allow every `*.vercel.app` origin.
+Keep the repository containing the current image, the trigger identity, runtime
+identity, service, and secrets. Delete `ai-eo-deploy`, an old Workload Identity
+provider, or a custom `ai-eo` image repository only after the inventory proves
+the current trigger and revision do not reference them. Resource deletion is a
+separate approval step.
 
-## 6. Verify the deployment
+## Rollback
 
-Cloud Run injects `PORT`; NestJS listens on that port and `0.0.0.0`. Verify:
+Route traffic back to the last known-good Cloud Run revision. This rolls back
+application code and configuration, not database changes. Database changes must
+remain backward compatible; otherwise use a reviewed forward-fix or restore a
+verified backup after stopping writes.
 
-```text
-GET https://<cloud-run-service-url>/health/live
-GET https://<cloud-run-service-url>/health/ready
-```
+## Troubleshooting
 
-`live` confirms the process responds. `ready` also performs a lightweight
-PostgreSQL query and should return HTTP 200 with `database: connected`.
-
-Then test one public API route and one protected route from the Vercel site.
-Inspect Cloud Build History for image-build errors and Cloud Run Logs for
-application startup or database errors.
-
-## 7. Cost control and rollback
-
-Create a billing budget with email alerts. A budget is not a hard spending cap,
-so keep minimum instances at zero and maximum instances bounded while learning.
-
-Every successful deployment creates an immutable Cloud Run revision. To roll
-back, open the service's **Revisions** view and route 100% of traffic to the last
-known-good revision. Application rollback does not undo a database migration.
+- `path "backend" not found`: the branch/commit did not contain the backend
+  directory or the trigger used the wrong context.
+- Container did not listen on `PORT=8080`: inspect revision logs; NestJS must
+  listen on `process.env.PORT` and `0.0.0.0`.
+- Prisma `P1001`: verify the real database hostname, pooler port, secret version,
+  network reachability, and runtime secret mapping.
+- CORS failure: add the exact Vercel origin to `ALLOWED_ORIGINS`; CORS is not an
+  authentication replacement.
