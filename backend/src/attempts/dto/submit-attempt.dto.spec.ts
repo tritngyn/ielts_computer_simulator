@@ -24,14 +24,30 @@ describe('SubmitAttemptDto validation', () => {
     expect(result).toBeInstanceOf(SubmitAttemptDto);
   });
 
-  it('rejects unknown client fields', async () => {
+  it.each(['score', 'totalQuestions', 'userId'])(
+    'rejects the client-controlled %s field',
+    async (field) => {
+      const payload = {
+        testId: 'reading-1',
+        timeTakenSeconds: 1800,
+        mode: 'simulation',
+        userAnswers: { q1: 'answer' },
+        [field]: field === 'userId' ? 'another-user' : 40,
+      };
+
+      await expect(pipe.transform(payload, metadata)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+    },
+  );
+
+  it('rejects a payload without user answers', async () => {
     await expect(
       pipe.transform(
         {
           testId: 'reading-1',
           timeTakenSeconds: 1800,
           mode: 'simulation',
-          userId: 'another-user',
         },
         metadata,
       ),

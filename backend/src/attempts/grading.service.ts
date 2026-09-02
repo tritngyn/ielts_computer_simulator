@@ -46,7 +46,7 @@ export class GradingService {
         userAnswer: rawAnswer,
         acceptedAnswers,
         status:
-          rawAnswer.length === 0
+          normalizedAnswer.length === 0
             ? 'skipped'
             : isCorrect
               ? 'correct'
@@ -67,9 +67,15 @@ export class GradingService {
     }
 
     const parsed: Record<string, string[]> = {};
-    for (const [key, answers] of Object.entries(value)) {
+    const entries = Object.entries(value);
+    if (entries.length === 0) {
+      throw new BadRequestException('Test answer key is invalid');
+    }
+
+    for (const [key, answers] of entries) {
       if (
         !Array.isArray(answers) ||
+        answers.length === 0 ||
         !answers.every((item) => typeof item === 'string')
       ) {
         throw new BadRequestException('Test answer key is invalid');
