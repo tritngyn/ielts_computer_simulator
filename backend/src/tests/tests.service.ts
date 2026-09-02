@@ -66,15 +66,11 @@ export class TestsService {
     content: Prisma.JsonValue;
     publicContent: Prisma.JsonValue | null;
   }): Prisma.JsonValue {
-    if (test.publicContent) return test.publicContent;
-    if (
-      !test.content ||
-      Array.isArray(test.content) ||
-      typeof test.content !== 'object'
-    ) {
-      return test.content;
+    const content = test.publicContent ?? test.content;
+    if (!content || Array.isArray(content) || typeof content !== 'object') {
+      return content;
     }
-    const publicContent = { ...test.content };
+    const publicContent = { ...content };
     delete publicContent.answers;
     return publicContent;
   }
