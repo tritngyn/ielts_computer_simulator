@@ -84,13 +84,13 @@ Acceptance criteria:
 - Legacy clients remain usable during the documented transition window.
 - Lint, typecheck, tests, and build pass before this stage is committed.
 
-### M2 — Prisma migration baseline and data safety — BLOCKED
+### M2 — Prisma migration baseline and data safety — DONE
 
-- [ ] Export a logical backup of the current Supabase database.
-- [ ] Compare the live schema with the immutable M2 baseline snapshot and resolve drift.
+- [x] Export and restore-verify a logical backup of the current Supabase database.
+- [x] Compare the live schema with the immutable M2 baseline snapshot and resolve drift.
 - [x] Generate and review an initial baseline migration.
-- [ ] Prove the history can create a new empty test database.
-- [ ] Mark the baseline applied on the existing production database.
+- [x] Prove the history can create a new empty test database.
+- [x] Mark the baseline applied on the existing production database.
 - [x] Consolidate seed scripts into one idempotent seed command.
 
 Implementation notes:
@@ -99,12 +99,12 @@ Implementation notes:
   it has not been executed against production.
 - `808b848` replaced three scripts that depended on an absent `backend/data`
   directory with one deterministic `upsert` seed and a safe demo test.
-- The local machine has no Docker/PostgreSQL runtime, so empty-database migration
-  and restore verification must be executed by the user before production activation.
+- PostgreSQL 18 tooling restored the production backup into an isolated temporary
+  cluster and reproduced an empty database with both committed migrations.
 - Prisma found duplicate ignored environment files at `backend/.env` and
   `backend/prisma/.env`. Consolidate them locally without exposing their values.
-- The remaining unchecked tasks require production database access and are
-  intentionally blocked pending backup evidence and explicit approval.
+- Production records both migrations as finished with no rollback. Running the
+  idempotent seed twice against the empty database produced one demo record.
 
 Acceptance criteria:
 
@@ -112,12 +112,12 @@ Acceptance criteria:
 - Production rows are unchanged by the baseline operation.
 - `_prisma_migrations` records the reviewed baseline.
 
-### M3 — Server-owned grading — BLOCKED
+### M3 — Server-owned grading — IN PROGRESS
 
 - [x] Separate public test content from the private answer key with an
       expand-migrate-contract rollout.
 - [x] Commit a reviewed backfill from legacy JSON to the separated columns.
-- [ ] Apply and verify the backfill on production after backup and baseline registration.
+- [x] Apply and verify the backfill on production after backup and baseline registration.
 - [x] Ensure public test APIs never serialize an answer key.
 - [x] Accept only test ID, answers, mode, and elapsed time on v1 submission.
 - [x] Calculate score and total questions inside NestJS.
@@ -135,8 +135,10 @@ Implementation notes:
   errors, and stable retry keys for Reading and Listening.
 - `ec6afd7`, `2b33bf6`, and `8aa03e8` cover grading rules, malformed keys,
   DTO boundaries, answer-key disclosure, and idempotency races.
-- Production activation is blocked on M2 backup/restore evidence, baseline
-  registration, M3 migration execution, and an ordered backend/frontend release.
+- Production contains 40 gradeable tests after one zero-attempt test without an
+  answer key was backed up and removed. All backfill leak/missing counts are zero.
+- Application activation still requires an ordered backend/frontend release and
+  production smoke tests before the legacy route can be retired.
 
 Acceptance criteria:
 
@@ -275,6 +277,8 @@ pretend it did not run.
 | 2026-09-02 | M3-C | `99cc08d` | Reading and Listening consume server-graded attempt results |
 | 2026-09-02 | M3-D | `ec6afd7`, `2b33bf6`, `8aa03e8` | 23 tests cover grading, DTO security, disclosure, and idempotency |
 | 2026-09-02 | M3 readiness | `e8f3245` | Frontend lint debt removed so the repository quality gate passes |
+| 2026-09-06 | M2 production | Supabase PostgreSQL | Backup restore verified; baseline registered; empty database reproduction and idempotent seed passed |
+| 2026-09-06 | M3 production data | Supabase PostgreSQL | One ungradable zero-attempt test removed; 40 tests backfilled with zero missing or leaked keys; four indexes verified |
 
 ## Definition of Done
 
